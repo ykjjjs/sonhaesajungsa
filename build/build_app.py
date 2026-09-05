@@ -7,13 +7,36 @@
 """
 import json
 from paths import APP, DATA, PUBLIC, PREVIEW, FREE_YEAR, PRICE, kb
-from book_data import TERMS
+from book_data import TERMS, BOOK
+
+try:
+    from exam_map import MAP as EXAM_MAP
+except ImportError:
+    EXAM_MAP = {}
 
 def count(c):
     return sum(len(v) for y in c.values() for s in y.values() for v in s.values())
 
+def book_links():
+    """문항 → 교재 절. 절 목록을 따로 두고 문항은 그 번호만 가리킨다(용량 절약)."""
+    seclist, index = [], {}
+    for subj, b in BOOK.items():
+        for ci, c in enumerate(b['chapters']):
+            for si, s in enumerate(c['sections']):
+                index[(subj, ci, si)] = len(seclist)
+                seclist.append([subj, ci, si, c['title'], s['title']])
+    qbook = {}
+    for addr, rows in EXAM_MAP.items():
+        i = index.get(tuple(addr))
+        if i is None:
+            continue
+        for r in rows:
+            qbook['%d|%s|%d' % (r['r'], r['s'], r['n'])] = i
+    return seclist, qbook
+
 def main():
     tpl = (APP / 'index.html').read_text(encoding='utf-8')
+    seclist, qbook = book_links()
     content = json.loads((DATA / 'exam.json').read_text(encoding='utf-8'))
     sample = {FREE_YEAR: content[FREE_YEAR]} if FREE_YEAR in content else {}
     assert sample, f'{FREE_YEAR} 회차를 찾지 못했습니다'
@@ -24,6 +47,9 @@ def main():
     def render(data):
         return (tpl.replace('__CONTENT__', json.dumps(data, ensure_ascii=False))
                    .replace('__TERMLINK__', json.dumps(terms, ensure_ascii=False))
+                   .replace('__SECLIST__', json.dumps(seclist, ensure_ascii=False))
+                   .replace('__QBOOK__', json.dumps(qbook, ensure_ascii=False,
+                                                    separators=(',', ':')))
                    .replace('__FREE_YEAR__', json.dumps(FREE_YEAR))
                    .replace('__PRICE__', str(PRICE)))
 
@@ -34,7 +60,7 @@ def main():
 
     print(f'기출  배포본 {count(sample)}문항({FREE_YEAR}년) {kb(PUBLIC / "index.html")}KB · '
           f'미리보기 {count(content)}문항 {kb(PREVIEW / "exam.html")}KB · '
-          f'용어링크 {len(terms)} · {PRICE:,}원')
+          f'용어링크 {len(terms)} · 교재연결 {len(qbook)}문항 · {PRICE:,}원')
 
 if __name__ == '__main__':
     main()

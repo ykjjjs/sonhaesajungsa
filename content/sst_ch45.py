@@ -196,7 +196,7 @@ RE1 = {
     <li><b>cut-off 방식</b> — 특약 종료와 동시에 책임이 끊긴다</li>
     <li><b>cut-through 방식</b> — 원보험계약자가 재보험자에게 직접 청구할 수 있게 하는 조항</li>
   </ul></div>
-  <div class="bx-d"><p>제47회 손해사정이론 35번이 run-off 방식을 물었다. 네 낱말이 비슷하게 생겨 헷갈리기 쉬우므로, <b>run-off = 끝까지 따라간다</b>, <b>cut-off = 바로 끊는다</b>, <b>clean-cut = 정산하고 끊는다</b>, <b>cut-through = 관통해서 직접 청구</b>로 이미지화해 두자.</p></div></div>
+  <div class="bx-d"><p>제47회 손해사정이론 35번이 run-off 방식을 물었다. 네 용어의 형태가 유사하므로 다음과 같이 구별한다. <b>run-off</b>는 잔여 책임을 만기까지 유지하는 방식, <b>cut-off</b>는 해지 시점에 책임을 즉시 종료하는 방식, <b>clean-cut</b>은 미경과보험료를 정산하고 종료하는 방식, <b>cut-through</b>는 원보험계약자가 재보험자에게 직접 청구할 수 있도록 하는 조항이다.</p></div></div>
 """,
  "cards": [
    ["재보험계약의 법적 성질은?", "원보험과 <b>별개</b>의 독립한 손해보험계약"],
@@ -230,7 +230,7 @@ RE2 = {
 
 <div class="bx c"><h5><span class="bdg">개념</span>two-risk warranty</h5>
   <div class="bx-s">둘 이상의 위험이 관련된 손해여야 담보한다는 조건이다. 일반적으로 <b>per event excess of loss reinsurance treaty</b>에 적용된다.</div>
-  <div class="bx-d"><p>사고 단위 초과손해액재보험은 대재해를 겨냥한다. 그런데 단일 위험의 대형 손해까지 여기서 회수되면 per risk 특약과 중복된다. two-risk warranty는 “<b>둘 이상의 위험이 얽힌</b> 사고여야 한다”고 못 박아 그 경계를 긋는다.</p>
+  <div class="bx-d"><p>사고 단위 초과손해액재보험은 대재해를 겨냥한다. 그런데 단일 위험의 대형 손해까지 여기서 회수되면 per risk 특약과 중복된다. two-risk warranty는 <b>둘 이상의 위험이 관련된</b> 사고일 것을 요구하여 그 경계를 정한다.</p>
   <p>제47회 손해사정이론 36번이 이 조건이 적용되는 특약을 물었다.</p></div></div>
 
 <h2><span class="hno">03</span>패키지보험</h2>
@@ -254,7 +254,7 @@ RE2 = {
 RE3 = {
  "title": "재보험 특약조항",
  "desc": "계약을 굴리는 문구들", "minutes": 7, "src": "재보험 실무",
- "lead": "재보험 특약에는 영문 조항 이름이 그대로 나온다. 이름과 기능을 짝지어 두는 것이 이 절의 전부다.",
+ "lead": "재보험 특약의 조항은 영문 명칭으로 출제된다. 각 조항의 명칭과 기능을 정확히 대응시키는 것이 이 절의 학습 목표이다.",
  "html": """
 <h2><span class="hno">01</span>주요 조항</h2>
 <table>

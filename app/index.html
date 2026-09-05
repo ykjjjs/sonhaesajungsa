@@ -304,6 +304,17 @@ main{padding:var(--sp-5) 0}
   transition:all .2s var(--ease)}
 .blink:hover{border-color:rgba(62,155,255,.5);background:rgba(21,82,214,.15)}
 
+/* 해설 아래 — 이 문항이 나온 교재 절로 건너가는 줄 */
+.booksec{display:flex;align-items:center;gap:12px;margin-top:14px;padding:13px 16px;
+  border:1px solid var(--edge);border-radius:12px;background:var(--surf2);text-decoration:none;
+  transition:all .2s var(--ease)}
+.booksec:hover{border-color:var(--sap2);background:rgba(21,82,214,.08)}
+.booksec .bs-k{flex:0 0 auto;font-family:var(--m);font-size:10.5px;font-weight:800;letter-spacing:.06em;
+  color:var(--sap2);padding:4px 9px;border:1px solid rgba(62,155,255,.3);border-radius:99px}
+.booksec .bs-t{flex:1 1 auto;font-size:14px;font-weight:600;color:var(--tx2);line-height:1.5}
+.booksec .bs-a{flex:0 0 auto;color:var(--tx5);font-size:17px}
+@media(max-width:560px){.booksec{flex-wrap:wrap;gap:8px}.booksec .bs-t{flex:1 1 100%}}
+
 .empty-state{text-align:center;padding:var(--sp-7) var(--sp-4);color:var(--tx4)}
 .empty-state h2{font-size:19px;font-weight:800;letter-spacing:-.025em;color:var(--tx2);margin-bottom:8px}
 .empty-state p{font-size:14px;max-width:44ch;margin:0 auto}
@@ -618,6 +629,13 @@ const DAY = 864e5;
 const FREE_YEAR = __FREE_YEAR__;   // 결제 전에 열어 두는 회차
 const PRICE = __PRICE__;
 const TERMLINK = __TERMLINK__;   // 전자교재 용어 — 지문에서 찾아 교재로 보낸다
+const SECLIST = __SECLIST__;     // [과목, 장, 절, 장 제목, 절 제목]
+const QBOOK = __QBOOK__;         // "회차|과목|번호" → SECLIST 번호
+const round = y => Number(y) - 1977;            // 2022년 = 제45회
+function bookOf(q) {
+  const i = QBOOK[`${round(q.year)}|${q.subject}|${q.no}`];
+  return i == null ? null : SECLIST[i];
+}
 const store = {
   get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
@@ -919,6 +937,13 @@ function render() {
       ? `<div class="blinks">${bts.map(t =>
           `<a class="blink" href="./book.html?q=${encodeURIComponent(t)}" target="_blank" rel="noopener">📖 ${esc(t)}</a>`
         ).join('')}</div>` : '';
+    const bk = bookOf(q);
+    const bsec = bk
+      ? `<a class="booksec" href="./book.html?sec=${encodeURIComponent(bk[0] + '|' + bk[1] + '|' + bk[2])}"
+            target="_blank" rel="noopener">
+           <span class="bs-k">교재에서 읽기</span>
+           <span class="bs-t">${esc(bk[0])} · ${esc(bk[3])} › ${esc(bk[4])}</span>
+           <span class="bs-a">›</span></a>` : '';
     const note = q.explanation
       ? (q.verify === '령'
           ? '<div class="srcnote warn">근거 조문 중 시행령 부분은 원문 대조가 남아 있습니다</div>'
@@ -930,7 +955,7 @@ function render() {
         <span class="sub">정답 ${correct.map(i => i + 1).join(', ')}</span>
       </div>
       <div class="expl${q.explanation ? '' : ' empty'}">${
-        q.explanation ? esc(q.explanation) : '해설은 준비 중입니다.'}</div>${why}${terms}${note}
+        q.explanation ? esc(q.explanation) : '해설은 준비 중입니다.'}</div>${why}${terms}${note}${bsec}
       <div class="memobox">
         <label for="memo">내 메모 — 왜 틀렸는지 한 줄로 남겨 두면 다음에 훨씬 빨리 잡힙니다</label>
         <textarea id="memo" data-memo="${esc(q.id)}" placeholder="예) 대주주·자회사만 자기자본 기준. 나머지는 전부 총자산."
@@ -1112,6 +1137,20 @@ $('resetBtn').onclick = () => {
 };
 
 /* ── 저장 · 동기화 ── */
+/* ?r=45&s=보험업법&n=1 — 교재의 '이 절에서 출제된 기출' 에서 넘어온 요청 */
+function jumpTo() {
+  const u = new URLSearchParams(location.search);
+  const r = u.get('r'), sj = u.get('s'), n = u.get('n');
+  if (!r || !sj || !n) return null;
+  const year = String(Number(r) + 1977);
+  const id = `${year}-${sj}-${String(n).padStart(2, '0')}`;
+  if (!BANK.some(x => x.id === id)) return { r, sj, n };
+  S.view = 'quiz'; S.mode = 'all'; S.year = year; S.subject = sj; S.pin = null;
+  $('selMode').value = 'all'; $('selYear').value = year; $('selSubject').value = sj;
+  S.pos = Math.max(0, list().findIndex(x => x.id === id));
+  return null;
+}
+
 let toastT;
 function toast(msg) {
   const t = $('toast'); t.textContent = msg; t.classList.add('on');
@@ -1382,7 +1421,9 @@ function fillSelects() {
   if (!ok) return;
   fillSelects();
   await load();
+  const miss = jumpTo();
   render();
+  if (miss) toast(`제${miss.r}회는 이용권이 있어야 열립니다`);
   // 결제 대기 중이면 창을 다시 열 때 한 번 확인해 준다
   if (S.token && !S.paid && !S.local) setTimeout(() => refreshMe(true), 1500);
 })();

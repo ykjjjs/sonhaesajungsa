@@ -90,3 +90,19 @@ for _ex in (EX_BKL_A, EX_BKL_B):
     _merge(BOOK, "보험계약법", _ex)
 for _ex in (EX_SST_A, EX_SST_B):
     _merge(BOOK, "손해사정이론", _ex)
+
+
+# ── 기출 대응표 붙이기 ────────────────────────────────────────
+# tools/build_map.py 가 만든 exam_map.MAP 을 절마다 exq 로 심는다.
+# 대응표를 다시 만드는 중에는 파일이 없을 수 있으므로 없으면 건너뛴다.
+try:
+    from exam_map import MAP as _EXAM_MAP
+except ImportError:
+    _EXAM_MAP = {}
+
+for (_subj, _ci, _si), _rows in _EXAM_MAP.items():
+    try:
+        _sec = BOOK[_subj]['chapters'][_ci]['sections'][_si]
+    except (KeyError, IndexError):
+        continue
+    _sec['exq'] = [[r['r'], r['s'], r['n'], r.get('q', '')] for r in _rows]
