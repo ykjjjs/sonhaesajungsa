@@ -104,6 +104,9 @@ const meShape = u => ({
   amount: BANK.amount,
 });
 
+const ADMIN_MAX_FAIL = 5;      // 같은 IP 의 관리자 로그인 실패 허용 횟수
+const ADMIN_LOCK_SEC = 900;    // 잠금 유지 시간(초)
+
 async function handleApi(request, env, path) {
   let body = {};
   try { body = await request.json(); } catch (e) {}
@@ -269,7 +272,17 @@ async function handleApi(request, env, path) {
   /* ── 관리자 ── */
   if (path === '/admin/login') {
     if (!env.ADMIN_PASSWORD) return err('서버에 ADMIN_PASSWORD 가 설정되지 않았습니다.', 500);
-    if (!timingEqual(String(body.password || ''), env.ADMIN_PASSWORD)) return err('비밀번호가 틀립니다.', 401);
+    // 공개 주소라 무차별 대입을 막는다. 같은 IP 에서 5회 틀리면 15분 잠근다.
+    const fkey = 'adminfail:' + (request.headers.get('CF-Connecting-IP') || 'unknown');
+    const fails = parseInt(await env.KV.get(fkey), 10) || 0;
+    if (fails >= ADMIN_MAX_FAIL) {
+      return err('로그인 시도가 너무 많습니다. 15분 뒤에 다시 시도해 주세요.', 429);
+    }
+    if (!timingEqual(String(body.password || ''), env.ADMIN_PASSWORD)) {
+      await env.KV.put(fkey, String(fails + 1), { expirationTtl: ADMIN_LOCK_SEC });
+      return err('비밀번호가 틀립니다.', 401);
+    }
+    await env.KV.delete(fkey);
     const token = randHex(24);
     await env.DB.prepare('INSERT INTO admin_sessions(token,created) VALUES(?,?)').bind(token, now()).run();
     return json({ adminToken: token });
