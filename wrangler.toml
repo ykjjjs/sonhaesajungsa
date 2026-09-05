@@ -3,7 +3,7 @@ name = "sonhaesajeongsa"
 main = "worker/worker.js"
 compatibility_date = "2026-01-01"
 account_id = "c464bbbbdc93f28f182efd222fb1b10e"
-workers_dev = false
+workers_dev = true   # 커스텀 도메인을 붙이기 전까지는 workers.dev 주소로 연다
 
 # 커스텀 도메인은 준비되면 아래를 켠다
 # routes = [
@@ -14,14 +14,11 @@ workers_dev = false
 directory = "./public"
 binding = "ASSETS"
 
-# 아래 두 id 는 생성 후 채워 넣는다
-#   npx wrangler d1 create sonhaesajeongsa-db
-#   npx wrangler kv namespace create CONTENT
 [[d1_databases]]
 binding = "DB"
 database_name = "sonhaesajeongsa-db"
-database_id = ""
+database_id = "b0a295e4-b14b-43ea-b114-d8baafd5fcd4"
 
 [[kv_namespaces]]
 binding = "KV"
-id = ""
+id = "14122c15b6a5494a8153b8046eca615f"
