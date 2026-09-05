@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>손해사정사 · 관리자</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0A0A0C">
+<style>
+:root{
+  --bg:#0A0A0C; --surf:#141417; --surf2:#101013; --edge:#232328; --lift:#2E2E35;
+  --tx:#F5F5F7; --tx2:#D6DBE3; --tx3:#9AA3B0; --tx4:#646C7A; --tx5:#3A404B;
+  --sap:#1552D6; --sap2:#3E9BFF;
+  --grad:linear-gradient(135deg,#06153F 0%,#0A2A6E 26%,#1552D6 62%,#3E9BFF 100%);
+  --ok:#4CC38A; --warn:#C9903A; --bad:#E0574F;
+  --f:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',system-ui,sans-serif;
+  --m:'SF Mono',ui-monospace,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.28,.11,.32,1);
+}
+:root[data-theme="light"]{
+  --bg:#F2F3F6; --surf:#FFFFFF; --surf2:#FAFAFB; --edge:#E1E4EA; --lift:#C7CCD6;
+  --tx:#0A0A0C; --tx2:#2C313A; --tx3:#5B636F; --tx4:#858C99; --tx5:#AEB4BF;
+  --ok:#1D7D46; --warn:#9A6A18; --bad:#C8332C;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx2);font-family:var(--f);
+  -webkit-font-smoothing:antialiased;line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(14px,3vw,26px)}
+header{border-bottom:1px solid var(--edge);background:var(--surf2);padding:18px 0}
+.htop{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+h1{font-size:19px;font-weight:800;letter-spacing:-.03em;color:var(--tx)}
+.kick{font-family:var(--m);font-size:10.5px;font-weight:700;letter-spacing:.14em;color:var(--sap2)}
+.sp{flex:1}
+.btn{padding:9px 15px;border-radius:99px;border:1px solid var(--edge);background:var(--surf);
+  color:var(--tx3);font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;
+  transition:all .2s var(--ease)}
+.btn:hover:not(:disabled){color:var(--tx);border-color:var(--lift)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.pri,.btn.pri:hover:not(:disabled){background:var(--grad);border-color:transparent;color:#fff}
+.btn.ok{color:var(--ok);border-color:rgba(76,195,138,.4)}
+.btn.no{color:var(--bad);border-color:rgba(224,87,79,.4)}
+main{padding:26px 0 90px}
+.tabs{display:flex;gap:4px;margin-bottom:18px;flex-wrap:wrap}
+.tab{border:none;background:none;font:inherit;font-size:13.5px;font-weight:700;color:var(--tx4);
+  padding:8px 14px;border-radius:10px;cursor:pointer;transition:all .2s var(--ease)}
+.tab:hover{color:var(--tx2);background:rgba(127,135,148,.1)}
+.tab.on{color:var(--tx);background:rgba(127,135,148,.14)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px;margin-bottom:20px}
+.card{background:var(--surf);border:1px solid var(--edge);border-radius:15px;padding:15px 17px}
+.card b{display:block;font-family:var(--m);font-size:24px;font-weight:700;color:var(--tx);letter-spacing:-.03em}
+.card span{font-size:11px;color:var(--tx4);letter-spacing:.05em}
+.card.hot b{color:var(--warn)}
+.tblwrap{background:var(--surf);border:1px solid var(--edge);border-radius:16px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--surf2);text-align:left;padding:11px 13px;font-size:11px;letter-spacing:.05em;
+  color:var(--tx4);font-weight:700;border-bottom:1px solid var(--edge);white-space:nowrap;position:sticky;top:0}
+td{padding:11px 13px;border-bottom:1px solid var(--edge);color:var(--tx2);vertical-align:middle;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(127,135,148,.05)}
+td.mono,th.mono{font-family:var(--m);font-size:12px}
+td.wrap{white-space:normal;word-break:break-all;min-width:220px;color:var(--tx4);font-size:12px}
+.pill{display:inline-block;font-family:var(--m);font-size:10.5px;font-weight:700;padding:3px 9px;
+  border-radius:99px;border:1px solid var(--edge);color:var(--tx4)}
+.pill.pending{color:var(--warn);border-color:rgba(201,144,58,.45)}
+.pill.paid{color:var(--ok);border-color:rgba(76,195,138,.42)}
+.pill.rejected{color:var(--bad);border-color:rgba(224,87,79,.42)}
+.pill.matched{color:var(--ok);border-color:rgba(76,195,138,.42)}
+.pill.unmatched{color:var(--tx4)}
+.pill.amount_mismatch{color:var(--warn);border-color:rgba(201,144,58,.45)}
+.pill.duplicate{color:var(--tx5)}
+.acts{display:flex;gap:6px}
+.empty{text-align:center;padding:44px 16px;color:var(--tx4);font-size:14px}
+.login{max-width:360px;margin:16vh auto;background:var(--surf);border:1px solid var(--edge);
+  border-radius:20px;padding:28px}
+.login h2{font-size:20px;font-weight:800;color:var(--tx);letter-spacing:-.03em;margin-bottom:6px}
+.login p{font-size:13px;color:var(--tx4);margin-bottom:18px}
+input[type=password],input[type=search]{width:100%;padding:11px 13px;border-radius:10px;
+  border:1px solid var(--edge);background:var(--surf2);color:var(--tx);font:inherit;font-size:14px;outline:none}
+input:focus{border-color:var(--sap2);box-shadow:0 0 0 3px rgba(62,155,255,.15)}
+.err{min-height:18px;font-size:12.5px;color:var(--bad);margin:9px 0}
+.srch{max-width:280px;margin-bottom:13px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);opacity:0;pointer-events:none;
+  background:var(--tx);color:var(--bg);font-size:13px;font-weight:700;padding:11px 20px;border-radius:99px;
+  transition:all .3s var(--ease);z-index:60}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const api = (path, body) => fetch('/api' + path, {
+  method: 'POST', headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(body || {}),
+}).then(async r => { const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || ('서버 오류 ' + r.status)); return d; });
+
+let TOKEN = null, TAB = 'pay', DATA = { pay: [], cust: [], dep: [] }, Q = '';
+try { TOKEN = localStorage.getItem('sonsa:admin'); } catch (e) {}
+
+let tT; const toast = m => { const t = $('toast'); t.textContent = m; t.classList.add('on');
+  clearTimeout(tT); tT = setTimeout(() => t.classList.remove('on'), 1700); };
+
+const fmt = t => { if (!t) return '—'; const d = new Date(t * 1000);
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; };
+const day = t => { if (!t) return '—'; const d = new Date(t * 1000); const p = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())}`; };
+const won = n => Number(n || 0).toLocaleString('ko-KR') + '원';
+const live = u => u && u.paid_until && u.paid_until * 1000 > Date.now();
+
+/* ── 로그인 ── */
+function loginView(msg) {
+  $('app').innerHTML = `<div class="login">
+    <div class="kick">SONHAE · ADMIN</div>
+    <h2>관리자</h2><p>결제 승인과 입금 내역을 봅니다.</p>
+    <input id="pw" type="password" placeholder="관리자 비밀번호" autocomplete="current-password">
+    <div class="err">${esc(msg || '')}</div>
+    <button class="btn pri" id="go" style="width:100%">들어가기</button></div>`;
+  const go = async () => {
+    try { const r = await api('/admin/login', { password: $('pw').value });
+      TOKEN = r.adminToken; try { localStorage.setItem('sonsa:admin', TOKEN); } catch (e) {}
+      await boot();
+    } catch (e) { loginView(e.message); }
+  };
+  $('go').onclick = go;
+  $('pw').onkeydown = e => { if (e.key === 'Enter') go(); };
+  $('pw').focus();
+}
+
+/* ── 본 화면 ── */
+function shell() {
+  const pend = DATA.pay.filter(r => r.status === 'pending').length;
+  const paidNow = DATA.cust.filter(live).length;
+  const rev = DATA.pay.filter(r => r.status === 'paid').reduce((a, r) => a + (r.amount || 0), 0);
+  const rcpt = DATA.pay.filter(r => r.status === 'paid' && r.receipt_phone).length;
+  const auto = DATA.dep.filter(d => d.status === 'matched').length;
+
+  $('app').innerHTML = `<header><div class="wrap htop">
+      <div><div class="kick">SONHAE · ADMIN</div><h1>손해사정사 1차 · 관리자</h1></div>
+      <div class="sp"></div>
+      <button class="btn" id="reload">새로고침</button>
+      <button class="btn" id="theme">밤낮</button>
+      <button class="btn" id="out">로그아웃</button>
+    </div></header>
+    <main class="wrap">
+      <div class="cards">
+        <div class="card ${pend ? 'hot' : ''}"><b>${pend}</b><span>승인 대기</span></div>
+        <div class="card"><b>${paidNow}</b><span>이용권 활성</span></div>
+        <div class="card"><b>${DATA.cust.length}</b><span>가입자</span></div>
+        <div class="card"><b>${won(rev)}</b><span>누적 매출</span></div>
+        <div class="card"><b>${auto}</b><span>자동 승인</span></div>
+        <div class="card"><b>${rcpt}</b><span>현금영수증 신청</span></div>
+      </div>
+      <div class="tabs">
+        <button class="tab ${TAB==='pay'?'on':''}" data-t="pay">결제 ${DATA.pay.length}</button>
+        <button class="tab ${TAB==='cust'?'on':''}" data-t="cust">가입자 ${DATA.cust.length}</button>
+        <button class="tab ${TAB==='dep'?'on':''}" data-t="dep">자동 입금 감지 ${DATA.dep.length}</button>
+      </div>
+      <div class="srch"><input id="q" type="search" placeholder="이메일·코드로 찾기" value="${esc(Q)}"></div>
+      <div class="tblwrap" id="tbl"></div>
+    </main>`;
+  $('reload').onclick = () => boot();
+  $('out').onclick = () => { TOKEN = null; try { localStorage.removeItem('sonsa:admin'); } catch (e) {} loginView(); };
+  $('theme').onclick = () => {
+    const n = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', n);
+    try { localStorage.setItem('sonsa:theme', n); } catch (e) {}
+  };
+  document.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { TAB = b.dataset.t; shell(); });
+  $('q').oninput = e => { Q = e.target.value.trim().toLowerCase(); table(); };
+  table();
+}
+
+const hit = (r) => !Q || [r.email, r.code, r.matched_email, r.phone].some(v => String(v || '').toLowerCase().includes(Q));
+
+function table() {
+  const el = $('tbl');
+  if (TAB === 'pay') {
+    const rows = DATA.pay.filter(hit);
+    el.innerHTML = !rows.length ? '<div class="empty">결제 요청이 없습니다.</div>' : `<table>
+      <thead><tr><th>이메일</th><th class="mono">코드</th><th class="mono">금액</th><th>상태</th>
+        <th>이용 만료</th><th class="mono">현금영수증</th><th>요청</th><th>승인</th><th></th></tr></thead>
+      <tbody>${rows.map(r => `<tr>
+        <td>${esc(r.email)}</td><td class="mono">${esc(r.code)}</td><td class="mono">${won(r.amount)}</td>
+        <td><span class="pill ${esc(r.status)}">${({pending:'대기',paid:'승인',rejected:'거절'})[r.status] || esc(r.status)}</span></td>
+        <td>${live(r) ? day(r.paid_until) : '—'}</td>
+        <td class="mono">${esc(r.receipt_phone || '—')}</td>
+        <td>${fmt(r.requested)}</td><td>${fmt(r.approved)}</td>
+        <td><div class="acts">
+          <button class="btn ok" data-ap="${esc(r.email)}">승인</button>
+          <button class="btn no" data-rj="${esc(r.email)}">해제</button></div></td>
+      </tr>`).join('')}</tbody></table>`;
+  } else if (TAB === 'cust') {
+    const rows = DATA.cust.filter(hit);
+    el.innerHTML = !rows.length ? '<div class="empty">가입자가 없습니다.</div>' : `<table>
+      <thead><tr><th>이메일</th><th class="mono">휴대폰</th><th>이용권</th><th>만료</th>
+        <th class="mono">코드</th><th>결제상태</th><th>가입</th><th></th></tr></thead>
+      <tbody>${rows.map(r => `<tr>
+        <td>${esc(r.email)}</td><td class="mono">${esc(r.phone || '—')}</td>
+        <td><span class="pill ${live(r) ? 'paid' : ''}">${live(r) ? '활성' : '없음'}</span></td>
+        <td>${live(r) ? day(r.paid_until) : '—'}</td>
+        <td class="mono">${esc(r.code || '—')}</td>
+        <td>${r.pay_status ? `<span class="pill ${esc(r.pay_status)}">${({pending:'대기',paid:'승인',rejected:'거절'})[r.pay_status] || esc(r.pay_status)}</span>` : '—'}</td>
+        <td>${fmt(r.created)}</td>
+        <td><div class="acts">
+          <button class="btn ok" data-ap="${esc(r.email)}">승인</button>
+          <button class="btn no" data-rj="${esc(r.email)}">해제</button></div></td>
+      </tr>`).join('')}</tbody></table>`;
+  } else {
+    const rows = DATA.dep.filter(hit);
+    const label = { matched:'✅ 자동승인', unmatched:'⚠️ 미매칭', amount_mismatch:'⚠️ 금액불일치', duplicate:'↩ 중복' };
+    el.innerHTML = !rows.length ? '<div class="empty">수신된 입금 알림이 없습니다.</div>' : `<table>
+      <thead><tr><th>시각</th><th class="mono">금액</th><th class="mono">코드</th>
+        <th>결과</th><th>매칭</th><th>원문</th></tr></thead>
+      <tbody>${rows.map(d => `<tr>
+        <td>${fmt(d.created)}</td><td class="mono">${d.amount ? won(d.amount) : '—'}</td>
+        <td class="mono">${esc(d.code || '—')}</td>
+        <td><span class="pill ${esc(d.status)}">${label[d.status] || esc(d.status)}</span></td>
+        <td>${esc(d.matched_email || '—')}</td>
+        <td class="wrap">${esc(d.raw || '')}</td>
+      </tr>`).join('')}</tbody></table>`;
+  }
+  el.querySelectorAll('[data-ap]').forEach(b => b.onclick = () => act('/admin/approve', b.dataset.ap, b));
+  el.querySelectorAll('[data-rj]').forEach(b => b.onclick = () => act('/admin/reject', b.dataset.rj, b));
+}
+
+async function act(path, email, btn) {
+  const isApprove = path.endsWith('approve');
+  if (!confirm(`${email}\n\n${isApprove ? '1년 이용권을 켭니다.' : '이용권을 해제합니다.'} 계속할까요?`)) return;
+  btn.disabled = true;
+  try { await api(path, { adminToken: TOKEN, email });
+    toast(isApprove ? '승인했습니다' : '해제했습니다'); await boot();
+  } catch (e) { toast(e.message); btn.disabled = false; }
+}
+
+async function boot() {
+  if (!TOKEN) { loginView(); return; }
+  try {
+    const [a, b, c] = await Promise.all([
+      api('/admin/list', { adminToken: TOKEN }),
+      api('/admin/customers', { adminToken: TOKEN }),
+      api('/admin/deposits', { adminToken: TOKEN }),
+    ]);
+    DATA = { pay: a.rows || [], cust: b.rows || [], dep: c.rows || [] };
+    shell();
+  } catch (e) {
+    TOKEN = null; try { localStorage.removeItem('sonsa:admin'); } catch (err) {}
+    loginView(e.message);
+  }
+}
+
+try {
+  const t = localStorage.getItem('sonsa:theme');
+  document.documentElement.setAttribute('data-theme',
+    t || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+} catch (e) {}
+boot();
+</script>
+</body>
+</html>

@@ -8,11 +8,54 @@
 wrangler.toml            루트에 둔다 (Cloudflare 빌드가 루트에서 실행됨)
 worker/worker.js         /api/* 만 처리. 정적 파일은 ASSETS 가 서빙
 worker/schema.sql        D1 스키마 (users, sessions)
-public/index.html        기출 풀이 앱 + 오답 노트
-public/book.html         전자교재 (본문 224,802자 · 암기카드 457 · 용어사전 124)
+public/index.html        기출 풀이 앱 + 오답 노트 (무료 회차만 내장)
+public/book.html         전자교재 (본문 없음 — 이용권 계정만 서버에서 받음)
+public/admin.html        관리자 — 결제 승인·가입자·자동 입금 감지
 data/exam.json           문항 600개 — KV `content:exam`
+data/sample_exam.json    무료 회차 120문항 — KV `content:sample_exam`
 data/book.json           교재 본문·용어사전 — KV `content:book`
+입금자동승인_안드로이드.md   공기계 + MacroDroid 설정
 ```
+
+## 이용권 · 결제
+
+**무통장입금**으로 받습니다. PG 수수료가 없습니다.
+
+| | |
+|---|---|
+| 가격 | **9,900원 · 1년** |
+| 무료 | **2026년 제49회 120문항** (회원가입만 하면 전부 풀 수 있음) |
+| 유료 | 5개년 **600문항** + 전자교재 **55절** |
+| 승인 | 입금자명 뒤 **4자리 코드** + **금액 일치** → 자동. 안 잡히면 `/admin.html` 수동 |
+| 연장 | 이용권이 살아 있을 때 재입금하면 **남은 기간에 1년 추가** |
+
+> ⚠️ 금액을 공인중개사(5,500원)와 **반드시 다르게** 두었습니다.
+> 한 대의 공기계로 두 서비스의 입금 알림을 받을 때 금액이 구분자 역할을 합니다.
+> 자세한 설정은 `입금자동승인_안드로이드.md` 참조.
+
+### 콘텐츠가 새어 나가지 않게 하는 구조
+
+배포본 `index.html` 에는 **무료 회차 120문항만** 들어 있고, `book.html` 에는 **본문이 없습니다**.
+나머지는 `/api/content` 가 `activePaid` 를 확인한 뒤에만 내려줍니다(아니면 **402**).
+소스를 열어도 유료분은 나오지 않습니다.
+
+```
+              미결제                     이용권 ON
+index.html    내장 120문항               /api/content → 600문항
+book.html     "이용권이 필요합니다"        /api/content → 55절
+```
+
+### API
+
+| 경로 | 인증 | 하는 일 |
+|---|---|---|
+| `/api/signup` `/api/login` `/api/me` | — | 가입·로그인·이용권 상태 |
+| `/api/sample` | 없음 | 무료 회차 |
+| `/api/content` | **이용권** | 전체 기출·교재 (미결제 402) |
+| `/api/pay/request` | 로그인 | 코드 발급·계좌 안내·입금 완료 알림·현금영수증 |
+| `/api/hook/deposit` | `HOOK_SECRET` | 입금 알림 수신 → 코드·금액 매칭 시 자동 승인 |
+| `/api/admin/*` | `ADMIN_PASSWORD` | 목록·승인·해제·입금 로그 |
+| `/api/save` `/api/load` | 로그인 | 풀이 기록 |
 
 > ⚠️ **처음 배포한다면 아래 「배포 순서」 1단계를 먼저 하세요.**
 > `wrangler.toml` 의 `database_id` 와 KV `id` 가 비어 있으면 배포가 실패합니다.
@@ -66,9 +109,14 @@ npx wrangler d1 execute sonhaesajeongsa-db --remote --file=worker/schema.sql
 
 # 3) 문항과 교재를 KV 에 올린다
 npx wrangler kv key put --binding=KV "content:exam" --path=data/exam.json --remote
+npx wrangler kv key put --binding=KV "content:sample_exam" --path=data/sample_exam.json --remote
 npx wrangler kv key put --binding=KV "content:book" --path=data/book.json --remote
 
-# 4) 배포
+# 4) 비밀값 두 개 (결제 자동승인 · 관리자)
+npx wrangler secret put HOOK_SECRET
+npx wrangler secret put ADMIN_PASSWORD
+
+# 5) 배포
 npx wrangler deploy
 ```
 
