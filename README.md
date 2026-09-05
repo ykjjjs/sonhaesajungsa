@@ -131,9 +131,40 @@ npx wrangler secret put ADMIN_PASSWORD
 npx wrangler deploy
 ```
 
-GitHub Actions 로 자동 배포하려면 저장소 Secrets 에
-`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` 를 넣어 두면 됩니다
-(대시보드 Workers Builds 연결은 쓰지 않습니다).
+## 배포 경로는 하나만
+
+이 저장소는 **Cloudflare 대시보드의 Workers Builds** 로 배포합니다
+(Workers → 프로젝트 → Settings → Builds 에서 이 저장소를 연결).
+`main` 에 푸시하면 대시보드가 클론해서 `npx wrangler deploy` 를 돌립니다.
+
+GitHub Actions 워크플로는 **두 번 배포되는 것을 막기 위해 지웠습니다.**
+Actions 쪽으로 되돌리려면 대시보드 연결을 먼저 끊고 아래를 `.github/workflows/deploy.yml` 로 되살리세요.
+
+```yaml
+name: Deploy
+on: { push: { branches: [main] }, workflow_dispatch: {} }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npx wrangler@latest deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+```
+
+### 빌드가 실패한다면
+
+| 실패 단계 | 원인 | 조치 |
+|---|---|---|
+| **Cloning** | 저장소가 비어 있음 | `git push -u origin main` 먼저 |
+| **Deploying** | `wrangler.toml` 의 `database_id` / KV `id` 가 빈 문자열 | 위 1단계로 만들고 값을 채워 다시 푸시 |
+| 배포는 됐는데 로그인 실패 | D1 스키마 미적용 | `wrangler d1 execute ... --file=worker/schema.sql` |
+| 문항이 안 열림 | KV 키 없음 | `content:exam` · `content:sample_exam` · `content:book` 업로드 |
+| 결제 자동승인 안 됨 | `HOOK_SECRET` 미설정 | `wrangler secret put HOOK_SECRET` |
 
 ## 문항 데이터 형식
 
