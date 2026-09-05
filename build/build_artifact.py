@@ -5,8 +5,12 @@
 CSP 상 스타일시트는 fonts.googleapis.com 만 허용되므로 Pretendard CDN 링크를 뺀다
 (폴백 스택에 -apple-system / Apple SD Gothic Neo / system-ui 가 이미 들어 있다).
 
-    python3 build/build_artifact.py            → dist/artifact/{exam,book}.html
-    python3 build/build_artifact.py <교재URL>   → 기출본의 교재 링크를 그 주소로 연결
+    python3 build/build_artifact.py                      → dist/artifact/{exam,book}.html
+    python3 build/build_artifact.py <교재URL> <기출URL>   → 두 판을 서로 잇는다
+
+아티팩트는 별개의 주소로 발행되므로 상대경로 링크가 통하지 않는다. 두 URL 을 주면
+기출 → 교재('교재에서 읽기'), 교재 → 기출('이 절에서 출제된 기출')을 절대주소로 바꾸고,
+쿼리스트링이 넘어오지 않는 환경을 대비해 해시(#)로도 읽게 만든다.
 """
 import re, sys
 from paths import PREVIEW, ARTIFACT, kb
@@ -31,28 +35,43 @@ def strip(src):
                   "(document.documentElement.getAttribute('data-theme') || (mq.matches ? 'light' : 'dark'))")
     return f'<title>{title}</title>\n' + s
 
-def main(book_url=None):
+HASH_READ = ("new URLSearchParams(location.search.slice(1) + '&' + location.hash.slice(1))")
+
+
+def one(s, old, new, need=True):
+    n = s.count(old)
+    assert n == 1 or not need, '치환 대상 %d건: %s' % (n, old[:50])
+    return s.replace(old, new)
+
+
+def main(book_url=None, exam_url=None):
     book = strip(PREVIEW / 'textbook.html')
-    # 쿼리가 안 넘어올 수 있으므로 #q= 도 읽는다
-    book = book.replace("const p = new URLSearchParams(location.search).get('q');",
-        "const p = new URLSearchParams(location.search).get('q')\n"
-        "      || new URLSearchParams(location.hash.slice(1)).get('q');")
-    book = book.replace('<a class="gbtn" href="./index.html">${body[2]}</a>',
-                        '<span class="gbtn">${body[2]}</span>')
+    # 쿼리가 안 넘어올 수 있으므로 해시도 함께 읽는다
+    book = one(book, "  const u = new URLSearchParams(location.search);",
+               "  const u = " + HASH_READ + ";")
+    book = one(book, '<a class="gbtn" href="./index.html">${body[2]}</a>',
+               '<span class="gbtn">${body[2]}</span>')
+    if exam_url:
+        book = one(book, 'href="./index.html?r=${x[0]}&s=${encodeURIComponent(x[1])}&n=${x[2]}"',
+                   f'href="{exam_url}#r=${{x[0]}}&s=${{encodeURIComponent(x[1])}}&n=${{x[2]}}"'
+                   ' target="_blank" rel="noopener"')
     (ARTIFACT / 'book.html').write_text(book, encoding='utf-8')
 
     exam = strip(PREVIEW / 'exam.html')
+    exam = one(exam, "  const u = new URLSearchParams(location.search);",
+               "  const u = " + HASH_READ + ";")
     if book_url:
-        exam = exam.replace('<a class="bookLink" href="./book.html">전자교재 →</a>',
-            f'<a class="bookLink" href="{book_url}" target="_blank" rel="noopener">전자교재 →</a>')
-        exam = exam.replace('href=\\"./book.html?q=${encodeURIComponent(t)}\\"',
-                            f'href=\\"{book_url}#q=${{encodeURIComponent(t)}}\\"')
-        exam = exam.replace('href="./book.html?q=${encodeURIComponent(t)}"',
-                            f'href="{book_url}#q=${{encodeURIComponent(t)}}"')
+        exam = one(exam, '<a class="bookLink" href="./book.html">전자교재 →</a>',
+                   f'<a class="bookLink" href="{book_url}" target="_blank" rel="noopener">전자교재 →</a>')
+        exam = one(exam, 'href="./book.html?q=${encodeURIComponent(t)}"',
+                   f'href="{book_url}#q=${{encodeURIComponent(t)}}"')
+        exam = one(exam, "href=\"./book.html?sec=${encodeURIComponent(bk[0] + '|' + bk[1] + '|' + bk[2])}\"",
+                   f"href=\"{book_url}#sec=${{encodeURIComponent(bk[0] + '|' + bk[1] + '|' + bk[2])}}\"")
     (ARTIFACT / 'exam.html').write_text(exam, encoding='utf-8')
 
-    print(f'아티팩트  exam {kb(ARTIFACT / "exam.html")}KB · book {kb(ARTIFACT / "book.html")}KB'
-          + (f' · 교재 링크 연결됨' if book_url else ' · 교재 링크 미연결(URL 인자를 주세요)'))
+    link = '교재↔기출 연결됨' if (book_url and exam_url) else '연결 URL 미지정'
+    print(f'아티팩트  exam {kb(ARTIFACT / "exam.html")}KB · book {kb(ARTIFACT / "book.html")}KB · {link}')
+
 
 if __name__ == '__main__':
-    main(sys.argv[1] if len(sys.argv) > 1 else None)
+    main(*sys.argv[1:3])
