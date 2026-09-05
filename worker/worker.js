@@ -104,8 +104,16 @@ const meShape = u => ({
   amount: BANK.amount,
 });
 
-const ADMIN_MAX_FAIL = 5;      // 같은 IP 의 관리자 로그인 실패 허용 횟수
-const ADMIN_LOCK_SEC = 900;    // 잠금 유지 시간(초)
+/* 관리자 로그인 보호 — 비밀번호가 짧아도 버티게 하는 층.
+   ① 같은 IP 5회 실패 → 15분 잠금
+   ② 전체 합계 30회 실패 → 새 IP 는 15분 잠금(분산 시도 대비)
+   ③ 한 번 성공한 IP 는 30일간 ② 의 전체 잠금에서 제외 — 주인이 갇히지 않게 한다
+   ④ 실패할 때마다 2초 지연 */
+const ADMIN_MAX_FAIL = 5;        // 같은 IP 실패 허용 횟수
+const ADMIN_GLOBAL_MAX = 30;     // 전체 실패 허용 횟수
+const ADMIN_LOCK_SEC = 900;      // 잠금 유지 시간(초)
+const ADMIN_TRUST_SEC = 2592000; // 성공한 IP 를 기억하는 기간(30일)
+const ADMIN_FAIL_DELAY = 2000;   // 실패 응답 지연(밀리초)
 
 async function handleApi(request, env, path) {
   let body = {};
@@ -272,17 +280,33 @@ async function handleApi(request, env, path) {
   /* ── 관리자 ── */
   if (path === '/admin/login') {
     if (!env.ADMIN_PASSWORD) return err('서버에 ADMIN_PASSWORD 가 설정되지 않았습니다.', 500);
-    // 공개 주소라 무차별 대입을 막는다. 같은 IP 에서 5회 틀리면 15분 잠근다.
-    const fkey = 'adminfail:' + (request.headers.get('CF-Connecting-IP') || 'unknown');
-    const fails = parseInt(await env.KV.get(fkey), 10) || 0;
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+    const fkey = 'adminfail:' + ip;
+    const tkey = 'admintrust:' + ip;
+    const [failRaw, globalRaw, trusted] = await Promise.all([
+      env.KV.get(fkey), env.KV.get('adminfail:_all'), env.KV.get(tkey),
+    ]);
+    const fails = parseInt(failRaw, 10) || 0;
+    const globalFails = parseInt(globalRaw, 10) || 0;
+
     if (fails >= ADMIN_MAX_FAIL) {
-      return err('로그인 시도가 너무 많습니다. 15분 뒤에 다시 시도해 주세요.', 429);
+      return err('이 기기에서 로그인 시도가 너무 많습니다. 15분 뒤에 다시 시도해 주세요.', 429);
+    }
+    if (!trusted && globalFails >= ADMIN_GLOBAL_MAX) {
+      return err('관리자 로그인이 일시적으로 잠겼습니다. 15분 뒤에 다시 시도해 주세요.', 429);
     }
     if (!timingEqual(String(body.password || ''), env.ADMIN_PASSWORD)) {
-      await env.KV.put(fkey, String(fails + 1), { expirationTtl: ADMIN_LOCK_SEC });
+      await Promise.all([
+        env.KV.put(fkey, String(fails + 1), { expirationTtl: ADMIN_LOCK_SEC }),
+        env.KV.put('adminfail:_all', String(globalFails + 1), { expirationTtl: ADMIN_LOCK_SEC }),
+        new Promise(r => setTimeout(r, ADMIN_FAIL_DELAY)),
+      ]);
       return err('비밀번호가 틀립니다.', 401);
     }
-    await env.KV.delete(fkey);
+    await Promise.all([
+      env.KV.delete(fkey),
+      env.KV.put(tkey, '1', { expirationTtl: ADMIN_TRUST_SEC }),
+    ]);
     const token = randHex(24);
     await env.DB.prepare('INSERT INTO admin_sessions(token,created) VALUES(?,?)').bind(token, now()).run();
     return json({ adminToken: token });
