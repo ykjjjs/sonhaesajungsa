@@ -7,7 +7,7 @@
     "artifact": "python3 build/build_artifact.py",
     "verify": "node test/verify_note.js && node test/verify_pay.js && node test/verify_admin.js && node test/verify_book.js",
     "serve": "python3 -m http.server 8788 --directory public",
-    "deploy": "npx wrangler deploy"
+    "deploy": "npx wrangler deploy --keep-vars"
   },
   "devDependencies": { "playwright": "^1.48.0" }
 }

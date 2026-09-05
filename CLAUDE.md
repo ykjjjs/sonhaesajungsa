@@ -161,6 +161,17 @@ s2s-lecture 토큰을 그대로 쓴다. 세 화면(`index` · `book` · `admin`)
 
 ## 배포
 
+> **배포 뒤에는 반드시 시크릿이 살아 있는지 확인한다.** 실제로 `wrangler deploy` 한 번에
+> `ADMIN_PASSWORD` 가 떨어져 나간 적이 있다(`secret list` 에는 이름이 남아 있는데 워커는
+> 값을 못 보는 상태). 확인은 값을 몰라도 된다 — 아무 값이나 넣어 보고 **401 이면 정상,
+> 500 이면 시크릿이 빠진 것**이다.
+> ```
+> curl -s -X POST -H 'Content-Type: application/json' -d '{"password":"x"}' https://sonhaesajeongsa.ykjjjs123.workers.dev/api/admin/login
+> ```
+> 빠졌으면 사용자가 `npx wrangler secret put ADMIN_PASSWORD` 를 다시 실행해야 한다.
+> 비밀번호 값은 대신 넣지 않는다. `npm run deploy` 는 `--keep-vars` 를 붙여 둔다.
+
+
 `main` 에 푸시하면 Cloudflare 대시보드의 **Workers Builds** 가 클론해서 `npx wrangler deploy`.
 GitHub Actions 워크플로는 이중 배포를 막으려고 지웠다(되살리는 법은 README).
 첫 배포 절차와 실패 원인표는 `README.md`.
