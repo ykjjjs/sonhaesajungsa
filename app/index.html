@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>손해사정사 1차 · 기출 문제풀이</title>
+<meta name="theme-color" content="#0A0A0C">
+<meta name="description" content="손해사정사 1차 5개년 기출 600문항 — 보험업법 · 보험계약법 · 손해사정이론">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   손해사정사 1차 기출 · S2S 디자인 언어
+   메탈블랙(무대) · 은빛크리스탈(글자) · 블루사파이어(강조 한 곳)
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --void:#000; --bg:#0A0A0C; --surf:#141417; --surf2:#101013;
+  --edge:#232328; --lift:#2E2E35;
+  --tx:#F5F5F7; --tx2:#D6DBE3; --tx3:#9AA3B0; --tx4:#646C7A; --tx5:#3A404B;
+  --sap:#1552D6; --sap2:#3E9BFF; --sap3:#8FD0FF; --sap-deep:#0A2A6E;
+  --grad:linear-gradient(135deg,#06153F 0%,#0A2A6E 26%,#1552D6 62%,#3E9BFF 100%);
+  --crystal:linear-gradient(180deg,#FFFFFF 0%,#C4CCD8 62%,#7F8794 100%);
+  --glass:linear-gradient(160deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.03) 42%,rgba(255,255,255,0) 100%);
+  --ok:#4CC38A; --warn:#C9903A; --bad:#E0574F;
+  --r:14px; --rp:999px;
+  --f:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'SF Pro Display','Apple SD Gothic Neo',system-ui,sans-serif;
+  --m:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.28,.11,.32,1);
+  --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px;
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ── 낮 모드 ──────────────────────────────────────────────
+   무대를 뒤집되 재질 논리는 그대로: 종이빛 은판 위에 사파이어 한 곳.
+   회색을 새로 만들지 않고 은빛 5단계의 명암만 뒤집는다. */
+:root[data-theme="light"]{
+  --void:#FFFFFF; --bg:#F2F3F6; --surf:#FFFFFF; --surf2:#FAFAFB;
+  --edge:#E1E4EA; --lift:#C7CCD6;
+  --tx:#0A0A0C; --tx2:#2C313A; --tx3:#5B636F; --tx4:#858C99; --tx5:#AEB4BF;
+  --crystal:linear-gradient(180deg,#1D1D1F 0%,#3C424D 58%,#6B7280 100%);
+  --glass:linear-gradient(160deg,rgba(255,255,255,.9) 0%,rgba(255,255,255,.35) 42%,rgba(255,255,255,0) 100%);
+  --ok:#1D7D46; --warn:#9A6A18; --bad:#C8332C;
+}
+:root[data-theme="light"] .card{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 1px 2px rgba(16,24,40,.06),0 16px 40px -24px rgba(16,24,40,.28)}
+:root[data-theme="light"] .sheet{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 20px 60px -24px rgba(16,24,40,.35)}
+:root[data-theme="light"] header{background:var(--surf)}
+:root[data-theme="light"] .nav{background:rgba(242,243,246,.86)}
+:root[data-theme="light"] .toast{box-shadow:0 12px 40px -16px rgba(16,24,40,.3)}
+:root[data-theme="light"] .opt.sel{background:rgba(21,82,214,.07)}
+:root[data-theme="light"] .opt.correct{background:rgba(29,125,70,.09)}
+:root[data-theme="light"] .opt.wrong{background:rgba(200,51,44,.07)}
+:root[data-theme="light"] .opt.correct .n{color:#FFFFFF}
+:root[data-theme="light"] .opt.wrong .n{color:#FFFFFF}
+:root[data-theme="light"] .verdict.ok .mark{background:rgba(29,125,70,.14)}
+:root[data-theme="light"] .verdict.no .mark{background:rgba(200,51,44,.13)}
+:root[data-theme="light"] .tag.hist-ok{border-color:rgba(29,125,70,.35)}
+:root[data-theme="light"] .tag.hist-no{border-color:rgba(200,51,44,.35)}
+:root[data-theme="light"] .tag.ocr{border-color:rgba(154,106,24,.35)}
+
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx2);font-family:var(--f);font-size:16px;
+  line-height:1.65;letter-spacing:-.01em;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--sap2);outline-offset:2px}
+.wrap{max-width:920px;margin:0 auto;padding:0 clamp(14px,3vw,28px)}
+
+/* ── 머리 ── */
+header{border-bottom:1px solid var(--edge);background:var(--surf2);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:auto 0 -1px 0;height:1px;background:linear-gradient(90deg,rgba(21,82,214,0) 0%,rgba(62,155,255,.5) 50%,rgba(21,82,214,0) 100%)}
+.htop{display:flex;align-items:center;gap:var(--sp-4);padding:18px 0;flex-wrap:wrap}
+.brand{flex:1;min-width:200px}
+.kick{font-family:var(--m);font-size:10.5px;letter-spacing:.14em;color:var(--tx4);text-transform:uppercase}
+h1{margin-top:5px;font-size:clamp(20px,3.2vw,27px);font-weight:800;letter-spacing:-.035em;
+  line-height:1.12;background:var(--crystal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.who{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--tx3);white-space:nowrap}
+.who .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);flex:none}
+.who .dot.local{background:var(--warn)}
+.bookLink{font-size:13px;font-weight:700;color:var(--sap2);text-decoration:none;
+  padding:8px 13px;border-radius:var(--rp);border:1px solid var(--edge);background:var(--surf);
+  white-space:nowrap;transition:border-color .18s var(--ease),background .18s var(--ease)}
+.bookLink:hover{border-color:rgba(62,155,255,.45);background:rgba(21,82,214,.10)}
+.themeBtn{width:40px;height:40px;padding:0;border-radius:50%;border:1px solid var(--edge);
+  background:var(--surf);color:var(--tx3);cursor:pointer;display:grid;place-items:center;flex:none;
+  transition:border-color .18s var(--ease),color .18s var(--ease)}
+.themeBtn:hover{border-color:var(--lift);color:var(--tx)}
+.themeBtn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.themeBtn .sun{display:none} :root[data-theme="light"] .themeBtn .sun{display:block}
+:root[data-theme="light"] .themeBtn .moon{display:none}
+
+/* ── 지표 ── */
+.stats{display:flex;gap:var(--sp-6);padding:0 0 16px;flex-wrap:wrap}
+.st b{display:block;font-family:var(--m);font-size:19px;font-weight:700;color:var(--tx);letter-spacing:-.02em;line-height:1.2}
+.st span{font-size:10.5px;letter-spacing:.06em;color:var(--tx4)}
+.st.acc b{color:var(--tx)}
+
+/* ── 조작줄 ── */
+.bar{display:flex;gap:var(--sp-2);padding:0 0 16px;flex-wrap:wrap;align-items:center}
+.sel{position:relative}
+.sel select{appearance:none;border:1px solid var(--edge);background:var(--surf);border-radius:10px;
+  height:36px;padding:0 32px 0 12px;font-size:13px;font-weight:600;color:var(--tx2);cursor:pointer;
+  outline:none;transition:border-color .18s var(--ease),color .18s var(--ease)}
+.sel select:hover{border-color:var(--lift);color:var(--tx)}
+.sel::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;pointer-events:none;
+  border-right:1.5px solid var(--tx4);border-bottom:1.5px solid var(--tx4);transform:translateY(-70%) rotate(45deg)}
+.sp{flex:1}
+
+/* ── 애플 효과 ── */
+#scrollbar{position:fixed;top:0;left:0;height:2px;width:0;z-index:100;background:var(--grad);
+  border-radius:0 2px 2px 0;transition:width .12s linear}
+.reveal{opacity:0;transform:translateY(12px);
+  transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.card{animation:cardRise .44s var(--ease) both}
+@keyframes cardRise{from{opacity:0;transform:translateY(14px) scale(.994)}to{opacity:1;transform:none}}
+.opt{animation:optIn .42s var(--ease) both}
+.opt:nth-child(1){animation-delay:.03s} .opt:nth-child(2){animation-delay:.07s}
+.opt:nth-child(3){animation-delay:.11s} .opt:nth-child(4){animation-delay:.15s}
+@keyframes optIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.opt:active:not(:disabled){transform:scale(.988)}
+.verdict,.expl,.why,.terms,.srcnote{animation:optIn .5s var(--ease) both;animation-delay:.06s}
+.st b{transition:color .3s var(--ease)}
+@media(prefers-reduced-motion:reduce){
+  .card,.opt,.verdict,.expl,.why,.terms,.srcnote{animation:none}
+  .reveal{opacity:1;transform:none}
+}
+
+/* ── 진도 ── */
+.prog{height:2px;background:var(--edge);border-radius:2px;overflow:hidden;margin-bottom:var(--sp-5)}
+.prog i{display:block;height:100%;width:0;background:var(--grad);transition:width .38s var(--ease)}
+
+/* ── 문항 카드 ── */
+main{padding:var(--sp-5) 0}
+.card{position:relative;background:var(--surf);border:1px solid var(--edge);border-radius:22px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 2px 8px rgba(0,0,0,.5),0 20px 60px -20px rgba(0,0,0,.9);
+  padding:clamp(20px,3vw,30px);overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;background:var(--glass);pointer-events:none;border-radius:inherit}
+.qmeta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tag{font-family:var(--m);font-size:10.5px;letter-spacing:.07em;color:var(--tx4);
+  border:1px solid var(--edge);border-radius:var(--rp);padding:3px 10px}
+.tag.hist-ok{color:var(--ok);border-color:rgba(76,195,138,.35)}
+.tag.hist-no{color:var(--bad);border-color:rgba(224,87,79,.38)}
+.tag.ocr{color:var(--warn);border-color:rgba(201,144,58,.35)}
+.qno{font-family:var(--m);font-size:12px;color:var(--tx4);letter-spacing:.04em}
+.stem{font-size:clamp(16.5px,1.9vw,18.5px);line-height:1.62;color:var(--tx);letter-spacing:-.015em;
+  word-break:keep-all;margin-bottom:var(--sp-5)}
+
+/* ── 보기 ── */
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{position:relative;display:flex;gap:13px;align-items:flex-start;width:100%;text-align:left;
+  padding:14px 16px;border:1px solid var(--edge);border-radius:var(--r);background:var(--surf2);
+  color:var(--tx2);font-size:15.5px;line-height:1.58;letter-spacing:-.01em;cursor:pointer;
+  min-height:44px;word-break:keep-all;
+  transition:border-color .18s var(--ease),background .18s var(--ease),color .18s var(--ease),transform .18s var(--ease)}
+.opt:hover:not(:disabled){border-color:var(--lift);color:var(--tx);transform:translateY(-1px)}
+.opt .n{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--edge);
+  display:grid;place-items:center;font-family:var(--m);font-size:11.5px;color:var(--tx4);margin-top:1px;
+  transition:border-color .18s var(--ease),color .18s var(--ease),background .18s var(--ease)}
+.opt.sel{border-color:rgba(62,155,255,.55);background:rgba(21,82,214,.10);color:var(--tx)}
+.opt.sel .n{background:var(--grad);border-color:transparent;color:#fff}
+.opt.correct{border-color:rgba(76,195,138,.55);background:rgba(76,195,138,.09);color:var(--tx)}
+.opt.correct .n{background:var(--ok);border-color:transparent;color:#08130D}
+.opt.wrong{border-color:rgba(224,87,79,.5);background:rgba(224,87,79,.08)}
+.opt.wrong .n{background:var(--bad);border-color:transparent;color:#1A0605}
+.opt:disabled{cursor:default}
+.opt.dim{opacity:.5}
+
+/* ── 판정 · 해설 ── */
+.verdict{display:flex;align-items:center;gap:10px;margin-top:var(--sp-5);padding-top:var(--sp-5);
+  border-top:1px solid var(--edge);font-size:14.5px;font-weight:700;letter-spacing:-.01em}
+.verdict.ok{color:var(--ok)} .verdict.no{color:var(--bad)}
+.verdict .mark{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+  font-size:12px;font-weight:800;flex:none}
+.verdict.ok .mark{background:rgba(76,195,138,.16)} .verdict.no .mark{background:rgba(224,87,79,.16)}
+.verdict .sub{margin-left:auto;font-family:var(--m);font-size:11px;font-weight:400;color:var(--tx4);letter-spacing:.05em}
+.expl{margin-top:14px;font-size:14.5px;line-height:1.7;color:var(--tx3);word-break:keep-all}
+.expl.empty{color:var(--tx5);font-style:normal}
+.why{margin-top:12px;display:flex;flex-direction:column;gap:7px}
+.why div{font-size:13.5px;line-height:1.6;color:var(--tx4);padding-left:22px;position:relative;word-break:keep-all}
+.why div b{position:absolute;left:0;top:0;font-family:var(--m);font-size:11px;color:var(--tx5)}
+.terms{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.term{border:1px solid var(--edge);border-radius:var(--r);padding:9px 12px;max-width:100%;
+  background:var(--surf2)}
+.term b{display:block;font-size:12.5px;color:var(--tx2);font-weight:700;letter-spacing:-.01em}
+.term span{display:block;font-size:12px;color:var(--tx4);line-height:1.55;margin-top:2px;word-break:keep-all}
+.srcnote{margin-top:14px;font-family:var(--m);font-size:11px;letter-spacing:.03em;color:var(--tx5)}
+.srcnote.warn{color:var(--warn)}
+
+/* ── 빈 화면 ── */
+/* ══ 탭 ══ */
+.tabs{display:flex;gap:4px;padding:0 0 14px}
+.tab{position:relative;border:none;background:none;cursor:pointer;font:inherit;
+  font-size:13.5px;font-weight:700;color:var(--tx4);padding:8px 14px;border-radius:10px;
+  display:flex;align-items:center;gap:7px;transition:color .2s var(--ease),background .2s var(--ease)}
+.tab:hover{color:var(--tx2);background:rgba(127,135,148,.10)}
+.tab.on{color:var(--tx);background:rgba(127,135,148,.13)}
+.tab .bdg{font-family:var(--m);font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:99px;
+  background:var(--edge);color:var(--tx3);letter-spacing:.02em}
+.tab.on .bdg{background:var(--sap);color:#fff}
+.tab .bdg.due{background:var(--bad);color:#fff}
+
+/* ══ 오답 노트 ══ */
+.nsec{margin-bottom:var(--sp-6)}
+.nsec > h2{font-size:15px;font-weight:800;letter-spacing:-.02em;color:var(--tx);margin:0 0 4px;
+  display:flex;align-items:baseline;gap:9px}
+.nsec > h2 em{font-style:normal;font-family:var(--m);font-size:11px;font-weight:700;color:var(--tx4);letter-spacing:.05em}
+.nsec > p.hint{font-size:12.5px;color:var(--tx4);margin:0 0 14px}
+
+.ncards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px;margin-bottom:14px}
+.ncard{position:relative;background:var(--surf);border:1px solid var(--edge);border-radius:16px;
+  padding:16px 17px;overflow:hidden}
+.ncard::before{content:"";position:absolute;inset:0;background:var(--glass);pointer-events:none}
+.ncard b{display:block;font-family:var(--m);font-size:26px;font-weight:700;color:var(--tx);letter-spacing:-.03em;line-height:1.1}
+.ncard span{display:block;font-size:11px;color:var(--tx4);letter-spacing:.05em;margin-top:5px}
+.ncard.hot b{color:var(--bad)}
+.ncard.star b{color:var(--warn)}
+
+.duegrid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.duechip{border:1px solid var(--edge);background:var(--surf2);border-radius:12px;padding:9px 13px;
+  font-size:12.5px;color:var(--tx3);display:flex;align-items:center;gap:8px}
+.duechip b{font-family:var(--m);font-size:14px;color:var(--tx);font-weight:700}
+.duechip.d0{border-color:rgba(224,87,79,.42);color:var(--bad)}
+.duechip.d0 b{color:var(--bad)}
+
+/* 취약점 막대 */
+.wk{display:grid;grid-template-columns:minmax(88px,auto) 1fr auto;gap:10px 12px;align-items:center;
+  font-size:13px;margin-bottom:6px}
+.wk .nm{color:var(--tx2);font-weight:600;white-space:nowrap}
+.wk .tr{height:8px;border-radius:99px;background:var(--edge);overflow:hidden}
+.wk .tr i{display:block;height:100%;width:0;border-radius:99px;background:var(--grad);
+  transition:width .6s var(--ease)}
+.wk .tr i.hot{background:linear-gradient(90deg,#8C2A25 0%,#E0574F 100%)}
+.wk .vl{font-family:var(--m);font-size:11.5px;color:var(--tx4);white-space:nowrap}
+.wk .vl b{color:var(--tx2);font-weight:700}
+
+/* 필터 칩 */
+.fchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px}
+.fchip{border:1px solid var(--edge);background:var(--surf);border-radius:99px;padding:7px 13px;
+  font:inherit;font-size:12.5px;font-weight:600;color:var(--tx4);cursor:pointer;
+  transition:all .2s var(--ease)}
+.fchip:hover{border-color:var(--lift);color:var(--tx2)}
+.fchip.on{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 6px 18px -10px rgba(21,82,214,.9)}
+
+/* 오답 목록 */
+.grp{margin-bottom:var(--sp-5)}
+.grp > h3{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--tx4);
+  display:flex;align-items:center;gap:9px;padding:0 2px 8px;border-bottom:1px solid var(--edge);margin:0 0 2px}
+.grp > h3 em{font-style:normal;font-family:var(--m);margin-left:auto;color:var(--tx5)}
+.nrow{width:100%;text-align:left;border:none;background:none;font:inherit;cursor:pointer;
+  display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:start;
+  padding:13px 10px;border-bottom:1px solid var(--edge);border-radius:10px;
+  transition:background .18s var(--ease)}
+.nrow:hover{background:rgba(127,135,148,.08)}
+.nrow .no{font-family:var(--m);font-size:12px;font-weight:700;color:var(--tx4);padding-top:1px;min-width:26px}
+.nrow .tt{font-size:14px;color:var(--tx2);line-height:1.5;word-break:keep-all;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nrow .rt{display:flex;align-items:center;gap:7px;padding-top:1px}
+.nrow .sub{grid-column:2/4;display:flex;gap:9px;flex-wrap:wrap;align-items:center;
+  font-family:var(--m);font-size:11px;color:var(--tx5);margin-top:5px}
+.nrow .sub .pk{color:var(--bad);font-weight:700}
+.nrow .sub .an{color:var(--ok);font-weight:700}
+.nrow .sub .rep{color:var(--warn);font-weight:700}
+.nrow .memo{grid-column:2/4;font-size:12.5px;color:var(--tx3);margin-top:6px;padding:7px 11px;
+  border-left:2px solid var(--sap2);background:var(--surf2);border-radius:0 8px 8px 0;
+  white-space:pre-wrap;word-break:keep-all;line-height:1.55}
+.starBtn{border:none;background:none;cursor:pointer;font-size:15px;line-height:1;padding:3px 4px;
+  color:var(--tx5);transition:color .18s var(--ease),transform .18s var(--ease)}
+.starBtn:hover{transform:scale(1.18)}
+.starBtn.on{color:var(--warn)}
+
+.mini{width:100%;text-align:left;border:none;background:none;font:inherit;cursor:pointer;
+  display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:9px;
+  border-bottom:1px solid var(--edge);transition:background .18s var(--ease)}
+.mini:hover{background:rgba(127,135,148,.08)}
+.mini .mno{font-family:var(--m);font-size:10.5px;color:var(--tx5);white-space:nowrap;flex:none}
+.mini .mtt{font-size:13px;color:var(--tx2);flex:1;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mini .mct{font-family:var(--m);font-size:11px;font-weight:700;color:var(--bad);flex:none}
+
+@media(max-width:560px){
+  .mini{flex-wrap:wrap;gap:3px 9px;padding:10px}
+  .mini .mtt{flex:1 1 100%;white-space:normal;order:3;font-size:12.5px;line-height:1.5;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .nsec > h2{font-size:14.5px}
+  .nrow{padding:12px 6px;gap:3px 9px}
+}
+
+/* 문항 카드 안의 메모 */
+.memobox{margin-top:var(--sp-4);border-top:1px solid var(--edge);padding-top:var(--sp-4)}
+.memobox label{display:block;font-family:var(--m);font-size:10.5px;font-weight:700;letter-spacing:.08em;
+  color:var(--tx4);margin-bottom:7px}
+.memobox textarea{width:100%;min-height:64px;resize:vertical;border:1px solid var(--edge);
+  background:var(--surf2);color:var(--tx2);border-radius:12px;padding:11px 13px;
+  font:inherit;font-size:14px;line-height:1.6;outline:none;transition:border-color .2s var(--ease)}
+.memobox textarea:focus{border-color:var(--sap2);box-shadow:0 0 0 3px rgba(62,155,255,.14)}
+.memobox textarea::placeholder{color:var(--tx5)}
+.blinks{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.blink{font-size:12px;font-weight:600;color:var(--sap2);text-decoration:none;
+  border:1px solid rgba(62,155,255,.28);background:rgba(21,82,214,.08);border-radius:99px;padding:6px 12px;
+  transition:all .2s var(--ease)}
+.blink:hover{border-color:rgba(62,155,255,.5);background:rgba(21,82,214,.15)}
+
+.empty-state{text-align:center;padding:var(--sp-7) var(--sp-4);color:var(--tx4)}
+.empty-state h2{font-size:19px;font-weight:800;letter-spacing:-.025em;color:var(--tx2);margin-bottom:8px}
+.empty-state p{font-size:14px;max-width:44ch;margin:0 auto}
+
+/* ── 하단 고정 조작 ── */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:40;
+  background:rgba(10,10,12,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-top:1px solid var(--edge);padding:12px 0 calc(12px + env(safe-area-inset-bottom))}
+.nav .in{display:flex;align-items:center;gap:9px}
+.btn{padding:11px 18px;border-radius:var(--rp);border:1px solid var(--edge);background:var(--surf);
+  color:var(--tx2);font-size:13.5px;font-weight:700;letter-spacing:-.01em;cursor:pointer;min-height:44px;
+  transition:border-color .18s var(--ease),color .18s var(--ease),background .18s var(--ease)}
+.btn:hover:not(:disabled){border-color:var(--lift);color:var(--tx)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.pri{background:var(--grad);border-color:transparent;color:#fff;
+  box-shadow:0 0 0 1px rgba(62,155,255,.3),0 8px 30px -10px rgba(21,82,214,.6)}
+.btn.pri:hover:not(:disabled){color:#fff;border-color:transparent;
+  box-shadow:0 0 0 1px rgba(62,155,255,.5),0 10px 34px -10px rgba(21,82,214,.75)}
+.btn.pri:disabled{background:var(--surf);box-shadow:none;color:var(--tx5)}
+.btn.sm{padding:9px 14px;font-size:12.5px;min-height:40px}
+.count{flex:1;text-align:center;font-family:var(--m);font-size:12px;color:var(--tx4);letter-spacing:.05em}
+
+/* ── 오버레이 ── */
+.ov{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.72);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:var(--sp-4)}
+.ov.on{display:flex}
+.sheet{position:relative;width:min(420px,100%);background:var(--surf);border:1px solid var(--edge);
+  border-radius:22px;padding:clamp(22px,4vw,32px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 20px 60px -20px rgba(0,0,0,.9);
+  animation:rise .38s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.sheet h2{font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--tx);margin-bottom:7px}
+.sheet .sub{font-size:13.5px;color:var(--tx4);margin-bottom:var(--sp-5);word-break:keep-all;line-height:1.6}
+.fld{margin-bottom:13px}
+.fld label{display:block;font-size:11px;letter-spacing:.05em;color:var(--tx4);margin-bottom:5px}
+.fld input{width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--edge);
+  background:var(--surf2);outline:none;font-size:15px;
+  transition:border-color .18s var(--ease),box-shadow .18s var(--ease)}
+.fld input:focus{border-color:var(--sap2);box-shadow:0 0 0 3px rgba(62,155,255,.15)}
+.err{min-height:18px;font-size:12.5px;color:var(--bad);margin-bottom:10px;word-break:keep-all}
+.swap{margin-top:14px;font-size:13px;color:var(--tx4);text-align:center}
+.swap a{color:var(--sap2);cursor:pointer;text-decoration:none}
+.swap a:hover{text-decoration:underline}
+.note{margin-top:14px;font-size:11.5px;color:var(--tx5);line-height:1.55;word-break:keep-all}
+.fld label .opt{color:var(--tx5);font-weight:400;letter-spacing:0}
+
+/* ══ 이용권 · 결제 ══ */
+.sheet.pay{width:min(480px,100%);max-height:92vh;overflow:auto}
+.sheet .x{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--edge);background:var(--surf2);color:var(--tx4);font-size:13px;cursor:pointer;
+  display:grid;place-items:center;transition:all .2s var(--ease)}
+.sheet .x:hover{color:var(--tx);border-color:var(--lift)}
+.paykick{font-family:var(--m);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--sap2);
+  text-transform:uppercase;margin-bottom:9px}
+.plan{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:15px 17px;margin-bottom:var(--sp-5);
+  background:var(--surf2);border:1px solid var(--edge);border-radius:14px}
+.plan > div:first-child b{display:block;font-family:var(--m);font-size:25px;font-weight:700;
+  color:var(--tx);letter-spacing:-.03em;line-height:1.1}
+.plan > div:first-child span{font-size:11px;color:var(--tx4);letter-spacing:.05em}
+.plan .pl{margin-left:auto;text-align:right}
+.plan .pl + .pl{margin-left:0}
+.plan .pl span{display:block;font-size:10.5px;color:var(--tx5);letter-spacing:.05em}
+.plan .pl b{font-family:var(--m);font-size:14px;color:var(--tx2);font-weight:700}
+
+.steps .step{display:flex;gap:11px;margin-bottom:12px}
+.steps .step i{flex:none;width:21px;height:21px;border-radius:50%;background:var(--grad);color:#fff;
+  font-style:normal;font-family:var(--m);font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.steps .step > div > b{display:block;font-size:14px;color:var(--tx);margin-bottom:3px}
+.steps .step span{display:block;font-size:12.5px;color:var(--tx4);line-height:1.6;word-break:keep-all}
+.hl{color:var(--sap2);font-weight:700}
+
+.acct{background:var(--surf2);border:1px solid var(--edge);border-radius:13px;
+  padding:12px 14px;margin:0 0 15px 32px}
+.acct .ln{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13.5px}
+.acct .ln + .ln{border-top:1px solid var(--edge)}
+.acct .ln > span{width:52px;flex:none;font-size:11.5px;color:var(--tx5);letter-spacing:.04em}
+.acct .ln > b{flex:1;min-width:0;font-family:var(--m);color:var(--tx);font-weight:700;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct .ln.code > b{color:var(--sap2);font-size:15px;letter-spacing:.02em}
+.cp{flex:none;border:1px solid var(--edge);background:var(--surf);color:var(--tx4);border-radius:8px;
+  font:inherit;font-size:11px;font-weight:600;padding:5px 9px;cursor:pointer;transition:all .18s var(--ease)}
+.cp:hover{color:var(--tx);border-color:var(--lift)}
+.cp.done{color:var(--ok);border-color:rgba(76,195,138,.45)}
+
+.rcpt{display:flex;align-items:center;gap:9px;margin:0 0 13px 32px;font-size:13px;color:var(--tx3);flex-wrap:wrap}
+.rcpt input[type=checkbox]{width:16px;height:16px;accent-color:var(--sap);flex:none}
+.rcpt input[type=tel]{flex:1;min-width:130px;padding:8px 11px;border-radius:9px;border:1px solid var(--edge);
+  background:var(--surf2);color:var(--tx);font:inherit;font-size:13px;outline:none}
+.rcpt input[type=tel]:focus{border-color:var(--sap2)}
+.rcpt input[type=tel]:disabled{opacity:.4}
+
+/* 이용권 배지 · 잠금 */
+.lic{font-family:var(--m);font-size:10.5px;font-weight:700;letter-spacing:.05em;
+  border:1px solid var(--edge);border-radius:99px;padding:4px 10px;color:var(--tx4);white-space:nowrap}
+.lic.on{color:var(--ok);border-color:rgba(76,195,138,.4)}
+.lic.off{color:var(--warn);border-color:rgba(201,144,58,.45);cursor:pointer}
+.lic.off:hover{background:rgba(201,144,58,.1)}
+.locked{position:relative;text-align:center;padding:var(--sp-7) var(--sp-4)}
+.locked .ic{font-size:30px;margin-bottom:14px;opacity:.85}
+.locked h2{font-size:21px;font-weight:800;letter-spacing:-.03em;color:var(--tx);margin-bottom:9px}
+.locked p{font-size:14.5px;color:var(--tx4);max-width:46ch;margin:0 auto var(--sp-5);
+  line-height:1.65;word-break:keep-all}
+@media(max-width:560px){ .acct,.rcpt{margin-left:0} }
+
+
+/* ── 토스트 ── */
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translate(-50%,10px);
+  background:var(--surf);border:1px solid var(--edge);border-radius:var(--rp);padding:9px 18px;
+  font-size:13px;font-weight:600;color:var(--tx2);box-shadow:0 12px 40px -12px rgba(0,0,0,.9);
+  opacity:0;pointer-events:none;transition:opacity .24s var(--ease),transform .24s var(--ease);z-index:70}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:560px){
+  /* 모달은 아래에서 올라오는 풀시트 */
+  .ov{align-items:flex-end;padding:0}
+  .sheet{width:100%;border-radius:22px 22px 0 0;border-bottom:none;
+    padding-bottom:calc(28px + env(safe-area-inset-bottom));animation:sheetUp .42s var(--ease) both}
+  @keyframes sheetUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+  .stats{gap:var(--sp-5)}
+  .nav .in{gap:7px}
+  .btn{padding:11px 14px;font-size:13px}
+  .btn.sm{padding:9px 11px}
+}
+</style>
+</head>
+<body>
+
+<div id="scrollbar"></div>
+
+<header>
+  <div class="wrap">
+    <div class="htop">
+      <div class="brand">
+        <div class="kick">SONHAE · 1st ROUND</div>
+        <h1>손해사정사 1차 기출</h1>
+      </div>
+      <a class="bookLink" href="./book.html">전자교재 →</a>
+      <div id="licBox"></div>
+      <div class="who" id="whoBox"></div>
+      <button class="themeBtn" id="themeBtn" type="button" aria-label="밤낮 모드 전환" title="밤낮 모드 전환">
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+    <div class="stats">
+      <div class="st"><b id="stDone">0</b><span>푼 문항</span></div>
+      <div class="st acc"><b id="stAcc">—</b><span>정답률</span></div>
+      <div class="st"><b id="stWrong">0</b><span>오답 노트</span></div>
+      <div class="st"><b id="stTotal">0</b><span>이 조건 문항</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="tabs" role="tablist">
+    <button class="tab on" id="tabQuiz" type="button" role="tab">문제풀이</button>
+    <button class="tab" id="tabNote" type="button" role="tab">오답 노트
+      <span class="bdg" id="tabNoteN">0</span></button>
+  </div>
+  <div class="bar" id="quizBar">
+    <div class="sel"><select id="selYear" aria-label="연도"></select></div>
+    <div class="sel"><select id="selSubject" aria-label="과목"></select></div>
+    <div class="sel"><select id="selMode" aria-label="모드">
+      <option value="all">전체 문항</option>
+      <option value="wrong">오답 다시풀기</option>
+      <option value="due">오늘 복습할 문항</option>
+      <option value="star">별표한 문항</option>
+      <option value="unseen">안 푼 문항</option>
+    </select></div>
+    <div class="sp"></div>
+    <button class="btn sm" id="resetBtn" type="button">기록 초기화</button>
+  </div>
+  <div class="prog"><i id="progFill"></i></div>
+</div>
+
+<main class="wrap"><div id="stage"></div></main>
+
+<div class="nav">
+  <div class="wrap in">
+    <button class="btn sm" id="prevBtn" type="button">← 이전</button>
+    <span class="count" id="navCount">—</span>
+    <button class="btn sm" id="saveBtn" type="button">저장</button>
+    <button class="btn pri" id="nextBtn" type="button">확인 →</button>
+  </div>
+</div>
+
+<div class="ov" id="authOv">
+  <div class="sheet">
+    <h2 id="authTitle">로그인</h2>
+    <p class="sub" id="authSub">이메일과 비밀번호로 로그인하면 어느 기기에서든 풀이 기록이 이어집니다.</p>
+    <div class="fld"><label for="authEmail">이메일</label>
+      <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+    <div class="fld"><label for="authPass">비밀번호</label>
+      <input id="authPass" type="password" autocomplete="current-password" placeholder="6자 이상"></div>
+    <div class="fld" id="phoneFld" hidden><label for="authPhone">휴대폰 <span class="opt">선택 · 현금영수증 발급용</span></label>
+      <input id="authPhone" type="tel" autocomplete="tel" placeholder="01012345678" inputmode="numeric"></div>
+    <div class="err" id="authErr"></div>
+    <button class="btn pri" id="authGo" type="button" style="width:100%">로그인</button>
+    <div class="swap" id="authSwap">계정이 없으신가요? <a id="swapLink">회원가입</a></div>
+    <div class="swap" style="margin-top:8px"><a id="localLink">로그인 없이 이 기기에서만 풀기</a></div>
+    <div class="note">간편 학습용 계정입니다. 다른 사이트와 같은 비밀번호는 쓰지 마세요.</div>
+  </div>
+</div>
+
+<div class="ov" id="payOv">
+  <div class="sheet pay">
+    <button class="x" id="payClose" type="button" aria-label="닫기">✕</button>
+    <div class="paykick">이용권</div>
+    <h2 id="payTitle">5개년 600문항 · 전자교재 전부 열기</h2>
+    <p class="sub" id="paySub">지금은 <b id="freeYearLbl">최근 회차</b>만 열려 있습니다. 이용권을 켜면 5개년 기출 600문항과 전자교재 55절이 모두 열립니다.</p>
+
+    <div class="plan">
+      <div><b id="payAmt">9,900원</b><span>1년 이용권</span></div>
+      <div class="pl"><span>기출</span><b>600문항</b></div>
+      <div class="pl"><span>교재</span><b>55절</b></div>
+    </div>
+
+    <div class="steps">
+      <div class="step"><i>1</i><div><b>아래 계좌로 입금해 주세요</b>
+        <span>입금자명 뒤에 <b class="hl">코드 4자리</b>를 꼭 붙여야 자동으로 확인됩니다. 예를 들면 <b class="hl" id="payWho">홍길동4821</b> 처럼요.</span></div></div>
+      <div class="acct">
+        <div class="ln"><span>은행</span><b id="payBank">—</b></div>
+        <div class="ln"><span>계좌</span><b id="payAcct">—</b><button class="cp" data-cp="payAcct" type="button">복사</button></div>
+        <div class="ln"><span>예금주</span><b id="payHolder">—</b></div>
+        <div class="ln"><span>금액</span><b id="payAmt2">—</b><button class="cp" data-cp="payAmt2" type="button">복사</button></div>
+        <div class="ln code"><span>입금자명</span><b id="payName">—</b><button class="cp" data-cp="payName" type="button">복사</button></div>
+      </div>
+      <div class="step"><i>2</i><div><b>입금 후 아래 버튼을 눌러 주세요</b>
+        <span>입금 알림이 잡히면 <b class="hl">보통 1~2분 안에 자동으로</b> 열립니다. 늦어지면 직접 확인해 드립니다.</span></div></div>
+      <label class="rcpt"><input type="checkbox" id="rcptOn" checked>
+        <span>현금영수증 신청</span>
+        <input id="rcptPhone" type="tel" placeholder="01012345678" inputmode="numeric"></label>
+      <div class="err" id="payErr"></div>
+      <button class="btn pri" id="payDone" type="button" style="width:100%">입금 완료했습니다</button>
+      <button class="btn sm" id="payRefresh" type="button" style="width:100%;margin-top:8px">이용권 상태 새로고침</button>
+    </div>
+
+    <div class="note">개인 간 계좌이체 방식이라 결제 수수료가 없습니다.
+      환불은 이용 시작 후 7일 이내, 콘텐츠를 열람하지 않은 경우에 한해 전액 가능합니다.</div>
+  </div>
+</div>
+
+<div class="toast" id="toast">저장됨</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   데이터 — CONTENT[연도][교시][과목] = [문항…]
+   문항: {subject,no,importance,q,choices[4],answer(0-based),
+          explanation,wrongWhy{},terms[],altAnswers?,source?}
+   ══════════════════════════════════════════════════════════════ */
+let CONTENT = __CONTENT__;
+const API = '/api';           // 워커와 같은 도메인. file:// 로 열면 자동으로 로컬 모드
+
+/* ── 문항 평탄화 ── */
+let BANK = [], YEARS = [], SUBJECTS = [];
+function buildBank() {
+  BANK = [];
+  for (const y of Object.keys(CONTENT).sort()) {
+    for (const sess of Object.keys(CONTENT[y])) {
+      for (const subj of Object.keys(CONTENT[y][sess])) {
+        for (const q of CONTENT[y][sess][subj]) {
+          BANK.push({ ...q, year: y, sess, subject: subj,
+                      id: `${y}-${subj}-${String(q.no).padStart(2, '0')}` });
+        }
+      }
+    }
+  }
+  YEARS = [...new Set(BANK.map(q => q.year))].sort();
+  SUBJECTS = [...new Set(BANK.map(q => q.subject))];
+}
+
+/* 이용권이 있으면 전체 600문항을 받아 오고, 없으면 내장된 무료 회차만 쓴다.
+   배포본의 index.html 에는 무료 회차만 박혀 있으므로 소스를 열어도 전체는 나오지 않는다. */
+const EMBEDDED = CONTENT;
+async function loadContent() {
+  if (S.token && !S.local) {
+    try {
+      const r = await fetch(API + '/content', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: S.token, doc: 'exam' }),
+      }).then(r => r.json());
+      if (r.ok && r.data) { CONTENT = r.data; S.full = true; buildBank(); return true; }
+      if (r.error && !/이용권/.test(r.error)) throw new Error(r.error);
+    } catch (e) { /* 네트워크 실패 — 아래에서 내장분으로 이어 간다 */ }
+  }
+  CONTENT = EMBEDDED; S.full = false;
+  buildBank();
+  if (BANK.length) return true;
+  $('stage').innerHTML = `<div class="empty-state"><h2>문항을 불러오지 못했습니다</h2>
+    <p>잠시 후 새로고침해 주세요.</p></div>`;
+  return false;
+}
+
+/* ── 상태 ── */
+const S = {
+  token: null, email: null, local: false,
+  paid: 0, paidUntil: null, phone: '',
+  full: false,    // 전체 콘텐츠를 받아 왔는가 (false 면 무료 회차만)
+  view: 'quiz',   // 'quiz' | 'note'
+  year: 'all', subject: 'all', mode: 'all', pos: 0,
+  nfilter: 'all', // 오답 노트 목록 필터
+  pin: null,      // 채점 직후 목록에서 빠지는 문항을 잠시 붙잡아 두는 자리
+  sel: {},        // id → 고른 보기 index
+  seen: {},       // id → {ok, no, last:'ok'|'no', pick:마지막 오답 보기, noAt:마지막 오답 시각}
+  note: {},       // id → 내 메모
+  star: {},       // id → true
+  revealed: {},   // id → true (이번 세션에서 채점 완료)
+  dirty: false,
+};
+const DAY = 864e5;
+const FREE_YEAR = __FREE_YEAR__;   // 결제 전에 열어 두는 회차
+const PRICE = __PRICE__;
+const TERMLINK = __TERMLINK__;   // 전자교재 용어 — 지문에서 찾아 교재로 보낸다
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+/* ── 현재 목록 ── */
+function list() {
+  return BANK.filter(q => {
+    if (S.year !== 'all' && q.year !== S.year) return false;
+    if (S.subject !== 'all' && q.subject !== S.subject) return false;
+    if (S.pin === q.id) return true;   // 방금 채점한 문항 — 정오답을 볼 때까지 자리를 지킨다
+    const h = S.seen[q.id];
+    if (S.mode === 'wrong') return !!(h && h.last === 'no');
+    if (S.mode === 'due')   return isDue(q.id);
+    if (S.mode === 'star')  return !!S.star[q.id];
+    if (S.mode === 'unseen') return !h;
+    return true;
+  });
+}
+
+/* ══ 오답 노트의 뇌 ══════════════════════════════════════════
+   틀린 날부터 하루가 지나면 복습 대상. 그 뒤로는 얼마나 묵혔는지에 따라
+   1일차 → 3일차 → 1주 → 2주 이상으로 구간이 올라간다.
+   틀린 횟수가 많을수록 앞에 세운다 — 어려운 문항이 먼저 눈에 띄어야 한다. */
+const wrongIds = () => BANK.filter(q => (S.seen[q.id] || {}).last === 'no').map(q => q.id);
+const wrongCount = () => wrongIds().length;
+
+function elapsed(id) {
+  const h = S.seen[id]; if (!h) return null;
+  const t = h.noAt || h.at; if (!t) return null;
+  return Math.floor((Date.now() - t) / DAY);
+}
+function isDue(id) {
+  const h = S.seen[id];
+  if (!h || h.last !== 'no') return false;
+  const d = elapsed(id);
+  return d === null || d >= 1;       // 시각 기록이 없는 옛 데이터는 바로 대상
+}
+const BUCKETS = [
+  { k: 'd14', min: 14, label: '2주 넘게 방치' },
+  { k: 'd7',  min: 7,  label: '1주일 지남' },
+  { k: 'd3',  min: 3,  label: '3일 지남' },
+  { k: 'd1',  min: 1,  label: '하루 지남' },
+  { k: 'd0',  min: 0,  label: '오늘 틀림 · 내일부터' },
+];
+function bucketOf(id) {
+  const d = elapsed(id);
+  if (d === null) return BUCKETS[3];
+  return BUCKETS.find(b => d >= b.min) || BUCKETS[4];
+}
+function dueList() {
+  return BANK.filter(q => isDue(q.id)).sort((a, b) => {
+    const ha = S.seen[a.id], hb = S.seen[b.id];
+    return (hb.no || 1) - (ha.no || 1) || (elapsed(b.id) || 0) - (elapsed(a.id) || 0);
+  });
+}
+const dueCount = () => BANK.reduce((n, q) => n + (isDue(q.id) ? 1 : 0), 0);
+const starCount = () => Object.keys(S.star).filter(k => S.star[k]).length;
+
+/* 지문에 나오는 전자교재 용어를 길이 순으로 최대 3개까지 골라 준다 */
+function bookTerms(q) {
+  const hay = q.q + ' ' + q.choices.join(' ');
+  return TERMLINK.filter(t => hay.includes(t)).slice(0, 3);
+}
+
+/* ── 지표 ── */
+function stats() {
+  const ids = Object.keys(S.seen);
+  const done = ids.length;
+  let ok = 0, tot = 0;
+  for (const id of ids) { ok += S.seen[id].ok || 0; tot += (S.seen[id].ok || 0) + (S.seen[id].no || 0); }
+  $('stDone').textContent = done;
+  $('stAcc').textContent = tot ? Math.round(ok / tot * 100) + '%' : '—';
+  $('stWrong').textContent = wrongCount();
+  $('stTotal').textContent = S.view === 'note' ? dueCount() : list().length;
+  $('stTotal').nextElementSibling.textContent = S.view === 'note' ? '오늘 복습' : '이 조건 문항';
+}
+function syncTabs() {
+  const note = S.view === 'note';
+  $('tabQuiz').classList.toggle('on', !note);
+  $('tabNote').classList.toggle('on', note);
+  const d = dueCount(), w = wrongCount();
+  const b = $('tabNoteN');
+  b.textContent = d ? `${w} · 복습 ${d}` : w;
+  b.classList.toggle('due', d > 0 && !note);
+}
+
+/* ══ 오답 노트 화면 ══════════════════════════════════════════ */
+function weakRows(key) {
+  const acc = {};
+  for (const q of BANK) {
+    const h = S.seen[q.id]; if (!h) continue;
+    const k = q[key];
+    const a = acc[k] || (acc[k] = { tried: 0, miss: 0, open: 0 });
+    a.tried += (h.ok || 0) + (h.no || 0);
+    a.miss += (h.no || 0);
+    if (h.last === 'no') a.open++;
+  }
+  return Object.keys(acc).map(k => ({ k, ...acc[k], rate: acc[k].tried ? acc[k].miss / acc[k].tried : 0 }))
+    .filter(r => r.tried).sort((a, b) => b.rate - a.rate);
+}
+
+function noteHtml() {
+  const wrong = wrongIds();
+  const due = dueList();
+  const stars = starCount();
+  const memos = Object.keys(S.note).filter(k => (S.note[k] || '').trim()).length;
+
+  if (!wrong.length && !stars) {
+    return `<div class="empty-state">
+      <h2>오답 노트가 비어 있습니다</h2>
+      <p>틀린 문항이 여기 모입니다. 과목·연도별 취약점, 복습할 때가 된 문항,
+         내가 고른 오답까지 함께 기록됩니다. 맞히면 그 자리에서 빠집니다.</p></div>`;
+  }
+
+  /* 1 — 오늘 복습 */
+  const cnt = {};
+  for (const q of due) { const b = bucketOf(q.id); cnt[b.k] = (cnt[b.k] || 0) + 1; }
+  const todayWrong = wrong.filter(id => elapsed(id) === 0).length;
+  const chips = BUCKETS.filter(b => b.k !== 'd0' && cnt[b.k])
+    .map(b => `<div class="duechip ${b.min >= 7 ? 'd0' : ''}"><b>${cnt[b.k]}</b>${esc(b.label)}</div>`).join('')
+    + (todayWrong ? `<div class="duechip"><b>${todayWrong}</b>오늘 틀림 · 내일부터</div>` : '');
+
+  const sched = `<section class="nsec">
+    <h2>오늘 복습 <em>${due.length}문항</em></h2>
+    <p class="hint">틀린 다음 날부터 복습 대상이 됩니다. 오래 묵힐수록, 여러 번 틀렸을수록 앞에 옵니다.</p>
+    <div class="ncards">
+      <div class="ncard ${due.length ? 'hot' : ''}"><b>${due.length}</b><span>복습할 때가 됨</span></div>
+      <div class="ncard"><b>${wrong.length}</b><span>오답 노트 전체</span></div>
+      <div class="ncard star"><b>${stars}</b><span>별표</span></div>
+      <div class="ncard"><b>${memos}</b><span>메모 남긴 문항</span></div>
+    </div>
+    <div class="duegrid">${chips || '<div class="duechip">복습할 문항이 아직 없습니다</div>'}</div>
+    ${due.length ? '<button class="btn pri" id="startDue" type="button">오늘 복습 시작 →</button>' : ''}
+  </section>`;
+
+  /* 2 — 취약점 */
+  const bar = rows => rows.map(r => {
+    const pct = Math.round(r.rate * 100);
+    return `<div class="wk"><span class="nm">${esc(r.k)}</span>
+      <span class="tr"><i class="${pct >= 50 ? 'hot' : ''}" style="width:${pct}%"></i></span>
+      <span class="vl"><b>${pct}%</b> · 미해결 ${r.open}</span></div>`;
+  }).join('');
+  const bySubj = weakRows('subject'), byYear = weakRows('year');
+  const repeat = BANK.filter(q => (S.seen[q.id] || {}).no >= 2 && S.seen[q.id].last === 'no')
+    .sort((a, b) => S.seen[b.id].no - S.seen[a.id].no).slice(0, 8);
+  const repHtml = repeat.length ? `<h2 style="margin-top:22px">반복해서 틀리는 문항 <em>${repeat.length}</em></h2>
+    <p class="hint">두 번 이상 놓친 문항입니다. 여기부터 잡으면 점수가 가장 크게 움직입니다.</p>
+    ${repeat.slice(0, 5).map(q => `<button class="mini" type="button" data-go="${esc(q.id)}">
+        <span class="mno">${esc(q.subject)} ${esc(q.year)} ${String(q.no).padStart(2,'0')}</span>
+        <span class="mtt">${esc(q.q)}</span>
+        <span class="mct">${S.seen[q.id].no}회</span></button>`).join('')}
+    ${repeat.length > 5 ? `<button class="fchip" data-nf="rep" type="button"
+        style="margin-top:9px">${repeat.length}문항 전체 보기 →</button>` : ''}` : '';
+
+  const weak = `<section class="nsec">
+    <h2>취약점</h2>
+    <p class="hint">푼 문항 대비 틀린 비율입니다. 막대가 붉어지면 절반 이상 놓치고 있다는 뜻입니다.</p>
+    ${bar(bySubj)}
+    ${byYear.length > 1 ? '<div style="height:14px"></div>' + bar(byYear) : ''}
+    ${repHtml}
+  </section>`;
+
+  /* 3 — 오답 목록 */
+  const F = S.nfilter;
+  let items = BANK.filter(q => {
+    const h = S.seen[q.id];
+    if (F === 'star') return !!S.star[q.id];
+    if (!h || h.last !== 'no') return false;
+    if (F === 'due') return isDue(q.id);
+    if (F === 'rep') return (h.no || 0) >= 2;
+    if (F === 'memo') return !!(S.note[q.id] || '').trim();
+    return true;
+  });
+  const fchip = (k, label, n) =>
+    `<button class="fchip${F === k ? ' on' : ''}" data-nf="${k}" type="button">${esc(label)} ${n}</button>`;
+  const chipbar = `<div class="fchips">
+    ${fchip('all', '전체', wrong.length)}
+    ${fchip('due', '복습 대상', due.length)}
+    ${fchip('rep', '2회 이상', BANK.filter(q => (S.seen[q.id] || {}).no >= 2 && S.seen[q.id].last === 'no').length)}
+    ${fchip('star', '별표', stars)}
+    ${fchip('memo', '메모', memos)}
+  </div>`;
+
+  const groups = {};
+  for (const q of items) (groups[`${q.subject} · ${q.year}`] ||= []).push(q);
+  const keys = Object.keys(groups).sort();
+  const listHtml = keys.length
+    ? keys.map(k => `<div class="grp"><h3>${esc(k)}<em>${groups[k].length}</em></h3>
+        ${groups[k].sort((a, b) => a.no - b.no).map(q => rowHtml(q)).join('')}</div>`).join('')
+    : `<div class="empty-state"><h2>이 조건에 해당하는 문항이 없습니다</h2>
+        <p>위 칩을 눌러 다른 조건으로 보세요.</p></div>`;
+
+  return sched + weak + `<section class="nsec">
+    <h2>오답 목록</h2>
+    <p class="hint">문항을 누르면 그 문제로 바로 갑니다. 맞히면 노트에서 빠집니다.</p>
+    ${chipbar}${listHtml}</section>`;
+}
+
+function rowHtml(q, compact) {
+  const h = S.seen[q.id] || {};
+  const d = elapsed(q.id);
+  const memo = (S.note[q.id] || '').trim();
+  const pick = h.pick != null ? h.pick + 1 : null;
+  const ans = [q.answer, ...(q.altAnswers || [])].map(i => i + 1).join(', ');
+  const when = d === null ? '' : d === 0 ? '오늘' : `${d}일 전`;
+  return `<button class="nrow" type="button" data-go="${esc(q.id)}">
+    <span class="no">${String(q.no).padStart(2, '0')}</span>
+    <span class="tt">${esc(q.q)}</span>
+    <span class="rt">
+      <span class="starBtn${S.star[q.id] ? ' on' : ''}" data-star="${esc(q.id)}"
+        role="button" aria-label="별표">${S.star[q.id] ? '★' : '☆'}</span>
+    </span>
+    <span class="sub">
+      ${compact ? `<span>${esc(q.subject)} ${esc(q.year)}</span>` : ''}
+      ${pick ? `<span class="pk">✕ 내 답 ${pick}</span>` : ''}
+      <span class="an">정답 ${ans}</span>
+      ${(h.no || 0) >= 2 ? `<span class="rep">${h.no}회 틀림</span>` : ''}
+      ${when ? `<span>${when}</span>` : ''}
+      ${isDue(q.id) ? '<span style="color:var(--sap2);font-weight:700">복습 대상</span>' : ''}
+    </span>
+    ${memo && !compact ? `<span class="memo">${esc(memo)}</span>` : ''}
+  </button>`;
+}
+
+/* ── 렌더 ── */
+function render() {
+  syncTabs();
+  if (S.view === 'note') {
+    $('quizBar').style.display = 'none';
+    document.querySelector('.prog').style.display = 'none';
+    document.querySelector('.nav').style.display = 'none';
+    $('stage').innerHTML = noteHtml();
+    stats(); hydrate();
+    return;
+  }
+  $('quizBar').style.display = '';
+  document.querySelector('.prog').style.display = '';
+  document.querySelector('.nav').style.display = '';
+  const L = list();
+  const stage = $('stage');
+  if (!L.length) {
+    const EMPTY = {
+      wrong: ['오답 노트가 비었습니다', '틀린 문항이 여기 모입니다. 다시 풀어서 맞히면 그 자리에서 빠집니다.'],
+      due:   ['오늘 복습할 문항이 없습니다', '틀린 다음 날부터 복습 대상이 됩니다. 오늘 틀린 문항은 내일 여기 나타납니다.'],
+      star:  ['별표한 문항이 없습니다', '문항 오른쪽 위의 ☆ 를 누르면 여기 모입니다.'],
+      unseen:['안 푼 문항이 없습니다', '이 조건의 문항을 모두 풀었습니다.'],
+    }[S.mode] || ['해당하는 문항이 없습니다', '위 드롭박스에서 연도나 과목을 바꿔 보세요.'];
+    stage.innerHTML = `<div class="empty-state"><h2>${EMPTY[0]}</h2><p>${EMPTY[1]}</p></div>`;
+    $('navCount').textContent = '0 / 0';
+    $('prevBtn').disabled = $('nextBtn').disabled = true;
+    stats(); $('progFill').style.width = '0%';
+    return;
+  }
+  if (S.pos >= L.length) S.pos = L.length - 1;
+  if (S.pos < 0) S.pos = 0;
+  const q = L[S.pos];
+  const sel = S.sel[q.id];
+  const shown = !!S.revealed[q.id];
+  const correct = [q.answer, ...(q.altAnswers || [])];
+  const h = S.seen[q.id];
+
+  const el = elapsed(q.id);
+  const tags = [
+    `<span class="tag">${esc(q.year)} · ${esc(q.subject)}</span>`,
+    (h && h.last === 'no' && el !== null)
+      ? `<span class="tag hist-no">${el === 0 ? '오늘 틀림' : el + '일 전 틀림'}</span>` : '',
+    h ? `<span class="tag hist-${h.last}">이력 정답 ${h.ok || 0} · 오답 ${h.no || 0}</span>` : '',
+    q.source === 'ocr-verified' ? '<span class="tag ocr">OCR 복원</span>' : '',
+  ].join('');
+
+  const opts = q.choices.map((c, i) => {
+    let cls = 'opt';
+    if (shown) {
+      if (correct.includes(i)) cls += ' correct';
+      else if (i === sel) cls += ' wrong';
+      else cls += ' dim';
+    } else if (i === sel) cls += ' sel';
+    return `<button type="button" class="${cls}" data-i="${i}"${shown ? ' disabled' : ''}>
+      <span class="n">${i + 1}</span><span>${esc(c)}</span></button>`;
+  }).join('');
+
+  let tail = '';
+  if (shown) {
+    const good = correct.includes(sel);
+    const why = q.wrongWhy && Object.keys(q.wrongWhy).length
+      ? `<div class="why">${Object.keys(q.wrongWhy).sort()
+          .map(k => `<div><b>${esc(k)}</b>${esc(q.wrongWhy[k])}</div>`).join('')}</div>` : '';
+    const terms = (q.terms && q.terms.length)
+      ? `<div class="terms">${q.terms.map(t =>
+          `<div class="term"><b>${esc(t.t)}</b><span>${esc(t.d)}</span></div>`).join('')}</div>` : '';
+    const bts = bookTerms(q);
+    const bl = bts.length
+      ? `<div class="blinks">${bts.map(t =>
+          `<a class="blink" href="./book.html?q=${encodeURIComponent(t)}" target="_blank" rel="noopener">📖 ${esc(t)}</a>`
+        ).join('')}</div>` : '';
+    const note = q.explanation
+      ? (q.verify === '령'
+          ? '<div class="srcnote warn">근거 조문 중 시행령 부분은 원문 대조가 남아 있습니다</div>'
+          : '<div class="srcnote">근거 조문 원문 대조 완료 · 보험업법 [시행 2025. 1. 31.]</div>')
+      : '';
+    tail = `<div class="verdict ${good ? 'ok' : 'no'}">
+        <span class="mark">${good ? '✓' : '✕'}</span>
+        <span>${good ? '정답입니다' : '오답입니다'}</span>
+        <span class="sub">정답 ${correct.map(i => i + 1).join(', ')}</span>
+      </div>
+      <div class="expl${q.explanation ? '' : ' empty'}">${
+        q.explanation ? esc(q.explanation) : '해설은 준비 중입니다.'}</div>${why}${terms}${note}
+      <div class="memobox">
+        <label for="memo">내 메모 — 왜 틀렸는지 한 줄로 남겨 두면 다음에 훨씬 빨리 잡힙니다</label>
+        <textarea id="memo" data-memo="${esc(q.id)}" placeholder="예) 대주주·자회사만 자기자본 기준. 나머지는 전부 총자산."
+        >${esc(S.note[q.id] || '')}</textarea>
+        ${bl}
+      </div>`;
+  }
+
+  stage.innerHTML = `<div class="card">
+      <div class="qmeta"><span class="qno">Q${String(q.no).padStart(2,'0')}</span>${tags}
+        <span class="starBtn${S.star[q.id] ? ' on' : ''}" data-star="${esc(q.id)}" role="button"
+          aria-label="별표" title="별표" style="margin-left:auto">${S.star[q.id] ? '★' : '☆'}</span></div>
+      <div class="stem">${esc(q.q)}</div>
+      <div class="opts">${opts}</div>${tail}</div>`;
+
+  $('navCount').textContent = `${S.pos + 1} / ${L.length}`;
+  $('prevBtn').disabled = S.pos === 0;
+  $('nextBtn').disabled = !shown && sel == null;
+  $('nextBtn').textContent = shown ? (S.pos === L.length - 1 ? '처음으로 ↺' : '다음 →') : '확인 →';
+  $('progFill').style.width = ((S.pos + 1) / L.length * 100) + '%';
+  stats();
+  upsell();
+  hydrate();
+}
+
+/* 무료 회차를 절반 넘게 푼 사람에게만, 목록 끝에 한 번 붙인다 */
+function upsell() {
+  const old = document.getElementById('upsell'); if (old) old.remove();
+  if (S.full || S.local || !S.token || S.paid) return;
+  const done = Object.keys(S.seen).length;
+  if (done < 20) return;
+  const d = document.createElement('div');
+  d.id = 'upsell'; d.className = 'locked reveal';
+  d.innerHTML = `<div class="ic">🔒</div>
+    <h2>나머지 4개 회차가 기다리고 있습니다</h2>
+    <p>지금 ${FREE_YEAR}년 회차 120문항 중 <b>${done}문항</b>을 푸셨습니다.
+       이용권을 켜면 5개년 <b>600문항</b>과 전자교재 <b>55절</b>이 모두 열리고,
+       오답 노트도 전 회차로 이어집니다.</p>
+    <button class="btn pri" id="upsellBtn" type="button">${won(PRICE)} · 1년 이용권 열기</button>`;
+  $('stage').appendChild(d);
+  document.getElementById('upsellBtn').onclick = () => openPay();
+}
+
+/* ── 조작 ── */
+document.addEventListener('click', e => {
+  /* 계좌·금액·입금자명 복사 */
+  const cp = e.target.closest('[data-cp]');
+  if (cp) {
+    const txt = ($(cp.dataset.cp).textContent || '').replace(/[^0-9A-Za-z가-힣-]/g, '');
+    const done = () => { cp.textContent = '복사됨'; cp.classList.add('done');
+      setTimeout(() => { cp.textContent = '복사'; cp.classList.remove('done'); }, 1400); };
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, () => {});
+    else { const t = document.createElement('textarea'); t.value = txt; document.body.appendChild(t);
+      t.select(); try { document.execCommand('copy'); done(); } catch (err) {} t.remove(); }
+    return;
+  }
+  /* 별표 — 목록에서도 카드에서도 같은 버튼 */
+  const st = e.target.closest('[data-star]');
+  if (st) {
+    e.stopPropagation();
+    const id = st.dataset.star;
+    if (S.star[id]) delete S.star[id]; else S.star[id] = true;
+    S.dirty = true; render(); save(true); return;
+  }
+  /* 오답 목록 필터 칩 */
+  const fc = e.target.closest('[data-nf]');
+  if (fc) {
+    S.nfilter = fc.dataset.nf; render();
+    const secs = document.querySelectorAll('.nsec');
+    if (secs.length) secs[secs.length - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+  /* 오답 목록에서 문항으로 점프 */
+  const row = e.target.closest('[data-go]');
+  if (row) { jumpTo(row.dataset.go); return; }
+  /* 오늘 복습 시작 */
+  if (e.target.closest('#startDue')) {
+    S.view = 'quiz'; S.mode = 'due'; S.year = 'all'; S.subject = 'all'; S.pos = 0; S.pin = null;
+    $('selMode').value = 'due'; $('selYear').value = 'all'; $('selSubject').value = 'all';
+    render(); window.scrollTo({ top: 0, behavior: 'smooth' }); return;
+  }
+  const opt = e.target.closest('.opt');
+  if (opt && !opt.disabled) {
+    const L = list(); const q = L[S.pos];
+    S.sel[q.id] = Number(opt.dataset.i);      // 확인 전에는 몇 번이든 바꿀 수 있다
+    S.dirty = true; render();
+  }
+});
+
+/* 메모 — 입력할 때마다 상태에 담고, 손을 뗀 뒤 조용히 저장한다 */
+let memoT;
+document.addEventListener('input', e => {
+  const t = e.target.closest('[data-memo]');
+  if (!t) return;
+  S.note[t.dataset.memo] = t.value;
+  S.dirty = true;
+  clearTimeout(memoT); memoT = setTimeout(() => save(true), 900);
+});
+
+/* 노트에서 고른 문항으로 이동 — 그 문항이 보이도록 필터를 풀어 준다 */
+function jumpTo(id) {
+  const q = BANK.find(x => x.id === id); if (!q) return;
+  S.view = 'quiz'; S.pin = null;
+  S.year = 'all'; S.subject = 'all'; S.mode = 'wrong';
+  $('selYear').value = 'all'; $('selSubject').value = 'all'; $('selMode').value = 'wrong';
+  let i = list().findIndex(x => x.id === id);
+  if (i < 0) {                       // 이미 맞혀서 오답 목록에 없으면 전체에서 찾는다
+    S.mode = 'all'; $('selMode').value = 'all';
+    i = list().findIndex(x => x.id === id);
+  }
+  S.pos = Math.max(0, i);
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+$('tabQuiz').onclick = () => { S.view = 'quiz'; render(); };
+$('tabNote').onclick = () => { S.view = 'note'; S.nfilter = 'all'; render(); window.scrollTo({ top: 0 }); };
+
+$('nextBtn').onclick = () => {
+  const L = list(); if (!L.length) return;
+  const q = L[S.pos];
+  if (!S.revealed[q.id]) {                    // 1단계 — 채점
+    const sel = S.sel[q.id]; if (sel == null) return;
+    const good = [q.answer, ...(q.altAnswers || [])].includes(sel);
+    const h = S.seen[q.id] || { ok: 0, no: 0 };
+    h[good ? 'ok' : 'no']++; h.last = good ? 'ok' : 'no';
+    h.at = Date.now();
+    if (good) { delete h.pick; delete h.noAt; }     // 맞히면 그 자리에서 노트 졸업
+    else { h.pick = sel; h.noAt = h.at; }           // 내가 고른 오답을 남긴다
+    S.seen[q.id] = h; S.revealed[q.id] = true; S.pin = q.id; S.dirty = true;
+    render(); save(true);
+    return;
+  }
+  // 2단계 — 이동. 붙잡아 두었던 문항을 놓아 준다
+  S.pin = null;
+  const L2 = list();
+  if (!L2.length) { render(); toast('이 목록을 모두 정리했습니다'); return; }
+  const still = L2.findIndex(x => x.id === q.id);
+  if (still >= 0) S.pos = (still + 1) % L2.length;   // 아직 목록에 있으면 다음으로
+  else S.pos = Math.min(S.pos, L2.length - 1);       // 노트를 졸업했으면 그 자리가 곧 다음 문항
+  render();
+};
+$('prevBtn').onclick = () => { if (S.pos > 0) { S.pos--; render(); } };
+
+/* 키보드 — 1~4 보기 선택, Enter 확인·다음, ←/→ 이동 */
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, select, textarea')) return;
+  if ($('authOv').classList.contains('on')) return;
+  if (e.key === 'n' || e.key === 'ㅜ') {           // n — 노트 열고 닫기
+    S.view = S.view === 'note' ? 'quiz' : 'note'; render(); e.preventDefault(); return;
+  }
+  if (S.view === 'note') return;
+  const L = list(); if (!L.length) return;
+  const q = L[S.pos];
+  if (e.key >= '1' && e.key <= '4') {
+    if (S.revealed[q.id]) return;
+    const i = Number(e.key) - 1;
+    if (i < q.choices.length) { S.sel[q.id] = i; S.dirty = true; render(); e.preventDefault(); }
+  } else if (e.key === 'Enter' || e.key === ' ') {
+    if (!$('nextBtn').disabled) { $('nextBtn').click(); e.preventDefault(); }
+  } else if (e.key === 'ArrowLeft') {
+    if (S.pos > 0) { S.pos--; render(); }
+  } else if (e.key === 'ArrowRight') {
+    if (S.revealed[q.id]) { S.pos = (S.pos + 1) % L.length; render(); }
+  }
+});
+$('saveBtn').onclick = () => save(false);
+
+$('selYear').onchange = e => {
+  if (e.target.value === '__pay') { e.target.value = S.year; openPay(); return; }
+  S.year = e.target.value; S.pin = null; S.pos = 0; render();
+};
+$('selSubject').onchange = e => { S.subject = e.target.value; S.pin = null; S.pos = 0; render(); };
+$('selMode').onchange = e => { S.mode = e.target.value; S.pin = null; S.pos = 0; render(); };
+$('resetBtn').onclick = () => {
+  if (!confirm('풀이 기록과 오답 노트를 모두 지웁니다. 계속할까요?')) return;
+  S.sel = {}; S.seen = {}; S.note = {}; S.star = {}; S.revealed = {}; S.pos = 0; S.dirty = true;
+  render(); save(false);
+};
+
+/* ── 저장 · 동기화 ── */
+let toastT;
+function toast(msg) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 1600);
+}
+function snapshot() { return { sel: S.sel, seen: S.seen, note: S.note, star: S.star, v: 2 }; }
+async function save(quiet) {
+  const data = snapshot();
+  if (S.local || !S.token) {
+    store.set('sonsa:state', data);
+    if (!quiet) toast('이 기기에 저장됨');
+    S.dirty = false; return;
+  }
+  try {
+    const r = await fetch(API + '/save', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: S.token, state: data }),
+    }).then(r => r.json());
+    if (r.error) throw new Error(r.error);
+    if (!quiet) toast('계정에 저장됨');
+    S.dirty = false;
+  } catch (e) {
+    store.set('sonsa:state', data);
+    if (!quiet) toast('서버 저장 실패 — 이 기기에 저장했습니다');
+  }
+}
+function applyState(d) {
+  if (!d) return;
+  S.sel = d.sel || {}; S.seen = d.seen || {};
+  S.note = d.note || {}; S.star = d.star || {};
+}
+async function load() {
+  if (S.local || !S.token) { applyState(store.get('sonsa:state')); return; }
+  try {
+    const r = await fetch(API + '/load', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: S.token }),
+    }).then(r => r.json());
+    if (r.state) applyState(r.state);
+  } catch (e) { applyState(store.get('sonsa:state')); }
+}
+window.addEventListener('beforeunload', () => { if (S.dirty) save(true); });
+setInterval(() => { if (S.dirty) save(true); }, 30000);
+
+/* ── 인증 ── */
+let authMode = 'login';
+function who() {
+  const b = $('whoBox');
+  if (S.local) {
+    b.innerHTML = '<span class="dot local"></span>이 기기에만 저장 <button class="btn sm" id="loginBtn" type="button" style="margin-left:8px">로그인</button>';
+    $('loginBtn').onclick = () => openAuth();
+  } else if (S.email) {
+    b.innerHTML = `<span class="dot"></span>${esc(S.email)} <button class="btn sm" id="logoutBtn" type="button" style="margin-left:8px">로그아웃</button>`;
+    $('logoutBtn').onclick = () => {
+      S.token = S.email = null; store.del('sonsa:auth'); openAuth();
+    };
+  } else b.innerHTML = '';
+  licBadge();
+}
+function openAuth() { $('authOv').classList.add('on'); $('authErr').textContent = ''; }
+function closeAuth() { $('authOv').classList.remove('on'); }
+function setAuthMode(m) {
+  authMode = m;
+  $('authTitle').textContent = m === 'login' ? '로그인' : '회원가입';
+  $('authGo').textContent = m === 'login' ? '로그인' : '가입하기';
+  $('phoneFld').hidden = m !== 'signup';
+  $('authSub').textContent = m === 'signup'
+    ? `가입하면 ${FREE_YEAR}년 회차 120문항을 바로 풀어 볼 수 있습니다. 전체는 이용권을 켜면 열립니다.`
+    : '이메일과 비밀번호로 로그인하면 어느 기기에서든 풀이 기록이 이어집니다.';
+  $('authSwap').innerHTML = m === 'login'
+    ? '계정이 없으신가요? <a id="swapLink">회원가입</a>'
+    : '이미 계정이 있으신가요? <a id="swapLink">로그인</a>';
+  $('swapLink').onclick = () => setAuthMode(m === 'login' ? 'signup' : 'login');
+}
+$('authGo').onclick = async () => {
+  const email = $('authEmail').value.trim().toLowerCase();
+  const password = $('authPass').value;
+  $('authErr').textContent = '';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $('authErr').textContent = '이메일 형식을 확인해 주세요.'; return; }
+  if (password.length < 6) { $('authErr').textContent = '비밀번호는 6자 이상이어야 합니다.'; return; }
+  $('authGo').disabled = true;
+  try {
+    const phone = $('authPhone').value.replace(/[^0-9]/g, '');
+    const r = await fetch(API + '/' + (authMode === 'login' ? 'login' : 'signup'), {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, phone }),
+    }).then(r => r.json());
+    if (r.error) throw new Error(r.error);
+    S.token = r.token; S.email = r.email || email; S.local = false;
+    S.paid = r.paid || 0; S.paidUntil = r.paidUntil || null; S.phone = r.phone || phone;
+    store.set('sonsa:auth', { token: r.token, email: S.email });
+    closeAuth(); who();
+    if (!(await loadContent())) return;
+    fillSelects();
+    await load(); render();
+  } catch (e) {
+    $('authErr').textContent = e.message || '요청에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+  } finally { $('authGo').disabled = false; }
+};
+$('localLink').onclick = () => {
+  S.local = true; store.set('sonsa:local', true);
+  closeAuth(); who();
+  if (!BANK.length) { loadContent().then(ok => { if (ok) { fillSelects(); applyState(store.get('sonsa:state')); render(); } }); return; }
+  applyState(store.get('sonsa:state')); render();
+};
+
+/* ══ 이용권 · 무통장입금 ═════════════════════════════════════ */
+const won = n => Number(n || 0).toLocaleString('ko-KR') + '원';
+let PAY = null;
+
+function licBadge() {
+  const b = $('licBox'); if (!b) return;
+  if (S.local) { b.innerHTML = ''; return; }
+  if (!S.token) { b.innerHTML = ''; return; }
+  if (S.paid) {
+    const d = S.paidUntil ? new Date(S.paidUntil * 1000) : null;
+    const until = d ? `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}` : '';
+    b.innerHTML = `<span class="lic on">이용권 ${esc(until)}까지</span>`;
+  } else {
+    b.innerHTML = `<span class="lic off" id="licBtn">${esc(FREE_YEAR)}년만 열림 · 전체 열기</span>`;
+    $('licBtn').onclick = () => openPay();
+  }
+}
+
+async function openPay() {
+  if (!S.token || S.local) { openAuth(); return; }
+  $('payOv').classList.add('on');
+  $('payErr').textContent = '';
+  $('freeYearLbl').textContent = FREE_YEAR + '년 제' + (Number(FREE_YEAR) - 1977) + '회';
+  $('payAmt').textContent = won(PRICE);
+  try {
+    const r = await fetch(API + '/pay/request', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: S.token }),
+    }).then(r => r.json());
+    if (r.error) throw new Error(r.error);
+    PAY = r;
+    if (r.paid) { await refreshMe(); closePay(); return; }
+    const nick = (S.email || '').split('@')[0].slice(0, 6) || '입금자';
+    $('payBank').textContent = r.bank;
+    $('payAcct').textContent = r.account;
+    $('payHolder').textContent = r.holder;
+    $('payAmt2').textContent = won(r.amount);
+    $('payAmt').textContent = won(r.amount);
+    $('payName').textContent = nick + r.code;
+    $('payWho').textContent = '홍길동' + r.code;
+    $('rcptPhone').value = r.receipt_phone || S.phone || '';
+    syncRcpt();
+  } catch (e) {
+    $('payErr').textContent = e.message || '결제 정보를 불러오지 못했습니다.';
+  }
+}
+const closePay = () => $('payOv').classList.remove('on');
+const syncRcpt = () => { $('rcptPhone').disabled = !$('rcptOn').checked; };
+
+async function refreshMe(quiet) {
+  if (!S.token || S.local) return;
+  try {
+    const r = await fetch(API + '/me', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: S.token }),
+    }).then(r => r.json());
+    if (r.error) return;
+    const was = S.paid;
+    S.paid = r.paid; S.paidUntil = r.paidUntil; S.phone = r.phone || '';
+    licBadge();
+    if (r.paid && !was) {                       // 방금 열렸다 — 전체를 받아 온다
+      await loadContent(); fillSelects(); await load(); render();
+      closePay(); toast('이용권이 켜졌습니다 · 600문항이 모두 열렸습니다');
+    } else if (!quiet) render();
+  } catch (e) {}
+}
+
+$('payClose').onclick = closePay;
+$('payOv').onclick = e => { if (e.target === $('payOv')) closePay(); };
+$('rcptOn').onchange = syncRcpt;
+$('payRefresh').onclick = () => refreshMe();
+
+$('payDone').onclick = async () => {
+  $('payErr').textContent = '';
+  $('payDone').disabled = true;
+  try {
+    const wantRcpt = $('rcptOn').checked;
+    const phone = $('rcptPhone').value.replace(/[^0-9]/g, '');
+    if (wantRcpt && phone && !/^01[0-9]{8,9}$/.test(phone)) throw new Error('휴대폰 번호를 확인해 주세요.');
+    const r = await fetch(API + '/pay/request', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: S.token, notify: true, receipt: wantRcpt, receiptPhone: phone }),
+    }).then(r => r.json());
+    if (r.error) throw new Error(r.error);
+    toast('확인 중입니다 · 입금이 잡히면 자동으로 열립니다');
+    // 입금 알림이 도착할 시간을 두고 세 번 확인한다
+    [4000, 12000, 30000].forEach(ms => setTimeout(() => refreshMe(true), ms));
+  } catch (e) {
+    $('payErr').textContent = e.message || '요청에 실패했습니다.';
+  } finally { $('payDone').disabled = false; }
+};
+
+/* ── 스크롤 진행 하어라인 ── */
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+  $('scrollbar').style.width = (p * 100) + '%';
+}, { passive: true });
+
+/* ── 리빌 — 화면에 들어올 때 한 번만 올라온다 ── */
+let io = null;
+function hydrate() {
+  document.querySelectorAll('.expl, .why div, .term, .ncard, .grp').forEach(el => el.classList.add('reveal'));
+  if (io) io.disconnect();
+  io = new IntersectionObserver(es => es.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  }), { threshold: .06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+}
+
+/* ── 밤낮 모드 — 저장값 > 시스템 설정 순 ── */
+const mq = window.matchMedia('(prefers-color-scheme: light)');
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = t === 'light' ? '#F2F3F6' : '#0A0A0C';
+}
+function initTheme() {
+  const saved = store.get('sonsa:theme');
+  applyTheme(saved || (mq.matches ? 'light' : 'dark'));
+  mq.addEventListener('change', e => {
+    if (!store.get('sonsa:theme')) applyTheme(e.matches ? 'light' : 'dark');
+  });
+}
+$('themeBtn').onclick = () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  applyTheme(next); store.set('sonsa:theme', next);
+};
+
+/* ── 시작 ── */
+function fillSelects() {
+  const locked = !S.full && !S.local;
+  $('selYear').innerHTML = '<option value="all">연도 전체</option>' +
+    YEARS.map(y => `<option value="${esc(y)}">${esc(y)}년</option>`).join('') +
+    (locked ? '<option value="__pay">🔒 나머지 4개 회차 — 이용권</option>' : '');
+  $('selSubject').innerHTML = '<option value="all">과목 전체</option>' +
+    SUBJECTS.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+}
+(async function init() {
+  initTheme();
+  setAuthMode('login');
+  const offline = location.protocol === 'file:';
+  const auth = store.get('sonsa:auth');
+  const localOnly = store.get('sonsa:local');
+  if (auth && auth.token && !offline) { S.token = auth.token; S.email = auth.email; }
+  else if (localOnly || offline) { S.local = true; }
+  who();
+
+  if (!S.token && !S.local) { openAuth(); }
+  if (S.token) {
+    try {
+      const r = await fetch(API + '/me', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: S.token }),
+      }).then(r => r.json());
+      if (r.error) { S.token = S.email = null; store.del('sonsa:auth'); openAuth(); }
+      else { S.email = r.email; S.paid = r.paid; S.paidUntil = r.paidUntil; S.phone = r.phone || ''; }
+    } catch (e) { /* 오프라인 — 내장 회차로 이어 간다 */ }
+    who();
+  }
+  const ok = await loadContent();
+  if (!ok) return;
+  fillSelects();
+  await load();
+  render();
+  // 결제 대기 중이면 창을 다시 열 때 한 번 확인해 준다
+  if (S.token && !S.paid && !S.local) setTimeout(() => refreshMe(true), 1500);
+})();
+</script>
+</body>
+</html>

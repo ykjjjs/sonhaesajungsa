@@ -15,7 +15,26 @@ data/exam.json           문항 600개 — KV `content:exam`
 data/sample_exam.json    무료 회차 120문항 — KV `content:sample_exam`
 data/book.json           교재 본문·용어사전 — KV `content:book`
 입금자동승인_안드로이드.md   공기계 + MacroDroid 설정
+
+app/                     HTML 템플릿 — 여기를 고친다
+content/                 교재 본문·용어사전 (파이썬 모듈)
+build/                   빌드 스크립트
+test/                    Playwright 검증
+tools/                   PDF 문항 추출 (이력용)
+CLAUDE.md                작업 규칙 — Claude Code 로 손댈 때 먼저 읽을 것
 ```
+
+## 개발
+
+```bash
+npm i           # playwright (검증용). 파이썬은 표준 라이브러리만
+npm run build   # app/ + content/ → public/ + data/ + dist/preview/
+npm run verify  # Playwright 4종
+npm run serve   # public/ 을 :8788 로
+```
+
+> `public/*.html` 은 **산출물이라 직접 고치면 다음 빌드에 덮입니다.** `app/` 을 고치세요.
+> 무료 회차와 가격은 `build/paths.py` 의 `FREE_YEAR` · `PRICE` 한 곳에서 바꿉니다.
 
 ## 이용권 · 결제
 

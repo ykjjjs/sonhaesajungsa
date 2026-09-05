@@ -1,0 +1,13 @@
+{
+  "name": "sonhaesajungsa",
+  "private": true,
+  "description": "손해사정사 1차 기출 600문항 + 전자교재 55절 — Cloudflare Workers + D1 + KV",
+  "scripts": {
+    "build": "python3 build/build_book.py && python3 build/build_app.py",
+    "artifact": "python3 build/build_artifact.py",
+    "verify": "node test/verify_note.js && node test/verify_pay.js && node test/verify_admin.js && node test/verify_book.js",
+    "serve": "python3 -m http.server 8788 --directory public",
+    "deploy": "npx wrangler deploy"
+  },
+  "devDependencies": { "playwright": "^1.48.0" }
+}
