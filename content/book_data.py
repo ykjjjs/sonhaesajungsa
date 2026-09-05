@@ -91,6 +91,11 @@ for _ex in (EX_BKL_A, EX_BKL_B):
 for _ex in (EX_SST_A, EX_SST_B):
     _merge(BOOK, "손해사정이론", _ex)
 
+# 절 끝에 붙는 '기출' 상자 (보험업법은 각 장 파일 본문에 직접 넣었다)
+from gichul_box import GICHUL_BKL, GICHUL_SST
+_merge(BOOK, "보험계약법", GICHUL_BKL)
+_merge(BOOK, "손해사정이론", GICHUL_SST)
+
 
 # ── 기출 대응표 붙이기 ────────────────────────────────────────
 # tools/build_map.py 가 만든 exam_map.MAP 을 절마다 exq 로 심는다.
