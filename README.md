@@ -10,7 +10,7 @@ worker/worker.js         /api/* 만 처리. 정적 파일은 ASSETS 가 서빙
 worker/schema.sql        D1 스키마 (users, sessions)
 public/index.html        기출 풀이 앱 + 오답 노트 (무료 회차만 내장)
 public/book.html         전자교재 (본문 없음 — 이용권 계정만 서버에서 받음)
-public/admin.html        관리자 — 결제 승인·가입자·자동 입금 감지
+public/admin.html        관리자 — 결제 승인·가입자·자동 입금 감지·CSV
 data/exam.json           문항 600개 — KV `content:exam`
 data/sample_exam.json    무료 회차 120문항 — KV `content:sample_exam`
 data/book.json           교재 본문·용어사전 — KV `content:book`
@@ -55,6 +55,17 @@ book.html     "이용권이 필요합니다"        /api/content → 55절
 | `/api/pay/request` | 로그인 | 코드 발급·계좌 안내·입금 완료 알림·현금영수증 |
 | `/api/hook/deposit` | `HOOK_SECRET` | 입금 알림 수신 → 코드·금액 매칭 시 자동 승인 |
 | `/api/admin/*` | `ADMIN_PASSWORD` | 목록·승인·해제·입금 로그 |
+
+### 관리 페이지 `/admin.html`
+
+앱과 **같은 디자인 토큰·같은 Pretendard·같은 밤낮 모드**를 씁니다(`sonsa:theme` 공유).
+
+- **KPI 6칸** — 승인 대기 · 이용권 활성 · 가입자 · 결제 전환율 · 누적 매출 · 자동 승인
+- **결제** — 코드·금액·상태·이용 만료·현금영수증 번호·요청/승인 시각, 행마다 승인·해제
+- **가입자** — 결제까지 안 온 계정도 모두. 이용권 활성 여부와 가입 시각
+- **자동 입금 감지** — 자동승인 / 미매칭 / 금액불일치 / 중복 + **알림 원문**
+- 이메일·코드 검색, **CSV 내려받기**(현금영수증 일괄 발급용), `/` 검색 포커스 · `r` 새로고침
+- 세션 12시간, `noindex,nofollow`
 | `/api/save` `/api/load` | 로그인 | 풀이 기록 |
 
 > ⚠️ **처음 배포한다면 아래 「배포 순서」 1단계를 먼저 하세요.**
