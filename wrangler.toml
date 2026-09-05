@@ -1,0 +1,27 @@
+# wrangler.toml 은 저장소 루트에 둔다 (Cloudflare 빌드가 루트에서 실행되므로)
+name = "sonhaesajeongsa"
+main = "worker/worker.js"
+compatibility_date = "2026-01-01"
+account_id = "c464bbbbdc93f28f182efd222fb1b10e"
+workers_dev = false
+
+# 커스텀 도메인은 준비되면 아래를 켠다
+# routes = [
+#   { pattern = "example.com", custom_domain = true },
+# ]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# 아래 두 id 는 생성 후 채워 넣는다
+#   npx wrangler d1 create sonhaesajeongsa-db
+#   npx wrangler kv namespace create CONTENT
+[[d1_databases]]
+binding = "DB"
+database_name = "sonhaesajeongsa-db"
+database_id = ""
+
+[[kv_namespaces]]
+binding = "KV"
+id = ""
