@@ -32,7 +32,7 @@ def strip(src):
     return f'<title>{title}</title>\n' + s
 
 def main(book_url=None):
-    book = strip(PREVIEW / '전자교재.html')
+    book = strip(PREVIEW / 'textbook.html')
     # 쿼리가 안 넘어올 수 있으므로 #q= 도 읽는다
     book = book.replace("const p = new URLSearchParams(location.search).get('q');",
         "const p = new URLSearchParams(location.search).get('q')\n"
@@ -41,7 +41,7 @@ def main(book_url=None):
                         '<span class="gbtn">${body[2]}</span>')
     (ARTIFACT / 'book.html').write_text(book, encoding='utf-8')
 
-    exam = strip(PREVIEW / '기출.html')
+    exam = strip(PREVIEW / 'exam.html')
     if book_url:
         exam = exam.replace('<a class="bookLink" href="./book.html">전자교재 →</a>',
             f'<a class="bookLink" href="{book_url}" target="_blank" rel="noopener">전자교재 →</a>')

@@ -8,7 +8,7 @@ const { chromium } = require('playwright');
   const errs = [];
   pg.on('console', m => { if (m.type()==='error') errs.push(m.text()); });
   pg.on('pageerror', e => errs.push('PAGEERROR ' + e.message));
-  await pg.goto(fileUrl('dist/preview/전자교재.html'));
+  await pg.goto(fileUrl('dist/preview/textbook.html'));
   await pg.waitForTimeout(600);
 
   // 1. glossary

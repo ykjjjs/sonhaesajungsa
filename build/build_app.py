@@ -28,12 +28,12 @@ def main():
                    .replace('__PRICE__', str(PRICE)))
 
     (PUBLIC / 'index.html').write_text(render(sample), encoding='utf-8')
-    (PREVIEW / '기출.html').write_text(render(content), encoding='utf-8')
+    (PREVIEW / 'exam.html').write_text(render(content), encoding='utf-8')
     (DATA / 'sample_exam.json').write_text(
         json.dumps(sample, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
 
     print(f'기출  배포본 {count(sample)}문항({FREE_YEAR}년) {kb(PUBLIC / "index.html")}KB · '
-          f'미리보기 {count(content)}문항 {kb(PREVIEW / "기출.html")}KB · '
+          f'미리보기 {count(content)}문항 {kb(PREVIEW / "exam.html")}KB · '
           f'용어링크 {len(terms)} · {PRICE:,}원')
 
 if __name__ == '__main__':

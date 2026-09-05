@@ -77,7 +77,7 @@ PG 없음. 수수료 0원.
 
 - 금액 문자열의 콤마를 **지우지 않고** 4자리를 찾는다 → `9,900` 이 코드로 오인되지 않음
 - `deposits` 테이블에 `matched / unmatched / amount_mismatch / duplicate` 로 전부 기록
-- 설정 절차는 `입금자동승인_안드로이드.md`
+- 설정 절차는 `deposit-auto-approval.md`
 
 ## API
 

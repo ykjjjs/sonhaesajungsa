@@ -14,7 +14,7 @@ public/admin.html        관리자 — 결제 승인·가입자·자동 입금 �
 data/exam.json           문항 600개 — KV `content:exam`
 data/sample_exam.json    무료 회차 120문항 — KV `content:sample_exam`
 data/book.json           교재 본문·용어사전 — KV `content:book`
-입금자동승인_안드로이드.md   공기계 + MacroDroid 설정
+deposit-auto-approval.md   공기계 + MacroDroid 설정
 
 app/                     HTML 템플릿 — 여기를 고친다
 content/                 교재 본문·용어사전 (파이썬 모듈)
@@ -50,7 +50,7 @@ npm run serve   # public/ 을 :8788 로
 
 > ⚠️ 금액을 공인중개사(5,500원)와 **반드시 다르게** 두었습니다.
 > 한 대의 공기계로 두 서비스의 입금 알림을 받을 때 금액이 구분자 역할을 합니다.
-> 자세한 설정은 `입금자동승인_안드로이드.md` 참조.
+> 자세한 설정은 `deposit-auto-approval.md` 참조.
 
 ### 콘텐츠가 새어 나가지 않게 하는 구조
 

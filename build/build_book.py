@@ -2,7 +2,7 @@
 """전자교재 빌드.
 
 검색 인덱스와 용어사전 마크업을 빌드 시점에 만들어 HTML 에 박는다.
-  · dist/preview/전자교재.html  전체 본문 내장 (오프라인·아티팩트용)
+  · dist/preview/textbook.html  전체 본문 내장 (오프라인·아티팩트용)
   · public/book.html            본문 없음 — 이용권 계정만 /api/content 로 받는다
   · data/book.json              KV `content:book` 로 올릴 원본
 """
@@ -58,7 +58,7 @@ def main():
                .replace('__TERMS__', json.dumps(TERMS, ensure_ascii=False))
                .replace('__SEARCH__', json.dumps(search, ensure_ascii=False))
                .replace('__GLOSS_HTML__', gloss))
-    (PREVIEW / '전자교재.html').write_text(full, encoding='utf-8')
+    (PREVIEW / 'textbook.html').write_text(full, encoding='utf-8')
 
     gated = (tpl.replace('__BOOK__', 'null').replace('__TERMS__', 'null')
                 .replace('__SEARCH__', 'null').replace('__GLOSS_HTML__', ''))
@@ -72,7 +72,7 @@ def main():
     ch = sum(len(s['html']) for b in BOOK.values() for c in b['chapters'] for s in c['sections'])
     cards = sum(len(s.get('cards', [])) for b in BOOK.values() for c in b['chapters'] for s in c['sections'])
     print(f'교재  절 {n} · 본문 {ch:,}자 · 카드 {cards} · 용어 {len(TERMS)} · '
-          f'미리보기 {kb(PREVIEW / "전자교재.html")}KB · 배포본 {kb(PUBLIC / "book.html")}KB · '
+          f'미리보기 {kb(PREVIEW / "textbook.html")}KB · 배포본 {kb(PUBLIC / "book.html")}KB · '
           f'book.json {kb(DATA / "book.json")}KB')
 
 if __name__ == '__main__':
