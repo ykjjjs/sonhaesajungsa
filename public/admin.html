@@ -165,6 +165,13 @@ td.acts{text-align:right}
 .pill.pending,.pill.amount_mismatch{color:var(--warn);border-color:rgba(201,144,58,.45)}
 .pill.paid,.pill.matched,.pill.live{color:var(--ok);border-color:rgba(76,195,138,.42)}
 .pill.rejected{color:var(--bad);border-color:rgba(224,87,79,.42)}
+.warn{margin:0 0 14px;padding:12px 15px;border-radius:12px;font-size:13.5px;line-height:1.6;
+  color:var(--warn);border:1px solid rgba(201,144,58,.42);background:rgba(201,144,58,.09);word-break:keep-all}
+.warn b{color:var(--warn);font-weight:800}
+.btn.danger{color:var(--bad);border-color:rgba(224,87,79,.38)}
+.btn.danger:hover:not(:disabled){color:var(--bad);border-color:rgba(224,87,79,.7);background:rgba(224,87,79,.10)}
+th.ck,td.ck{width:34px;padding-right:0}
+td.ck input,th.ck input{width:15px;height:15px;accent-color:var(--sap);cursor:pointer;vertical-align:middle}
 .pill.unmatched{color:var(--tx4)}
 .pill.duplicate{color:var(--tx5)}
 
@@ -228,6 +235,7 @@ const store = {
 let TOKEN = store.get('sonsa:admin');
 let TAB = 'pay', Q = '';
 let DATA = { pay: [], cust: [], dep: [] };
+let AMOUNT = 9900;      // /admin/list 응답으로 갱신된다
 
 let tT;
 function toast(m){ const t = $('toast'); t.textContent = m; t.classList.add('on');
@@ -307,10 +315,13 @@ function shell() {
         <button class="tab${TAB==='dep'?' on':''}" data-t="dep" type="button" role="tab">자동 입금 감지
           <span class="bdg">${DATA.dep.length}</span></button>
       </div>
+      ${TAB === 'pay' ? `<div class="warn">승인 전에 <b>은행 입금내역</b>에서 <b>입금자명 뒤 4자리 코드</b>와
+        <b>${won(AMOUNT)}</b>이 모두 맞는지 확인하세요. 확인 없이 승인하면 되돌리기 어렵습니다.</div>` : ''}
       <div class="tools">
         <div class="srch"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>
           <input id="q" type="search" placeholder="이메일 · 코드로 찾기" value="${esc(Q)}"></div>
         <div class="sp"></div>
+        ${TAB === 'dep' ? '' : '<button class="btn sm danger" id="del" type="button">선택 삭제</button>'}
         <button class="btn sm" id="csv" type="button">CSV 내려받기</button>
       </div>
       <div class="panel rise"><div class="scroll" id="tbl"></div></div>
@@ -323,6 +334,7 @@ function shell() {
     applyTheme(n); store.set('sonsa:theme', JSON.stringify(n));
   };
   $('csv').onclick = downloadCsv;
+  if ($('del')) $('del').onclick = removeSelected;
   document.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { TAB = b.dataset.t; shell(); });
   $('q').oninput = e => { Q = e.target.value.trim().toLowerCase(); table(); };
   table();
@@ -346,15 +358,17 @@ function table() {
       : { pay: nothing('결제 요청이 없습니다', '이용권 화면에서 코드를 발급받으면 여기 나타납니다.'),
           cust: nothing('가입자가 없습니다', '첫 가입이 들어오면 여기 쌓입니다.'),
           dep: nothing('수신된 입금 알림이 없습니다',
-            '안드로이드 공기계의 MacroDroid 가 웹훅을 보내면 여기 기록됩니다. HOOK_SECRET 설정을 확인해 주세요.') }[TAB];
+            '입금 알림 자동 수신을 쓰지 않는 동안에는 비어 있습니다. 승인은 결제 탭에서 직접 하세요.') }[TAB];
     return;
   }
 
   if (TAB === 'pay') {
     el.innerHTML = `<table><thead><tr>
+        <th class="ck"><input type="checkbox" id="ckAll" aria-label="전체 선택"></th>
         <th>이메일</th><th>코드</th><th>금액</th><th>상태</th><th>이용 만료</th>
         <th>현금영수증</th><th>요청</th><th>승인</th><th></th></tr></thead><tbody>
       ${list.map(r => `<tr>
+        <td class="ck"><input type="checkbox" class="ckOne" value="${esc(r.email)}" aria-label="선택"></td>
         <td>${esc(r.email)}</td>
         <td class="em">${esc(r.code)}</td>
         <td class="mono">${won(r.amount)}</td>
@@ -366,9 +380,11 @@ function table() {
         ${actCell(r.email)}</tr>`).join('')}</tbody></table>`;
   } else if (TAB === 'cust') {
     el.innerHTML = `<table><thead><tr>
+        <th class="ck"><input type="checkbox" id="ckAll" aria-label="전체 선택"></th>
         <th>이메일</th><th>휴대폰</th><th>이용권</th><th>만료</th>
         <th>코드</th><th>결제상태</th><th>가입</th><th></th></tr></thead><tbody>
       ${list.map(r => `<tr>
+        <td class="ck"><input type="checkbox" class="ckOne" value="${esc(r.email)}" aria-label="선택"></td>
         <td>${esc(r.email)}</td>
         <td class="mono">${esc(r.phone || '—')}</td>
         <td><span class="pill ${live(r) ? 'live' : ''}">${live(r) ? '활성' : '없음'}</span></td>
@@ -394,11 +410,34 @@ function table() {
 
   el.querySelectorAll('[data-ap]').forEach(b => b.onclick = () => act('/admin/approve', b.dataset.ap, b));
   el.querySelectorAll('[data-rj]').forEach(b => b.onclick = () => act('/admin/reject', b.dataset.rj, b));
+  const all = $('ckAll');
+  if (all) all.onchange = () => el.querySelectorAll('.ckOne').forEach(c => { c.checked = all.checked; });
+}
+
+const selected = () => [...document.querySelectorAll('.ckOne:checked')].map(c => c.value);
+
+/* 시험 계정 정리 — 가입·결제·세션·풀이기록을 지운다. 입금 로그는 남는다. */
+async function removeSelected() {
+  const emails = selected();
+  if (!emails.length) { toast('삭제할 행을 먼저 선택하세요'); return; }
+  if (!confirm(`${emails.join('\n')}\n\n위 ${emails.length}개 계정을 영구 삭제합니다.\n`
+    + '가입정보 · 결제요청 · 풀이기록이 함께 지워지고 되돌릴 수 없습니다. 계속할까요?')) return;
+  $('del').disabled = true;
+  try {
+    const r = await api('/admin/delete', { adminToken: TOKEN, emails });
+    toast(`${r.n}개 계정을 삭제했습니다`);
+    await boot();
+  } catch (e) { toast(e.message); $('del').disabled = false; }
 }
 
 async function act(path, email, btn) {
   const on = path.endsWith('approve');
-  if (!confirm(`${email}\n\n${on ? '1년 이용권을 켭니다.' : '이용권을 해제합니다.'} 계속할까요?`)) return;
+  const row = DATA.pay.find(r => r.email === email) || DATA.cust.find(r => r.email === email) || {};
+  const head = on
+    ? `${email}\n입금자명 뒤 코드: ${row.code || '—'}\n금액: ${won(row.amount || AMOUNT)}\n\n`
+      + '은행 입금내역에서 위 코드와 금액을 확인하셨나요?\n확인되었다면 1년 이용권을 켭니다.'
+    : `${email}\n\n이용권을 해제합니다.`;
+  if (!confirm(head + ' 계속할까요?')) return;
   btn.disabled = true;
   try {
     await api(path, { adminToken: TOKEN, email });
@@ -441,6 +480,9 @@ async function boot() {
       api('/admin/deposits', { adminToken: TOKEN }),
     ]);
     DATA = { pay: a.rows || [], cust: b.rows || [], dep: c.rows || [] };
+    if (a.amount) AMOUNT = a.amount;
+    const pend = DATA.pay.filter(r => r.status === 'pending').length;
+    document.title = (pend ? `(${pend}) ` : '') + '손해사정사 1차 · 관리자';
     shell();
   } catch (e) {
     TOKEN = null; store.del('sonsa:admin');
@@ -478,6 +520,12 @@ addEventListener('keydown', e => {
 });
 
 boot();
+
+/* 승인 대기를 놓치지 않게 — 30초마다, 그리고 창으로 돌아올 때 다시 읽는다.
+   입력 중이거나 확인창이 떠 있을 때는 화면을 다시 그리지 않는다. */
+const busy = () => !!document.querySelector('input:focus, textarea:focus');
+setInterval(() => { if (TOKEN && !document.hidden && !busy()) boot(); }, 30000);
+addEventListener('visibilitychange', () => { if (TOKEN && !document.hidden) boot(); });
 </script>
 </body>
 </html>

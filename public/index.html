@@ -511,7 +511,7 @@ main{padding:var(--sp-5) 0}
     <div class="fld"><label for="authPass">비밀번호</label>
       <input id="authPass" type="password" autocomplete="current-password" placeholder="6자 이상"></div>
     <div class="fld" id="phoneFld" hidden><label for="authPhone">휴대폰 <span class="opt">선택 · 현금영수증 발급용</span></label>
-      <input id="authPhone" type="tel" autocomplete="tel" placeholder="01012345678" inputmode="numeric"></div>
+      <input id="authPhone" type="tel" autocomplete="tel" placeholder="본인 휴대폰번호" inputmode="numeric"></div>
     <div class="err" id="authErr"></div>
     <button class="btn pri" id="authGo" type="button" style="width:100%">로그인</button>
     <div class="swap" id="authSwap">계정이 없으신가요? <a id="swapLink">회원가입</a></div>
@@ -535,7 +535,7 @@ main{padding:var(--sp-5) 0}
 
     <div class="steps">
       <div class="step"><i>1</i><div><b>아래 계좌로 입금해 주세요</b>
-        <span>입금자명 뒤에 <b class="hl">코드 4자리</b>를 꼭 붙여야 자동으로 확인됩니다. 예를 들면 <b class="hl" id="payWho">홍길동4821</b> 처럼요.</span></div></div>
+        <span>입금자명 뒤에 <b class="hl">코드 4자리</b>를 꼭 붙여야 자동으로 확인됩니다. 예를 들면 <b class="hl" id="payWho">홍길동1234</b> 처럼요.</span></div></div>
       <div class="acct">
         <div class="ln"><span>은행</span><b id="payBank">—</b></div>
         <div class="ln"><span>계좌</span><b id="payAcct">—</b><button class="cp" data-cp="payAcct" type="button">복사</button></div>
@@ -547,7 +547,7 @@ main{padding:var(--sp-5) 0}
         <span>입금 알림이 잡히면 <b class="hl">보통 1~2분 안에 자동으로</b> 열립니다. 늦어지면 직접 확인해 드립니다.</span></div></div>
       <label class="rcpt"><input type="checkbox" id="rcptOn" checked>
         <span>현금영수증 신청</span>
-        <input id="rcptPhone" type="tel" placeholder="01012345678" inputmode="numeric"></label>
+        <input id="rcptPhone" type="tel" placeholder="본인 휴대폰번호" inputmode="numeric"></label>
       <div class="err" id="payErr"></div>
       <button class="btn pri" id="payDone" type="button" style="width:100%">입금 완료했습니다</button>
       <button class="btn sm" id="payRefresh" type="button" style="width:100%;margin-top:8px">이용권 상태 새로고침</button>

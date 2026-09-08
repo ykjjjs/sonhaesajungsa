@@ -125,7 +125,7 @@ async function handleApi(request, env, path) {
      조건: 입금자명의 4자리 코드가 '대기 중' 결제건과 일치 + 금액이 정확히 일치. */
   if (path === '/hook/deposit') {
     if (!env.HOOK_SECRET) return err('서버에 HOOK_SECRET 이 설정되지 않았습니다.', 500);
-    if (!timingEqual(String(body.secret || ''), env.HOOK_SECRET)) return err('인증 실패.', 401);
+    if (!timingEqual(String(body.secret || '').trim(), String(env.HOOK_SECRET).trim())) return err('인증 실패.', 401);
 
     const text = String(body.text || body.raw || '');
     let amount = parseInt(body.amount, 10) || 0;
@@ -278,7 +278,8 @@ async function handleApi(request, env, path) {
     if (fails >= ADMIN_MAX_FAIL) {
       return err('로그인 시도가 너무 많습니다. 15분 뒤에 다시 시도해 주세요.', 429);
     }
-    if (!timingEqual(String(body.password || ''), env.ADMIN_PASSWORD)) {
+    // 시크릿을 터미널에서 넣을 때 줄바꿈이 딸려 들어가는 일이 있어 양쪽을 다듬어 비교한다
+    if (!timingEqual(String(body.password || '').trim(), String(env.ADMIN_PASSWORD).trim())) {
       await env.KV.put(fkey, String(fails + 1), { expirationTtl: ADMIN_LOCK_SEC });
       return err('비밀번호가 틀립니다.', 401);
     }
@@ -323,6 +324,22 @@ async function handleApi(request, env, path) {
     await env.DB.prepare('UPDATE users SET paid=0, paid_until=NULL WHERE email=?').bind(email).run();
     await env.DB.prepare('UPDATE payments SET status=? WHERE email=?').bind('rejected', email).run();
     return json({ ok: true });
+  }
+
+  /* 계정 삭제 — 시험 계정 정리용. 입금 로그(deposits)는 증빙이라 남긴다. */
+  if (path === '/admin/delete') {
+    if (!(await adminOk(env, body.adminToken))) return err('관리자 인증이 필요합니다.', 401);
+    const emails = [...new Set((Array.isArray(body.emails) ? body.emails : [])
+      .map(e => String(e || '').trim().toLowerCase()).filter(Boolean))].slice(0, 200);
+    if (!emails.length) return err('삭제할 대상이 없습니다.');
+    const marks = emails.map(() => '?').join(',');
+    await env.DB.batch([
+      env.DB.prepare(`DELETE FROM sessions WHERE email IN (${marks})`).bind(...emails),
+      env.DB.prepare(`DELETE FROM payments WHERE email IN (${marks})`).bind(...emails),
+      env.DB.prepare(`DELETE FROM users    WHERE email IN (${marks})`).bind(...emails),
+    ]);
+    await Promise.all(emails.map(e => env.KV.delete('state:' + e)));  // 풀이 기록도 함께
+    return json({ ok: true, n: emails.length });
   }
 
   return err('알 수 없는 요청입니다.', 404);
