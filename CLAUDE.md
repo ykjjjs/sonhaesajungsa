@@ -161,12 +161,18 @@ s2s-lecture 토큰을 그대로 쓴다. 세 화면(`index` · `book` · `admin`)
 
 ## 배포
 
+> **워커 이름은 `sonhaesajungsa` 하나다.** 한때 `sonhaesajeongsa` 가 함께 살아 있어,
+> 비밀번호는 한쪽에 넣고 접속은 다른 쪽으로 해서 계속 안 맞는 사고가 났다.
+> 두 워커는 같은 D1·KV 를 보고 있었고 데이터는 하나였다. 2026-09-09 에 `jeongsa` 를
+> 삭제하고 이름을 통일했다. `--name` 을 손으로 치지 말고 저장소 폴더에서 실행한다.
+
+
 > **배포 뒤에는 반드시 시크릿이 살아 있는지 확인한다.** 실제로 `wrangler deploy` 한 번에
 > `ADMIN_PASSWORD` 가 떨어져 나간 적이 있다(`secret list` 에는 이름이 남아 있는데 워커는
 > 값을 못 보는 상태). 확인은 값을 몰라도 된다 — 아무 값이나 넣어 보고 **401 이면 정상,
 > 500 이면 시크릿이 빠진 것**이다.
 > ```
-> curl -s -X POST -H 'Content-Type: application/json' -d '{"password":"x"}' https://sonhaesajeongsa.ykjjjs123.workers.dev/api/admin/login
+> curl -s -X POST -H 'Content-Type: application/json' -d '{"password":"x"}' https://sonhaesajungsa.ykjjjs123.workers.dev/api/admin/login
 > ```
 > 빠졌으면 사용자가 `npx wrangler secret put ADMIN_PASSWORD` 를 다시 실행해야 한다.
 > 비밀번호 값은 대신 넣지 않는다. `npm run deploy` 는 `--keep-vars` 를 붙여 둔다.

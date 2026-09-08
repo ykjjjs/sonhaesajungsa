@@ -1,5 +1,5 @@
 # wrangler.toml 은 저장소 루트에 둔다 (Cloudflare 빌드가 루트에서 실행되므로)
-name = "sonhaesajeongsa"
+name = "sonhaesajungsa"   # GitHub 저장소·작업본과 같은 이름으로 통일
 main = "worker/worker.js"
 compatibility_date = "2026-01-01"
 account_id = "c464bbbbdc93f28f182efd222fb1b10e"
