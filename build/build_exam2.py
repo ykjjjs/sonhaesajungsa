@@ -86,6 +86,7 @@ def clean(t):
 
 CAND = re.compile(r'(\d{1,2})\s*\.(?=\s|[^\d\s])')
 BAD_PREV = set('0123456789.,%-\u2013\u2014')
+DATE_TAIL = re.compile(r'(?:19|20)\d\d\s*[.년]\s*\d{1,2}\s*[.월]\s*$')
 PT = re.compile(r'(\d{1,3}(?:\.\d)?)\s*점')
 
 
@@ -100,6 +101,8 @@ def chain_of(t):
         i = m.start()
         if i and t[i - 1] in BAD_PREV:
             continue
+        if DATE_TAIL.search(t[max(0, i - 16):i]):
+            continue          # '2026. 5. 3.' 처럼 날짜의 끝자리인 경우
         line = t[i:t.find('\n', i) if t.find('\n', i) > 0 else len(t)]
         lab = 1 if LABEL.match(line) else 0
         cs.append((int(m.group(1)), i, 0 if lab else 1))
