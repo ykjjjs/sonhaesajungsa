@@ -25,7 +25,7 @@ const CORS = {
    금액이 서비스 구분자 역할을 하기 때문이다. */
 const BANK = { bank: '토스뱅크', account: '1001-4387-0102', holder: '연지우', amount: 9900 };
 const YEAR = 365 * 24 * 3600;             // 이용 기간 1년
-const DOCS = ['exam', 'book'];            // exam=기출 600문항, book=전자교재
+const DOCS = ['exam', 'book', 'exam2'];   // exam=1차 기출, book=전자교재, exam2=2차 기출
 const MAX_STATE = 2 * 1024 * 1024;        // 풀이 기록 2MB 상한
 
 const now = () => Math.floor(Date.now() / 1000);

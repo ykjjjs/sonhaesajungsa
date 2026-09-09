@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>손해사정사 2차 기출</title>
+<meta name="theme-color" content="#0A0A0C">
+<meta name="description" content="손해사정사 2차 기출 — 신체 · 재물 · 차량 3종별 9과목, 답안 작성과 모범답안">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+:root{
+  --bg:#0A0A0C; --surf:#141417; --surf2:#101013;
+  --edge:#232328; --lift:#2E2E35;
+  --tx:#F5F5F7; --tx2:#D6DBE3; --tx3:#9AA3B0; --tx4:#646C7A; --tx5:#3A404B;
+  --sap:#1552D6; --sap2:#3E9BFF; --sap3:#8FD0FF;
+  --grad:linear-gradient(135deg,#06153F 0%,#0A2A6E 26%,#1552D6 62%,#3E9BFF 100%);
+  --glass:linear-gradient(160deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.03) 42%,rgba(255,255,255,0) 100%);
+  --ok:#4CC38A; --warn:#C9903A; --bad:#E0574F; --violet:#9B8CFF; --teal:#4BC0C8;
+  --r:14px; --rp:999px;
+  --f:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'SF Pro Display','Apple SD Gothic Neo',system-ui,sans-serif;
+  --m:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.28,.11,.32,1);
+}
+:root[data-theme="light"]{
+  --bg:#F2F3F6; --surf:#FFFFFF; --surf2:#FAFAFB;
+  --edge:#E1E4EA; --lift:#C7CCD6;
+  --tx:#0A0A0C; --tx2:#2C313A; --tx3:#5B636F; --tx4:#858C99; --tx5:#AEB4BF;
+  --glass:linear-gradient(160deg,rgba(255,255,255,.9) 0%,rgba(255,255,255,.35) 42%,rgba(255,255,255,0) 100%);
+  --ok:#1D7D46; --warn:#9A6A18; --bad:#C8332C; --violet:#5B4BD6; --teal:#0E7D86;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx2);font-family:var(--f);font-size:16.5px;
+  line-height:1.72;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--sap2);outline-offset:2px}
+.wrap{max-width:1060px;margin:0 auto;padding:0 clamp(14px,3vw,28px)}
+
+/* ── 머리 ── */
+header{border-bottom:1px solid var(--edge);background:var(--surf2)}
+.htop{display:flex;align-items:flex-end;gap:14px;padding:26px 0 18px;flex-wrap:wrap}
+.kick{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--sap2);
+  text-transform:uppercase;margin-bottom:4px}
+h1{font-size:clamp(21px,3.4vw,28px);font-weight:800;letter-spacing:-.03em;color:var(--tx);line-height:1.25}
+.hsp{flex:1}
+.tlink{color:var(--tx3);font-size:13.5px;font-weight:700;text-decoration:none;
+  padding:8px 12px;border:1px solid var(--edge);border-radius:10px;background:var(--surf);
+  white-space:nowrap;transition:border-color .18s var(--ease),color .18s var(--ease)}
+.tlink:hover{border-color:var(--lift);color:var(--tx)}
+.themeBtn{width:36px;height:36px;border-radius:10px;border:1px solid var(--edge);
+  background:var(--surf);display:grid;place-items:center;cursor:pointer}
+.themeBtn svg{width:17px;height:17px;fill:none;stroke:var(--tx3);stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+:root:not([data-theme="light"]) .themeBtn .sun{display:none}
+:root[data-theme="light"] .themeBtn .moon{display:none}
+
+/* ── 고르는 줄 ── */
+.picks{display:flex;flex-direction:column;gap:9px;padding:0 0 20px}
+.row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.row>.lab{font-size:11.5px;font-weight:800;color:var(--tx4);letter-spacing:.08em;
+  min-width:38px}
+.chip{border:1px solid var(--edge);background:var(--surf);color:var(--tx3);
+  font-size:13px;font-weight:700;padding:6px 12px;border-radius:var(--rp);cursor:pointer;
+  transition:all .16s var(--ease);white-space:nowrap}
+.chip:hover{border-color:var(--lift);color:var(--tx2)}
+.chip.on{background:var(--grad);border-color:transparent;color:#fff;
+  box-shadow:0 2px 12px -4px rgba(21,82,214,.7)}
+.chip.lock{opacity:.5}
+.chip .lk{font-size:10px;margin-left:4px}
+
+/* ── 과목지 ── */
+.paper{margin:22px 0 8px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.paper h2{font-size:19px;font-weight:800;color:var(--tx);letter-spacing:-.02em}
+.paper .meta{font-size:12.5px;color:var(--tx4);font-weight:600}
+.timer{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:var(--m);
+  font-size:13px;color:var(--tx3)}
+.timer b{color:var(--tx);font-size:15px;font-variant-numeric:tabular-nums}
+.tbtn{border:1px solid var(--edge);background:var(--surf);color:var(--tx3);border-radius:8px;
+  padding:4px 9px;font-size:12px;font-weight:700;cursor:pointer}
+.tbtn:hover{color:var(--tx)}
+
+/* ── 문항 ── */
+.q{background:var(--surf);border:1px solid var(--edge);border-radius:var(--r);
+  padding:18px 18px 14px;margin:12px 0;position:relative;overflow:hidden}
+.q::before{content:'';position:absolute;inset:0 0 auto;height:1px;background:var(--glass)}
+.qh{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.qno{width:26px;height:26px;border-radius:8px;background:var(--grad);color:#fff;
+  display:grid;place-items:center;font-size:13px;font-weight:800;flex:none}
+.pts{font-size:11.5px;font-weight:800;color:var(--sap3);border:1px solid rgba(62,155,255,.32);
+  border-radius:var(--rp);padding:2px 9px;background:rgba(62,155,255,.08)}
+.qsp{flex:1}
+.body{white-space:pre-wrap;color:var(--tx2);font-size:16px;line-height:1.78;
+  word-break:keep-all;overflow-wrap:anywhere}
+.body .tb{display:block;font-family:var(--m);font-size:13.5px;background:var(--surf2);
+  border:1px solid var(--edge);border-radius:10px;padding:10px 12px;margin:8px 0;
+  white-space:pre;overflow-x:auto;color:var(--tx3)}
+
+/* ── 답안 ── */
+.tools{display:flex;gap:7px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.btn{border:1px solid var(--edge);background:var(--surf2);color:var(--tx3);
+  border-radius:10px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer;
+  transition:all .16s var(--ease)}
+.btn:hover{border-color:var(--lift);color:var(--tx)}
+.btn.pri{background:var(--grad);border-color:transparent;color:#fff}
+.btn.pri:hover{filter:brightness(1.1)}
+.cnt{font-size:12px;color:var(--tx4);font-family:var(--m);margin-left:auto}
+textarea{width:100%;min-height:150px;margin-top:10px;background:var(--surf2);
+  border:1px solid var(--edge);border-radius:12px;padding:12px 14px;color:var(--tx2);
+  font-size:15px;line-height:1.75;resize:vertical;outline:none;
+  transition:border-color .18s var(--ease)}
+textarea:focus{border-color:var(--sap2);box-shadow:0 0 0 3px rgba(62,155,255,.13)}
+textarea::placeholder{color:var(--tx5)}
+
+/* ── 모범답안 ── */
+.model{margin-top:12px;border-top:1px dashed var(--edge);padding-top:12px;display:none}
+.model.open{display:block}
+.mtag{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--tx4);
+  text-transform:uppercase;margin-bottom:8px}
+.model .plan{background:rgba(155,140,255,.08);border-left:2px solid var(--violet);
+  border-radius:0 8px 8px 0;padding:9px 12px;margin-bottom:12px;font-size:14.5px;color:var(--tx2)}
+.model .ans{font-size:15.5px;color:var(--tx2)}
+.model .ans p{margin:0 0 9px}
+.model .ans ul,.model .ans ol{margin:0 0 9px 20px}
+.model .ans li{margin:2px 0}
+.model .ans b{color:var(--tx)}
+.model .ans h4{font-size:15px;color:var(--tx);margin:12px 0 5px;font-weight:800}
+.keys{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.key{font-size:12px;font-weight:700;color:var(--teal);border:1px solid rgba(75,192,200,.3);
+  background:rgba(75,192,200,.08);border-radius:var(--rp);padding:3px 10px}
+.key.hit{background:var(--ok);border-color:transparent;color:#04150C}
+.laws{margin-top:8px;font-size:12.5px;color:var(--tx4);font-family:var(--m)}
+.none{margin-top:12px;border-top:1px dashed var(--edge);padding-top:11px;
+  font-size:13.5px;color:var(--tx4)}
+
+/* ── 잠김 ── */
+.locked{background:var(--surf2);border:1px dashed var(--lift);border-radius:var(--r);
+  padding:28px 20px;text-align:center;color:var(--tx4);font-size:14.5px;margin:14px 0}
+.locked b{display:block;color:var(--tx2);font-size:16px;font-weight:800;margin-bottom:6px}
+.locked a{color:var(--sap2);font-weight:700;text-decoration:none}
+
+.foot{padding:34px 0 20px;font-size:12.5px;color:var(--tx5);line-height:1.8;
+  border-top:1px solid var(--edge);margin-top:34px}
+@media(max-width:640px){
+  body{font-size:16px}
+  .q{padding:15px 14px 12px}
+  .row>.lab{min-width:auto;width:100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="htop">
+      <div>
+        <div class="kick">SONHAE · 2nd ROUND</div>
+        <h1>손해사정사 2차 기출</h1>
+      </div>
+      <div class="hsp"></div>
+      <a class="tlink" href="./index.html">1차 기출</a>
+      <a class="tlink" href="./book.html">전자교재</a>
+      <button class="themeBtn" id="themeBtn" type="button" aria-label="밤낮 모드 전환" title="밤낮 모드 전환">
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+    <div class="picks">
+      <div class="row"><span class="lab">종별</span><span id="trackRow"></span></div>
+      <div class="row"><span class="lab">회차</span><span id="roundRow"></span></div>
+      <div class="row"><span class="lab">과목</span><span id="subjRow"></span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="main"></main>
+
+<footer class="wrap foot">
+  손해사정사 제2차 시험문제는 보험개발원이 공개한 원본을 옮긴 것이다.
+  모범답안은 이 서비스가 직접 작성한 것으로, 시행처의 공식 정답이 아니다.
+  2차는 논술형이어서 공식 정답이 공개되지 않는다.
+</footer>
+
+<script>
+const EXAM2 = __EXAM2__;
+const FREE_ROUND2 = __FREE_ROUND2__;
+const TRACKS = ['신체', '재물', '차량'];
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ── 밤낮 ── */
+(function () {
+  const k = 'sonsa2.theme';
+  const set = v => { document.documentElement.dataset.theme = v; try { localStorage.setItem(k, v); } catch (e) {} };
+  let v = null;
+  try { v = localStorage.getItem(k); } catch (e) {}
+  if (v) document.documentElement.dataset.theme = v;
+  $('#themeBtn').onclick = () => set(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+})();
+
+/* ── 답안 보관 ── */
+const KEY = 'sonsa2.draft';
+function drafts() {
+  try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; }
+}
+function saveDraft(id, text) {
+  const d = drafts();
+  if (text.trim()) d[id] = text; else delete d[id];
+  try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+}
+
+/* ── 현재 고른 것 ── */
+const state = { track: '신체', round: 0, subject: '' };
+
+function rounds(track) {
+  return [...new Set(EXAM2.filter(r => r.track === track).map(r => r.round))]
+    .sort((a, b) => b - a);
+}
+function subjects(track, round) {
+  return EXAM2.filter(r => r.track === track && r.round === round).map(r => r.subject);
+}
+function paper() {
+  return EXAM2.find(r => r.track === state.track && r.round === state.round &&
+                         r.subject === state.subject);
+}
+
+function chip(text, on, fn, locked) {
+  const b = document.createElement('button');
+  b.className = 'chip' + (on ? ' on' : '') + (locked ? ' lock' : '');
+  b.innerHTML = esc(text) + (locked ? '<span class="lk">🔒</span>' : '');
+  b.onclick = fn;
+  return b;
+}
+
+function drawPicks() {
+  const tr = $('#trackRow'), rr = $('#roundRow'), sr = $('#subjRow');
+  tr.textContent = rr.textContent = sr.textContent = '';
+  TRACKS.forEach(t => tr.appendChild(chip(t, t === state.track, () => {
+    state.track = t;
+    state.round = rounds(t)[0];
+    state.subject = subjects(t, state.round)[0];
+    draw();
+  })));
+  rounds(state.track).forEach(n => rr.appendChild(
+    chip('제' + n + '회', n === state.round, () => {
+      state.round = n;
+      const ss = subjects(state.track, n);
+      if (!ss.includes(state.subject)) state.subject = ss[0];
+      draw();
+    }, n !== FREE_ROUND2 && (paperOf(n, state.subject) || {}).locked)));
+  subjects(state.track, state.round).forEach(s => sr.appendChild(
+    chip(short(s), s === state.subject, () => { state.subject = s; draw(); })));
+}
+
+function paperOf(round, subject) {
+  return EXAM2.find(r => r.round === round && r.subject === subject);
+}
+
+/* 과목명이 길어 칩에는 줄여 쓴다 */
+function short(s) {
+  return s.replace('의 이론과 실무', '')
+          .replace('자동차보험(대인배상 및 자기신체손해)', '자동차(대인)')
+          .replace('자동차보험(대물배상 및 차량손해)', '자동차(대물)')
+          .replace('책임·근로자재해보상보험', '책임·근재')
+          .replace('책임·화재·기술보험 등', '책임·화재·기술')
+          .replace('자동차구조 및 정비이론과 실무', '자동차구조');
+}
+
+/* ── 본문에서 표처럼 보이는 줄을 따로 감싼다 ── */
+function bodyHTML(t) {
+  return esc(t).split('\n').map(ln => {
+    const s = ln.trim();
+    if (s.includes('|') && s.split('|').length >= 3) return '<span class="tb">' + ln + '</span>';
+    return ln;
+  }).join('\n');
+}
+
+/* ── 타이머 ── */
+let tick = null, left = 0;
+function fmt(s) {
+  const m = Math.floor(Math.abs(s) / 60), x = Math.abs(s) % 60;
+  return (s < 0 ? '-' : '') + String(m).padStart(2, '0') + ':' + String(x).padStart(2, '0');
+}
+function startTimer(el) {
+  if (tick) clearInterval(tick);
+  tick = setInterval(() => { left--; el.textContent = fmt(left); }, 1000);
+}
+
+function draw() {
+  drawPicks();
+  const p = paper(), m = $('#main');
+  m.textContent = '';
+  if (!p) return;
+
+  const head = document.createElement('div');
+  head.className = 'paper';
+  const sum = (p.q || []).reduce((a, q) => a + (q.points || 0), 0);
+  head.innerHTML = '<h2>' + esc(p.subject) + '</h2>' +
+    '<span class="meta">제' + p.round + '회 · ' + (p.q || []).length + '문항 · ' + sum + '점</span>';
+  if (!p.locked) {
+    const tm = document.createElement('div');
+    tm.className = 'timer';
+    tm.innerHTML = '<span>남은 시간</span><b id="clk">90:00</b>';
+    const b1 = document.createElement('button');
+    b1.className = 'tbtn'; b1.textContent = '시작';
+    const b2 = document.createElement('button');
+    b2.className = 'tbtn'; b2.textContent = '멈춤';
+    b1.onclick = () => { left = 90 * 60; $('#clk').textContent = fmt(left); startTimer($('#clk')); };
+    b2.onclick = () => { if (tick) clearInterval(tick); tick = null; };
+    tm.append(b1, b2);
+    head.appendChild(tm);
+  }
+  m.appendChild(head);
+
+  if (p.locked) {
+    const d = document.createElement('div');
+    d.className = 'locked';
+    d.innerHTML = '<b>이용권이 있어야 열립니다</b>제' + FREE_ROUND2 +
+      '회는 결제 없이 볼 수 있습니다. 나머지 회차는 ' +
+      '<a href="./index.html#pay">이용권 안내</a>를 참고하세요.';
+    m.appendChild(d);
+    return;
+  }
+
+  (p.q || []).forEach(q => m.appendChild(qCard(p, q)));
+}
+
+function qCard(p, q) {
+  const id = p.round + '|' + p.subject + '|' + q.no;
+  const el = document.createElement('article');
+  el.className = 'q';
+
+  const h = document.createElement('div');
+  h.className = 'qh';
+  h.innerHTML = '<span class="qno">' + q.no + '</span>' +
+    '<span class="pts">' + (q.points || 0) + '점</span><span class="qsp"></span>';
+  el.appendChild(h);
+
+  const b = document.createElement('div');
+  b.className = 'body';
+  b.innerHTML = bodyHTML(q.body || '');
+  el.appendChild(b);
+
+  const ta = document.createElement('textarea');
+  ta.placeholder = '여기에 답안을 적어 보세요. 적은 내용은 이 기기에만 남습니다.';
+  ta.value = drafts()[id] || '';
+  el.appendChild(ta);
+
+  const tools = document.createElement('div');
+  tools.className = 'tools';
+  const bm = document.createElement('button');
+  bm.className = 'btn pri';
+  bm.textContent = q.a ? '모범답안 보기' : '모범답안 준비 중';
+  bm.disabled = !q.a;
+  const bc = document.createElement('button');
+  bc.className = 'btn';
+  bc.textContent = '지우기';
+  const cnt = document.createElement('span');
+  cnt.className = 'cnt';
+  tools.append(bm, bc, cnt);
+  el.appendChild(tools);
+
+  const model = document.createElement('div');
+  model.className = q.a ? 'model' : 'none';
+  if (q.a) {
+    let html = '<div class="mtag">모범답안</div>';
+    if (q.a.plan) html += '<div class="plan">' + esc(q.a.plan) + '</div>';
+    html += '<div class="ans">' + (q.a.ans || '') + '</div>';
+    if (q.a.law && q.a.law.length)
+      html += '<div class="laws">근거 · ' + q.a.law.map(esc).join(' / ') + '</div>';
+    if (q.a.keys && q.a.keys.length)
+      html += '<div class="keys">' + q.a.keys.map(
+        k => '<span class="key" data-k="' + esc(k) + '">' + esc(k) + '</span>').join('') + '</div>';
+    model.innerHTML = html;
+  } else {
+    model.textContent = '이 문항의 모범답안은 아직 쓰는 중입니다. 배점과 물음의 구성을 보고 뼈대부터 잡아 두세요.';
+  }
+  el.appendChild(model);
+
+  function refresh() {
+    const t = ta.value;
+    const n = t.replace(/\s/g, '').length;
+    cnt.textContent = n + '자 · 원고지 약 ' + Math.ceil(n / 200) + '장';
+    if (q.a && q.a.keys) model.querySelectorAll('.key').forEach(
+      k => k.classList.toggle('hit', t.includes(k.dataset.k)));
+  }
+  ta.oninput = () => { saveDraft(id, ta.value); refresh(); };
+  bm.onclick = () => {
+    model.classList.toggle('open');
+    bm.textContent = model.classList.contains('open') ? '모범답안 닫기' : '모범답안 보기';
+    refresh();
+  };
+  bc.onclick = () => { ta.value = ''; saveDraft(id, ''); refresh(); };
+  refresh();
+  return el;
+}
+
+/* ── 이용권이 있으면 전체 회차를 받아 온다 ──
+   배포본에는 무료 회차만 박혀 있어 소스를 열어도 나머지가 나오지 않는다.
+   로그인·결제는 1차 화면(index.html)에서 하고 토큰을 함께 쓴다. */
+const API = '/api';
+let EXAM2ALL = EXAM2;
+function auth() {
+  try { return JSON.parse(localStorage.getItem('sonsa:auth') || 'null'); } catch (e) { return null; }
+}
+async function loadFull() {
+  const a = auth();
+  if (!a || !a.token || location.protocol === 'file:') return;
+  try {
+    const r = await fetch(API + '/content', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: a.token, doc: 'exam2' }),
+    }).then(x => x.json());
+    if (r.ok && Array.isArray(r.data) && r.data.length) {
+      EXAM2ALL = r.data;
+      EXAM2.length = 0;
+      r.data.forEach(x => EXAM2.push(x));
+      draw();
+    }
+  } catch (e) { /* 네트워크 실패 — 내장된 무료 회차로 이어 간다 */ }
+}
+
+/* ── 시작 ── */
+(function () {
+  const u = new URLSearchParams(location.search);
+  state.track = TRACKS.includes(u.get('t')) ? u.get('t') : '신체';
+  const rs = rounds(state.track);
+  state.round = rs.includes(+u.get('r')) ? +u.get('r') : rs[0];
+  const ss = subjects(state.track, state.round);
+  state.subject = ss.includes(u.get('s')) ? u.get('s') : ss[0];
+  draw();
+  loadFull();
+})();
+</script>
+</body>
+</html>
