@@ -16,10 +16,18 @@ FREE_ROUND2 = 49          # 결제 전에 열어 두는 회차
 
 
 def merge(rows):
-    """문항마다 모범답안을 얹는다. 없으면 그대로 둔다."""
+    """문항마다 모범답안을 얹는다. 없으면 그대로 둔다.
+
+    답안 번호가 그 과목지에 없는 번호이면 경고한다.
+    소문항을 따로 번호 매겨 쓰다가 생기는 흔한 실수를 여기서 잡는다.
+    """
     n = 0
     for r in rows:
         table = ANS.get((r['round'], r['subject']), {})
+        nos = {q['no'] for q in r['q']}
+        for bad in sorted(set(table) - nos):
+            print('  ! 제%d회 %s %d번 답안 — 그런 문항이 없습니다(문항 %s)'
+                  % (r['round'], r['subject'], bad, sorted(nos)))
         for q in r['q']:
             a = table.get(q['no'])
             if not a:
