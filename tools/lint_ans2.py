@@ -30,6 +30,9 @@ for path in sorted(glob.glob(os.path.join(ROOT, 'content', 'ans2_*.py'))):
         c = len(re.findall(r'</%s>' % t, s))
         if o != c:
             bad.append('%-22s <%s> 열림 %d · 닫힘 %d' % (name, t, o, c))
+    for m in re.finditer(r'<[가-힣]', s):
+        bad.append('%-22s 한글로 시작하는 꺾쇠 … %s'
+                   % (name, s[max(0, m.start() - 20):m.start() + 20].replace('\n', ' ')))
     for m in GHOST.finditer(s):
         bad.append('%-22s 채움문자 U+%04X … %s'
                    % (name, ord(m.group()),

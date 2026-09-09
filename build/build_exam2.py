@@ -251,6 +251,18 @@ for rd in sorted(os.listdir(ROOT)):
                      'src': fn, 'chars': len(t), 'digits': digits,
                      'pts_ok': ok, 'q': qs})
 
+# 배점이 잘못 잡힌 과목지를 손으로 바로잡는다.
+# 합이 100이 되어 검사를 통과하더라도 문항별로는 틀릴 수 있다.
+POINTS_FIX = {
+    # 제43회 의학이론은 열 문항이 모두 10점인데, 소문항 배점이 섞여 들어갔다
+    (43, '의학이론'): [10] * 10,
+}
+for r in rows:
+    fix = POINTS_FIX.get((r['round'], r['subject']))
+    if fix and len(fix) == len(r['q']):
+        for q, pt in zip(r['q'], fix):
+            q['points'] = pt
+
 # 글자층에서 숫자가 빠진 과목지는 손으로 옮겨 적은 파일로 갈음한다
 if os.path.exists(MANUAL):
     man = json.load(io.open(MANUAL, encoding='utf-8'))
