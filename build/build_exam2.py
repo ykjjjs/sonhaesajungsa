@@ -256,6 +256,8 @@ for rd in sorted(os.listdir(ROOT)):
 POINTS_FIX = {
     # 제43회 의학이론은 열 문항이 모두 10점인데, 소문항 배점이 섞여 들어갔다
     (43, '의학이론'): [10] * 10,
+    # 제40회 의학이론도 열 문항이 모두 10점이다(소문항 5+5, 8+2 등이 섞여 들어갔다)
+    (40, '의학이론'): [10] * 10,
 }
 for r in rows:
     fix = POINTS_FIX.get((r['round'], r['subject']))
