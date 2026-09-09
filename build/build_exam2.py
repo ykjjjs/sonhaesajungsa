@@ -86,7 +86,11 @@ def clean(t):
 
 CAND = re.compile(r'(\d{1,2})\s*\.(?=\s|[^\d\s])')
 BAD_PREV = set('0123456789.,%-\u2013\u2014')
+TABLE_NO = re.compile(r'(?:<|\[|\(|별)?\s*표\s*$')
+NEXT_NUM = re.compile(r'\s*\d{1,2}\s*\.\s')
 DATE_TAIL = re.compile(r'(?:19|20)\d\d\s*[.년]\s*\d{1,2}\s*[.월]\s*$')
+# 2023. 5. 2. / 2023년 5월 2일 처럼 날짜 전체를 이루는 구간
+DATE_SPAN = re.compile(r'(?:19|20)\d\d\s*[.년]\s*\d{1,2}\s*[.월]\s*\d{1,2}\s*[.일]?')
 PT = re.compile(r'(\d{1,3}(?:\.\d)?)\s*점')
 
 
@@ -96,16 +100,26 @@ LABEL = re.compile(r'\d{1,2}\s*\.\s*[^\n:]{0,22}:')
 def chain_of(t):
     """1,2,3... 으로 이어지고 구간마다 배점 표시가 있는 사슬을 고른다.
     표 안의 '2. 피보험자 :' 같은 항목줄은 점수를 낮게 주어 밀어낸다."""
+    spans = [(m.start(), m.end()) for m in DATE_SPAN.finditer(t)]
+
+    def in_date(i):
+        return any(a < i < b for a, b in spans)
+
     cs = []
     for m in CAND.finditer(t):
         i = m.start()
         if i and t[i - 1] in BAD_PREV:
             continue
-        if DATE_TAIL.search(t[max(0, i - 16):i]):
-            continue          # '2026. 5. 3.' 처럼 날짜의 끝자리인 경우
+        if DATE_TAIL.search(t[max(0, i - 16):i]) or in_date(i):
+            continue          # '2023. 5. 2.' 처럼 날짜 안의 숫자인 경우
+        if NEXT_NUM.match(t, m.end()):
+            continue          # '~ 7. 20.' 처럼 뒤에 또 숫자가 이어지는 경우
+        if TABLE_NO.search(t[max(0, i - 6):i]):
+            continue          # '<표2. 보험가액>' 처럼 표 번호인 경우
         line = t[i:t.find('\n', i) if t.find('\n', i) > 0 else len(t)]
+        pt = 1 if PT.search(t[i:i + 300]) else 0
         lab = 1 if LABEL.match(line) else 0
-        cs.append((int(m.group(1)), i, 0 if lab else 1))
+        cs.append((int(m.group(1)), i, (0 if lab else 1) + pt))
     n = len(cs)
     if not n:
         return []
