@@ -96,6 +96,8 @@ NEXT_NUM = re.compile(r'\s*\d{1,2}\s*\.\s')
 DATE_TAIL = re.compile(r'(?:19|20)\d\d\s*[.년]\s*\d{1,2}\s*[.월]\s*$')
 # 2023. 5. 2. / 2023년 5월 2일 처럼 날짜 전체를 이루는 구간
 DATE_SPAN = re.compile(r'(?:19|20)\d\d\s*[.년]\s*\d{1,2}\s*[.월]\s*\d{1,2}\s*[.일]?')
+SUBQ = re.compile(r'\(\s*1\s*\)|(?<![0-9(])1\s*\)')
+TOTPT = re.compile(r'총\s*(\d{1,3})\s*점')
 PT = re.compile(r'(\d{1,3}(?:\.\d)?)\s*점')
 
 
@@ -185,12 +187,34 @@ def split_q(t):
         if not pts:
             cands.append([0])
             continue
-        opts, s = [], sum(pts)
-        for v in (max(pts), pts[-1], pts[0], s):
-            v = int(v) if float(v).is_integer() else v
-            if v not in opts and float(v).is_integer():
+        opts = []
+        m = SUBQ.search(body)
+        head = body[:m.start()] if m else body   # 첫 물음((1) 또는 1)) 앞이 문두이다
+        h = [float(x) for x in PT.findall(head)]
+        tot = TOTPT.findall(head)
+        if tot:
+            # '각 2점, 총 10점' — 마지막에 밝힌 총점이 그 문항의 배점이다
+            opts.append(int(tot[-1]))
+        if len(h) >= 2:
+            if abs(h[-1] - sum(h[:-1])) < 1e-9:
+                # '…(4점) …(3점) …(3점) 기술하시오.(10점)' — 끝의 숫자가 합계이다
+                order = [h[-1], sum(h)]
+            else:
+                # '…쓰시오.(4점) … 쓰시오.(6점)' — 부분점수를 더한 것이 배점이다
+                order = [sum(h), h[-1]]
+        elif h:
+            order = [h[0]]
+        else:
+            order = []
+        order += [max(pts), pts[-1], pts[0], sum(pts)]
+        for v in order:
+            if float(v).is_integer() and int(v) not in opts:
                 opts.append(int(v))
-        cands.append(opts or [0])
+        if not opts:
+            # '각 2.5점' 처럼 정수 후보가 하나도 없을 때만 5의 배수를 열어 둔다.
+            # 모든 문항에 열어 두면 조합이 너무 많아져 엉뚱한 답이 먼저 잡힌다.
+            opts = list(range(10, 41, 5)) + [5]
+        cands.append(opts)
     fixed = fit100(cands) if len(cands) <= 20 else None
     out = []
     for k, body in enumerate(segs):
