@@ -121,6 +121,14 @@ async function sendSms(env, to, text) {
   });
 }
 
+/* 관리자에게 보내는 문자. 받을 번호는 secret ADMIN_SMS_TO 에만 둔다
+   (콤마로 여러 개). 소스·저장소·API 응답 어디에도 번호가 남지 않는다. */
+async function notifyAdmins(env, text) {
+  const to = String(env.ADMIN_SMS_TO || '').replace(/[^0-9,]/g, '');
+  if (!to) return;
+  await sendSms(env, to, text);      // 알리고 receiver 는 콤마로 여러 번호를 받는다
+}
+
 function notifyText(kind, email, until) {
   if (kind === 'approve') {
     const u = ymd(until);
@@ -250,6 +258,15 @@ async function handleApi(request, env, path) {
     else if (dup) status = 'duplicate';
     else status = 'unmatched';
 
+    // 관리자 휴대폰으로 감지 결과 문자
+    try {
+      const label = { matched: '자동승인 완료', amount_mismatch: '금액 불일치',
+                      duplicate: '이미 승인된 코드', unmatched: '미매칭 — 수동 확인 필요' }[status];
+      await notifyAdmins(env, '[YOU] ' + EXAM + ' 입금감지 · ' + label
+        + '\n' + (amount ? amount.toLocaleString('ko-KR') + '원' : '금액 미확인')
+        + (matchedEmail ? '\n' + matchedEmail : ''));
+    } catch (e) {}
+
     await env.DB.prepare(
       'INSERT INTO deposits(raw,amount,code,matched_email,status,created) VALUES(?,?,?,?,?,?)')
       .bind(text.slice(0, 300), amount || null,
@@ -329,6 +346,12 @@ async function handleApi(request, env, path) {
       await env.DB.prepare('UPDATE payments SET receipt_phone=?, requested=? WHERE email=?')
         .bind(phone, now(), u.email).run();
       p.receipt_phone = phone || '';
+      // 관리자 휴대폰으로 문자
+      try {
+        await notifyAdmins(env, '[YOU] ' + EXAM + ' 입금확인 요청'
+          + '\n' + '코드 ' + p.code + ' · ' + BANK.amount.toLocaleString('ko-KR') + '원'
+          + '\n' + u.email);
+      } catch (e) {}
     }
     return json({
       status: p.status, code: p.code, amount: BANK.amount,
