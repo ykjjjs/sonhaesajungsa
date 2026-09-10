@@ -77,6 +77,102 @@ async function adminOk(env, token) {
 
 /* 승인 — 관리자 수동승인과 입금 웹훅 자동승인이 함께 쓴다.
    이미 이용권이 살아 있으면 남은 기간에 1년을 얹는다(연장). */
+/* ===== 승인·거절 알림 =====================================================
+   이메일 = Resend(secret RESEND_API_KEY), 문자 = 알리고(secret ALIGO_KEY /
+   ALIGO_USER_ID / ALIGO_SENDER). 시크릿이 없으면 그 통로만 조용히 건너뛴다.
+   ※ 문자 발신번호는 알리고에 사전등록된 번호여야 한다(발신번호 사전등록제). */
+const CONTACT_EMAIL = 'smartyourtest@gmail.com';
+const SITE = 'https://smart-yourtest.com/sonsa/';
+const EXAM = '손해사정사';
+
+function ymd(sec) {
+  const d = new Date(sec * 1000);
+  return d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0')
+       + '.' + String(d.getDate()).padStart(2, '0');
+}
+
+async function sendEmail(env, to, subject, html) {
+  if (!env.RESEND_API_KEY) return;
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + env.RESEND_API_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: '스마트 YOU <noreply@smart-yourtest.com>',
+      to: [to], reply_to: CONTACT_EMAIL, subject, html,
+    }),
+  });
+}
+
+async function sendSms(env, to, text) {
+  if (!env.ALIGO_KEY || !env.ALIGO_USER_ID || !env.ALIGO_SENDER) return;
+  if (!to) return;
+  const form = new URLSearchParams({
+    key: env.ALIGO_KEY,
+    user_id: env.ALIGO_USER_ID,
+    sender: env.ALIGO_SENDER,
+    receiver: to,
+    msg: text,
+    title: '스마트 YOU',      // 장문(LMS)으로 넘어갈 때 쓰이는 제목
+  });
+  await fetch('https://apis.aligo.in/send/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
+    body: form,
+  });
+}
+
+function notifyText(kind, email, until) {
+  if (kind === 'approve') {
+    const u = ymd(until);
+    return {
+      subject: '[스마트 YOU] ' + EXAM + ' 이용권이 승인되었습니다',
+      sms: '[스마트 YOU] ' + EXAM + ' 1년 이용권이 승인되었습니다. ' + u + '까지 이용하실 수 있습니다. ' + SITE,
+      html: `
+        <div style="max-width:520px;margin:0 auto;font-family:'Malgun Gothic',Apple SD Gothic Neo,sans-serif;color:#1c2430;line-height:1.7">
+          <h2 style="color:#0b57c9">✅ 입금이 확인되어 이용권이 승인되었습니다</h2>
+          <p>${EXAM} 시험 대비 <b>스마트 YOU</b> 1년 이용권이 활성화되었습니다.
+             1차 기출 600문항, 2차 기출 738문항과 전자교재가 모두 열렸습니다.</p>
+          <table style="border-collapse:collapse;margin:14px 0">
+            <tr><td style="padding:6px 14px 6px 0;color:#66788e">계정</td><td><b>${email}</b></td></tr>
+            <tr><td style="padding:6px 14px 6px 0;color:#66788e">이용 기간</td><td><b>${u}</b> 까지 (1년)</td></tr>
+          </table>
+          <p><a href="${SITE}" style="display:inline-block;background:#2f6fe0;color:#fff;text-decoration:none;font-weight:700;padding:12px 26px;border-radius:9px">지금 시작하기 →</a></p>
+          <p style="color:#66788e;font-size:13px">현금영수증을 신청하셨다면 입금 확인 후 5영업일 이내 발행되며, 홈택스에서 확인하실 수 있습니다.<br>
+          문의: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
+        </div>`,
+    };
+  }
+  return {
+    subject: '[스마트 YOU] ' + EXAM + ' 이용권이 활성화되지 않았습니다',
+    sms: '[스마트 YOU] ' + EXAM + ' 이용권이 활성화되지 않았습니다. 입금 확인이 어렵거나 취소된 경우입니다. 문의 ' + CONTACT_EMAIL,
+    html: `
+      <div style="max-width:520px;margin:0 auto;font-family:'Malgun Gothic',Apple SD Gothic Neo,sans-serif;color:#1c2430;line-height:1.7">
+        <h2 style="color:#c8332c">이용권이 활성화되지 않았습니다</h2>
+        <p>${EXAM} <b>스마트 YOU</b> 이용권이 열리지 않았습니다.
+           입금 내역을 확인하지 못했거나, 결제가 취소·환불된 경우입니다.</p>
+        <table style="border-collapse:collapse;margin:14px 0">
+          <tr><td style="padding:6px 14px 6px 0;color:#66788e">계정</td><td><b>${email}</b></td></tr>
+        </table>
+        <p>이미 입금하셨다면 <b>입금하신 날짜</b>와 <b>입금자명</b>을 알려 주시면 바로 확인해 드리겠습니다.</p>
+        <p style="color:#66788e;font-size:13px">문의: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
+      </div>`,
+  };
+}
+
+/* 이메일과 문자를 함께 보낸다. 한쪽이 실패해도 나머지는 그대로 나간다. */
+async function notifyUser(env, kind, email, until) {
+  let phone = '';
+  try {
+    const u = await env.DB.prepare('SELECT phone FROM users WHERE email=?').bind(email).first();
+    phone = u && u.phone ? String(u.phone).replace(/[^0-9]/g, '') : '';
+  } catch (e) {}
+  const t = notifyText(kind, email, until);
+  await Promise.allSettled([
+    sendEmail(env, email, t.subject, t.html),
+    sendSms(env, phone, t.sms),
+  ]);
+}
+
 async function approveUser(env, email) {
   const u = await env.DB.prepare('SELECT paid_until FROM users WHERE email=?').bind(email).first();
   const base = (u && u.paid_until && u.paid_until > now()) ? u.paid_until : now();
@@ -84,6 +180,8 @@ async function approveUser(env, email) {
   await env.DB.prepare('UPDATE users SET paid=1, paid_until=? WHERE email=?').bind(until, email).run();
   await env.DB.prepare('UPDATE payments SET status=?, approved=? WHERE email=?')
     .bind('paid', now(), email).run();
+  // 승인 안내 — 이메일 + 문자 (해당 시크릿이 없으면 그 통로만 건너뜀)
+  try { await notifyUser(env, 'approve', email, until); } catch (e) {}
   return until;
 }
 
@@ -323,6 +421,7 @@ async function handleApi(request, env, path) {
     }
     await env.DB.prepare('UPDATE users SET paid=0, paid_until=NULL WHERE email=?').bind(email).run();
     await env.DB.prepare('UPDATE payments SET status=? WHERE email=?').bind('rejected', email).run();
+    try { await notifyUser(env, 'reject', email, 0); } catch (e) {}
     return json({ ok: true });
   }
 
