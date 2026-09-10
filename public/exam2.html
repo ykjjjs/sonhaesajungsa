@@ -401,7 +401,8 @@ function qCard(p, q) {
 /* ── 이용권이 있으면 전체 회차를 받아 온다 ──
    배포본에는 무료 회차만 박혀 있어 소스를 열어도 나머지가 나오지 않는다.
    로그인·결제는 1차 화면(index.html)에서 하고 토큰을 함께 쓴다. */
-const API = '/api';
+const BASE = location.pathname.replace(/\/[^/]*$/, '');   // 현재 폴더 — smart-yourtest.com/sonsa/ 아래에서도 그대로 동작한다
+const API = BASE + '/api';
 let EXAM2ALL = EXAM2;
 function auth() {
   try { return JSON.parse(localStorage.getItem('sonsa:auth') || 'null'); } catch (e) { return null; }

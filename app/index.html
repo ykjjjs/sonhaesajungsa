@@ -457,42 +457,230 @@ main{padding:var(--sp-5) 0}
   .btn{padding:11px 14px;font-size:13px}
   .btn.sm{padding:9px 11px}
 }
-/* ══ 인트로 ═════════════════════════════════════════════ */
-.ov.intro{z-index:90;background:rgba(0,0,0,.88);align-items:flex-start;overflow-y:auto;padding:var(--sp-4)}
-:root[data-theme="light"] .ov.intro{background:rgba(224,228,235,.94)}
-.introBox{position:relative;width:min(760px,100%);margin:auto;
-  padding:clamp(28px,5vw,52px) clamp(20px,4vw,44px);
-  background:var(--surf);border:1px solid var(--edge);border-radius:24px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 24px 80px -30px rgba(0,0,0,.9);
-  animation:rise .42s var(--ease) both}
-:root[data-theme="light"] .introBox{
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 24px 70px -28px rgba(16,24,40,.35)}
-.introBox::before{content:'';position:absolute;inset:0;border-radius:24px;pointer-events:none;
-  background:radial-gradient(120% 62% at 10% -14%,rgba(62,155,255,.17),transparent 62%)}
-.introBox > *{position:relative}
-.introBox .x{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:50%;
-  border:1px solid var(--edge);background:var(--surf2);color:var(--tx4);font-size:13px;cursor:pointer;
-  display:grid;place-items:center;transition:all .2s var(--ease);z-index:2}
-.introBox .x:hover{color:var(--tx);border-color:var(--lift)}
-.introBox .x[hidden]{display:none}   /* display:grid 가 기본 [hidden] 을 덮으므로 따로 막는다 */
-.intro-kick{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--sap2);font-weight:700;margin-bottom:14px}
-.intro-h{font-size:clamp(25px,4.4vw,38px);line-height:1.3;font-weight:800;letter-spacing:-.035em;
-  color:var(--tx);margin-bottom:14px;word-break:keep-all}
-.intro-p{font-size:15px;line-height:1.78;color:var(--tx2);margin-bottom:26px;max-width:58ch;word-break:keep-all}
-.intro-stats{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-bottom:26px}
-@media(max-width:560px){.intro-stats{grid-template-columns:1fr}}
-.intro-stats div{background:var(--surf2);border:1px solid var(--edge);border-radius:var(--r);padding:14px 15px}
-.intro-stats b{display:block;font-size:18px;font-weight:800;letter-spacing:-.03em;color:var(--tx);margin-bottom:4px}
-.intro-stats span{font-size:12.5px;color:var(--tx3);line-height:1.55;word-break:keep-all}
-.intro-cta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-.intro-cta .btn{flex:1 1 200px}
-.intro-free{font-size:13px;line-height:1.75;color:var(--tx3);border-top:1px solid var(--edge);
-  padding-top:16px;word-break:keep-all}
-.intro-free b{color:var(--tx2);font-weight:700}
-.intro-skip{margin-top:13px;font-size:13px}
-.intro-skip a{color:var(--tx3);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.intro-skip a:hover{color:var(--tx)}
+
+/* ── 스마트 YOU 공통 랜딩 CSS (smart-yourtest.com 공인중개사와 동일) ── */
+      #gg-ov{position:fixed;inset:0;z-index:2147483000;background:#0f1720;
+        display:flex;align-items:center;justify-content:center;padding:20px;
+        font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;color:#e7edf3}
+      #gg-ov *{box-sizing:border-box}
+      .gg-card{width:100%;max-width:600px;background:#182430;border:1px solid #24333f;
+        border-radius:16px;padding:28px 26px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+      .gg-card h2{margin:0 0 6px;font-size:20px;font-weight:800}
+      .gg-card p.sub{margin:0 0 18px;font-size:13px;line-height:1.6;color:#9fb0bf}
+      .gg-field{margin-bottom:12px}
+      .gg-field label{display:block;font-size:12px;color:#9fb0bf;margin-bottom:5px}
+      #gg-ov input{font-family:inherit;letter-spacing:normal}
+      .gg-field input{width:100%;padding:12px 14px;border-radius:9px;border:1px solid #2c3d4a;
+        background:#0f1720;color:#e7edf3;font-size:12.5px;font-family:inherit;letter-spacing:normal}
+      .gg-field input:focus{outline:none;border-color:#4b9fff}
+      .gg-btn{width:100%;padding:12px;border:none;border-radius:9px;font-size:14px;font-weight:700;
+        cursor:pointer;background:#4b9fff;color:#fff;transition:.15s}
+      .gg-btn:hover{background:#3d8ef0}
+      .gg-btn:disabled{opacity:.55;cursor:default}
+      .gg-btn.ghost{background:transparent;border:1px solid #2c3d4a;color:#cdd8e2;margin-top:8px}
+      .gg-btn.ghost:hover{background:#1d2b36}
+      .gg-err{min-height:18px;font-size:12.5px;color:#ff8080;margin:8px 0 2px}
+      .gg-swap{margin-top:14px;text-align:center;font-size:13px;color:#9fb0bf}
+      .gg-swap a{color:#4b9fff;cursor:pointer;font-weight:600}
+      .gg-acct{background:#0f1720;border:1px dashed #2c3d4a;border-radius:11px;padding:14px 15px;margin:14px 0}
+      .gg-acct .row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13.5px}
+      .gg-acct .row b{font-size:15px}
+      .gg-acct .k{color:#9fb0bf}
+      .gg-copy{background:#233240;border:none;color:#cfe0ee;border-radius:6px;padding:3px 9px;font-size:11.5px;cursor:pointer;margin-left:8px}
+      .gg-code{font-size:26px;font-weight:900;letter-spacing:3px;color:#ffd36b;text-align:center;padding:4px 0}
+      .gg-note{font-size:12px;line-height:1.65;color:#9fb0bf;background:#12202b;border-radius:9px;padding:11px 13px;margin-top:10px}
+      .gg-pending{text-align:center;padding:8px 0}
+      .gg-pending .big{font-size:16px;font-weight:800;color:#ffd36b;margin-bottom:6px}
+      .gg-brand{font-size:12.5px;font-weight:800;letter-spacing:.3px;color:#4b9fff;margin-bottom:10px}
+      .gg-tu{display:inline-block;transform:rotate(306deg);font-size:14px;filter:drop-shadow(0 0 4px rgba(255,200,80,.85));animation:ggTwinkle 1.7s ease-in-out infinite}
+      @keyframes ggTwinkle{0%,100%{filter:drop-shadow(0 0 3px rgba(255,190,60,.6))}50%{filter:drop-shadow(0 0 8px rgba(255,215,110,1))}}
+      /* ===== 랜딩 전용 테마: 블랙 메탈릭 / 실버 크리스탈 / 블루 메탈릭·화이트 ===== */
+      #gg-ov.gg-landing{align-items:safe center;overflow-y:auto;
+        background:radial-gradient(1100px 560px at 50% -12%,rgba(90,130,210,.20),transparent 62%),
+          radial-gradient(720px 500px at 92% 112%,rgba(150,170,210,.12),transparent 60%),
+          linear-gradient(160deg,#0b0d12 0%,#15181f 42%,#090a0e 100%)}
+      #gg-ov.gg-landing .gg-card{max-width:460px;border-radius:22px;
+        background:linear-gradient(150deg,#1b1e26 0%,#101218 72%);
+        border:1px solid rgba(150,180,225,.20);
+        box-shadow:0 30px 90px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 0 1px rgba(120,160,230,.05)}
+      #gg-ov.gg-landing .gg-brand{font-size:13px;letter-spacing:.6px;display:flex;align-items:center;gap:7px}
+      #gg-ov.gg-landing .gg-brand .gg-bt{
+        background:linear-gradient(180deg,#ffffff 0%,#eef3fb 22%,#8395b5 48%,#dfe8f7 62%,#7d8fae 78%,#ffffff 100%);
+        background-size:100% 240%;-webkit-background-clip:text;background-clip:text;
+        color:transparent;-webkit-text-fill-color:transparent;
+        filter:drop-shadow(0 1px 6px rgba(140,170,230,.35));animation:silverShimmer 5.5s ease-in-out infinite}
+      #gg-ov.gg-landing .gg-tu{color:#fff;-webkit-text-fill-color:#fff;transform:none;
+        animation:ggSpin 2.6s linear infinite,ggTwinkle 1.7s ease-in-out infinite}
+      #gg-ov.gg-landing .gg-hero{text-align:center}
+      #gg-ov.gg-landing .gg-sell{text-align:left}
+      #gg-ov.gg-landing .gg-brand{justify-content:center}
+      #gg-ov.gg-landing .gg-h{font-family:'HY헤드라인M','HYHeadLine','Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+        font-size:clamp(21px,5.6vw,27px);font-weight:900;line-height:1.45;word-break:keep-all;
+        background:linear-gradient(180deg,#ffffff 0%,#f0f5fd 20%,#7e91b3 46%,#e6edf9 60%,#75879f 76%,#ffffff 100%);
+        background-size:100% 240%;-webkit-background-clip:text;background-clip:text;
+        color:transparent;-webkit-text-fill-color:transparent;
+        filter:drop-shadow(0 1px 10px rgba(130,165,235,.38));animation:silverShimmer 5.5s ease-in-out infinite}
+      #gg-ov.gg-landing .gg-agree{display:flex;gap:9px;align-items:flex-start;text-align:left;
+        font-size:11.5px;line-height:1.55;color:#9fb0c8;margin:4px 0 3px;cursor:pointer}
+      #gg-ov.gg-landing .gg-agree input{flex:none;width:17px;height:17px;margin-top:1px;accent-color:#4b9fff;cursor:pointer}
+      #gg-ov.gg-landing .gg-agree a{color:#7fb0ff;cursor:pointer;white-space:nowrap}
+      #gg-ov.gg-landing .gg-agree-hint{min-height:14px;font-size:11.5px;color:#ff9c86;text-align:center;margin-bottom:5px}
+      #gg-ov.gg-landing .gg-foot{margin-top:14px;padding:12px 4px 0;border-top:1px solid rgba(150,180,225,.14);
+        font-size:10.5px;line-height:1.7;color:#77869e;text-align:left;word-break:keep-all}
+      #gg-ov.gg-landing .gg-foot b{color:#9fb0c8}
+      #gg-ov .gg-legal ul{margin:6px 0 8px;padding-left:20px}
+      #gg-ov .gg-legal li{margin-bottom:6px}
+      @keyframes ggShake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
+      .gg-shake{animation:ggShake .45s}
+      #gg-ov.gg-landing .gg-sell li{color:#dbe3f1;border-bottom-color:rgba(150,180,225,.13)}
+      #gg-ov.gg-landing .gg-sell li b{color:#fff}
+      #gg-ov.gg-landing .gg-sell li:before{color:#7fb0ff}
+      #gg-ov.gg-landing .gg-price{color:#cdd8ea;
+        background:linear-gradient(145deg,rgba(44,52,66,.85),rgba(18,22,30,.85));border:1px solid rgba(150,180,225,.22)}
+      #gg-ov.gg-landing .gg-price span{color:#93a2bd}
+      #gg-ov.gg-landing .gg-samp-t{color:#9aabc4}
+      #gg-ov.gg-landing .gg-samp{color:#cfe0ff;background:linear-gradient(145deg,#1d2842,#111826);
+        border:1px solid rgba(120,160,230,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+      #gg-ov.gg-landing .gg-samp:hover{border-color:#6ea6ff;background:linear-gradient(145deg,#26365a,#141d31)}
+      #gg-ov.gg-landing .gg-btn{color:#fff;border:none;font-weight:700;
+        background:linear-gradient(180deg,#5296ff,#2f6fe0 58%,#2358c2);
+        box-shadow:0 8px 20px rgba(40,95,205,.42),inset 0 1px 0 rgba(255,255,255,.4)}
+      #gg-ov.gg-landing .gg-btn:hover{background:linear-gradient(180deg,#63a2ff,#3a7af0)}
+      #gg-ov.gg-landing .gg-btn.ghost{color:#e2e9f5;box-shadow:none;
+        background:linear-gradient(145deg,rgba(46,54,70,.7),rgba(20,24,32,.7));border:1px solid rgba(150,180,225,.32)}
+      #gg-ov.gg-landing .gg-btn.ghost:hover{border-color:#7fb0ff;color:#fff}
+      #gg-ov.gg-landing .gg-links{border-top-color:rgba(150,180,225,.16);color:#7f8ea8}
+      #gg-ov.gg-landing .gg-links a{color:#b6c4dc}
+      #gg-ov.gg-landing .gg-links a:hover{color:#7fb0ff}
+      #gg-ov.gg-landing .gg-links span{color:#3a475c}
+      #gg-ov.gg-landing .gg-links-2row{line-height:2.1}
+      @keyframes ggSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+      @keyframes silverShimmer{0%,100%{background-position:50% 0%}50%{background-position:50% 100%}}
+      /* ===== 설치 안내 팝업 ===== */
+      #gg-install{position:fixed;inset:0;z-index:2147483646;display:flex;background:rgba(5,8,14,.55);
+        backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+        font-family:-apple-system,BlinkMacSystemFont,"Malgun Gothic",sans-serif;animation:giFade .2s ease}
+      #gg-install.modal{align-items:center;justify-content:center;padding:20px}
+      #gg-install.sheet{align-items:flex-end}
+      #gg-install .gi-card{color:#e7edf3;background:linear-gradient(150deg,#1c2029,#0e1015);border:1px solid rgba(150,180,225,.22)}
+      #gg-install.modal .gi-card{width:352px;max-width:100%;border-radius:20px;padding:26px 24px;text-align:center;
+        box-shadow:0 30px 90px rgba(0,0,0,.65);animation:giPop .22s ease}
+      #gg-install.sheet .gi-card{width:100%;border-top:1px solid rgba(150,180,225,.22);border-radius:22px 22px 0 0;
+        padding:22px 20px;box-shadow:0 -20px 60px rgba(0,0,0,.55);animation:giUp .28s cubic-bezier(.2,.8,.2,1)}
+      #gg-install .gi-ic{width:56px;height:56px;border-radius:14px;background:linear-gradient(150deg,#2a3a5e,#0b1120);
+        display:grid;place-items:center;box-shadow:0 8px 20px rgba(40,95,205,.4),inset 0 1px 0 rgba(255,255,255,.16)}
+      #gg-install .gi-ic span{font-weight:800;font-size:19px;background:linear-gradient(180deg,#fff,#9fb0cf);
+        -webkit-background-clip:text;background-clip:text;color:transparent}
+      #gg-install.modal .gi-top{display:flex;flex-direction:column;align-items:center;margin-bottom:16px}
+      #gg-install.modal .gi-ic{margin-bottom:15px}
+      #gg-install.sheet .gi-top{display:flex;align-items:center;gap:13px;margin-bottom:15px}
+      #gg-install.sheet .gi-ic{flex:none}
+      #gg-install .gi-h{font-size:16px;font-weight:800;background:linear-gradient(180deg,#fff,#dbe4f4 55%,#9fb0cf);
+        -webkit-background-clip:text;background-clip:text;color:transparent}
+      #gg-install.sheet .gi-h{font-size:15.5px}
+      #gg-install .gi-s{font-size:12.5px;color:#9fb0c8;line-height:1.6;margin-top:5px}
+      #gg-install .gi-s b{color:#cfe0ff}
+      #gg-install.sheet .gi-tt{text-align:left}
+      #gg-install .gi-steps{background:#12202b;border:1px solid rgba(150,180,225,.16);border-radius:13px;padding:14px 15px}
+      #gg-install .gi-st{display:flex;align-items:center;gap:9px;font-size:13px;color:#dbe3f1;text-align:left}
+      #gg-install .gi-st+.gi-st{margin-top:12px}
+      #gg-install .gi-st b{flex:none;width:22px;height:22px;border-radius:50%;background:#2f6fe0;color:#fff;display:grid;place-items:center;font-size:12px}
+      #gg-install .gi-st em{color:#cfe0ff;font-style:normal}
+      #gg-install .gi-share{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:7px;background:#0a84ff;color:#fff;font-size:15px;font-style:normal;vertical-align:middle}
+      #gg-install .gi-go{width:100%;margin-top:16px;padding:13px;border:none;border-radius:12px;font-size:14.5px;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(180deg,#5296ff,#2358c2);box-shadow:0 8px 20px rgba(40,95,205,.42)}
+      #gg-install .gi-no{width:100%;margin-top:8px;padding:11px;border:1px solid rgba(150,180,225,.28);border-radius:12px;font-size:13.5px;font-weight:600;color:#cdd8ea;cursor:pointer;background:transparent}
+      @keyframes giFade{from{opacity:0}to{opacity:1}}
+      @keyframes giPop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+      @keyframes giUp{from{transform:translateY(100%)}to{transform:none}}
+      .gg-links{margin-top:16px;padding-top:13px;border-top:1px solid #24333f;text-align:center;font-size:12px;color:#6f8393}
+      .gg-links a{color:#9fb0bf;cursor:pointer;text-decoration:none}
+      .gg-links a:hover{color:#4b9fff;text-decoration:underline}
+      .gg-links span{margin:0 7px;color:#3a4b57}
+      .gg-biz-hero{margin-top:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;line-height:1.5;text-align:center}
+      .gg-biz-hero .m{font-size:12px;font-weight:900;letter-spacing:.2px;
+        background:linear-gradient(115deg,#eef1f6 0%,#ffffff 12%,#ffe08a 22%,#fff6cf 28%,#ffcf5a 34%,#aeb6c4 46%,#ffffff 56%,#c2c8d4 66%,#6a7078 80%,#eef1f6 100%);
+        background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+        filter:drop-shadow(0 0 4px rgba(255,196,74,.5)) drop-shadow(0 1px 2px rgba(0,0,0,.5));animation:ggBizShine 4.2s linear infinite}
+      .gg-biz-hero .s{display:none}
+      @keyframes ggBizShine{from{background-position:180% 0}to{background-position:-120% 0}}
+      @media (prefers-reduced-motion:reduce){.gg-biz-hero .m{animation:none;background-position:50% 0}}
+      .gg-biz-line{margin:13px auto 2px;padding-top:11px;border-top:1px solid #24333f;
+        text-align:center;font-size:10.5px;line-height:1.65;color:#8494a8;white-space:nowrap;overflow:hidden}
+      .gg-legal{max-height:46vh;overflow-y:auto;font-size:13px;line-height:1.7;color:#cdd8e2;
+        background:#0f1720;border:1px solid #24333f;border-radius:10px;padding:14px 16px;margin:6px 0 16px}
+      .gg-legal h4{margin:14px 0 4px;font-size:13.5px;color:#ffd36b}
+      .gg-legal p{margin:0 0 8px}
+      .gg-legal ol{margin:6px 0 8px;padding-left:20px}
+      .gg-legal li{margin-bottom:5px}
+      .gg-legal .muted,.gg-check .muted{color:#7f93a3}
+      .gg-check{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#e7edf3;
+        margin:14px 0 8px;cursor:pointer;user-select:none}
+      .gg-check input{width:17px;height:17px;accent-color:#4b9fff;cursor:pointer}
+      .gg-hero .gg-h{font-size:19px;line-height:1.4;margin:2px 0 14px}
+      .gg-sell{list-style:none;margin:0 0 14px;padding:0}
+      .gg-sell li{position:relative;padding:6px 0 6px 22px;font-size:13.5px;color:#cdd8e2;border-bottom:1px solid #1d2b36}
+      .gg-sell li:before{content:'✓';position:absolute;left:2px;color:#5fe0a0;font-weight:800}
+      .gg-price{text-align:center;background:#12202b;border:1px solid #2c3d4a;border-radius:11px;padding:12px;margin-bottom:18px;font-size:15px}
+      .gg-price b{color:#ffd36b;font-size:19px}
+      .gg-price span{color:#9fb0bf;font-size:12.5px}
+      .gg-price .sub2{display:block;margin-top:4px;font-size:11.5px;color:#9fb0bf}
+      .gg-price .pn{display:block;font-weight:900;letter-spacing:.2px;
+        background:linear-gradient(115deg,#fff3c0 0%,#ffffff 12%,#ffd76a 24%,#ffb43a 33%,#ffe9a8 41%,#ffffff 53%,#ffcf5a 65%,#f6e7b8 78%,#ffffff 100%);
+        background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+        filter:drop-shadow(0 0 5px rgba(255,180,58,.55));animation:ggBizShine 4.2s linear infinite}
+      .gg-price .pn.p1{font-size:16px}
+      .gg-price .pn.sub2{font-size:12px;margin-top:5px;filter:drop-shadow(0 0 3px rgba(255,180,58,.42))}
+      .gg-samp-t{font-size:12px;color:#9fb0bf;margin-bottom:8px;text-align:center}
+      .gg-samples{display:flex;gap:7px;margin-bottom:16px}
+      .gg-samp{flex:1;text-align:center;padding:11px 6px;border-radius:9px;border:1px solid #2c3d4a;
+        background:#0f1720;color:#cfe0ee;font-size:12.5px;font-weight:600;text-decoration:none;cursor:pointer}
+      .gg-samp:hover{border-color:#4b9fff;background:#16232f}
+      #gg-sample-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147481500;
+        display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;
+        padding:10px 14px;background:rgba(20,30,40,.96);border-top:1px solid #2c3d4a;
+        font-family:-apple-system,"Malgun Gothic",sans-serif;font-size:12.5px;color:#e7edf3;backdrop-filter:blur(6px)}
+      #gg-sample-bar b{color:#ffd36b}
+      #gg-sample-bar button{position:relative;cursor:pointer;border-radius:9px;padding:8px 17px;
+        font-size:12.5px;font-weight:800;letter-spacing:.2px;
+        background:linear-gradient(145deg,#2c2c31,#0c0c10 72%);
+        border:1.6px solid #ffd36b;color:transparent;
+        box-shadow:0 0 5px rgba(255,200,80,.55),0 0 11px rgba(255,180,40,.32),inset 0 0 6px rgba(255,200,80,.12);
+        animation:goldNeon 1.5s ease-in-out infinite}
+      #gg-sample-bar button span{background:linear-gradient(180deg,#ffffff,#e9eff9 30%,#9aa9c6 62%,#f2f5fb);
+        -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+      #gg-sample-bar button:hover{animation-duration:.8s;border-color:#ffe08a}
+      @keyframes goldNeon{
+        0%,100%{box-shadow:0 0 5px rgba(255,200,80,.55),0 0 11px rgba(255,180,40,.30),inset 0 0 6px rgba(255,200,80,.12);border-color:#ffcf5a}
+        50%{box-shadow:0 0 13px 2px rgba(255,216,110,.95),0 0 24px 5px rgba(255,180,40,.6),inset 0 0 9px rgba(255,212,92,.25);border-color:#ffe79a}}
+      /* 워터마크 */
+      #gg-wm{position:fixed;inset:0;z-index:2147482000;pointer-events:none;overflow:hidden;
+        display:flex;flex-wrap:wrap;gap:0;transform:rotate(-24deg) scale(1.5);opacity:.06}
+      #gg-wm span{flex:0 0 auto;width:260px;font-size:12px;color:#000;white-space:nowrap;line-height:60px;
+        font-family:sans-serif}
+      @media (prefers-color-scheme:dark){#gg-wm span{color:#fff}}
+      /* 상단 내비 */
+      #gg-nav{position:fixed;top:0;left:0;right:0;z-index:2147481000;display:flex;align-items:center;gap:8px;
+        padding:7px 12px;background:rgba(12,18,26,.96);border-bottom:1px solid rgba(150,180,225,.14);
+        backdrop-filter:blur(8px);font-family:-apple-system,"Malgun Gothic",sans-serif;font-size:12px}
+      #gg-nav .gg-nav-links{display:flex;gap:4px;align-items:center;overflow-x:auto;flex:1 1 auto;min-width:0;
+        -webkit-overflow-scrolling:touch;scrollbar-width:none}
+      #gg-nav .gg-nav-links::-webkit-scrollbar{display:none}
+      #gg-nav .gg-nav-right{display:flex;align-items:center;gap:7px;flex:none}
+      #gg-nav a{color:#cdd8e2;text-decoration:none;padding:5px 10px;border-radius:7px;white-space:nowrap}
+      #gg-nav a.on{background:#4b9fff;color:#fff;font-weight:700}
+      #gg-nav a:hover{background:#22323f}
+      #gg-nav .em{color:#8ea0b6;white-space:nowrap;font-size:11px}
+      #gg-nav button{background:none;border:1px solid #3a4b57;color:#cdd8e2;border-radius:7px;
+        padding:5px 11px;font-size:11.5px;cursor:pointer;white-space:nowrap;flex:none}
+      @media(max-width:600px){#gg-nav .gg-email{display:none}#gg-nav{gap:6px;padding:6px 10px}#gg-nav a{padding:5px 8px}#gg-nav .em{font-size:10.5px}#gg-nav button{padding:5px 9px}}
+    
+#gg-ov[hidden]{display:none}
+#gg-ov .gg-card{position:relative}
+.gg-x{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;
+  border:1px solid rgba(150,180,225,.30);background:rgba(20,24,32,.72);color:#9fb0c8;
+  font-size:13px;cursor:pointer;display:grid;place-items:center;z-index:2}
+.gg-x:hover{color:#fff;border-color:#7fb0ff}
+.gg-x[hidden]{display:none}
 .brand h1{cursor:pointer}
 </style>
 </head>
@@ -558,19 +746,10 @@ main{padding:var(--sp-5) 0}
   </div>
 </div>
 
-<div class="ov intro" id="introOv">
-  <div class="introBox">
-    <button class="x" id="introClose" type="button" aria-label="닫기" hidden>&#10005;</button>
-    <div class="intro-kick" id="introKick"></div>
-    <h2 class="intro-h" id="introH"></h2>
-    <p class="intro-p" id="introP"></p>
-    <div class="intro-stats" id="introStats"></div>
-    <div class="intro-cta">
-      <button class="btn pri" id="introStart" type="button">무료로 시작하기</button>
-      <button class="btn" id="introLogin" type="button">이미 계정이 있습니다</button>
-    </div>
-    <div class="intro-free" id="introFree"></div>
-    <div class="intro-skip"><a id="introLocal">로그인 없이 이 기기에서만 둘러보기</a></div>
+<div id="gg-ov" class="gg-landing" hidden>
+  <div class="gg-card">
+    <button class="gg-x" id="ggClose" type="button" aria-label="닫기" hidden>&#10005;</button>
+    <div id="ggBody"></div>
   </div>
 </div>
 
@@ -673,7 +852,8 @@ main{padding:var(--sp-5) 0}
           explanation,wrongWhy{},terms[],altAnswers?,source?}
    ══════════════════════════════════════════════════════════════ */
 let CONTENT = __CONTENT__;
-const API = '/api';           // 워커와 같은 도메인. file:// 로 열면 자동으로 로컬 모드
+const BASE = location.pathname.replace(/\/[^/]*$/, '');   // 현재 폴더 — smart-yourtest.com/sonsa/ 아래에서도 그대로 동작한다
+const API = BASE + '/api';    // 워커와 같은 도메인. file:// 로 열면 자동으로 로컬 모드
 
 /* ── 문항 평탄화 ── */
 let BANK = [], YEARS = [], SUBJECTS = [];
@@ -1394,70 +1574,138 @@ $('authGo').onclick = async () => {
 };
 function goLocal() {
   S.local = true; store.set('sonsa:local', true);
-  closeAuth(); closeIntro(); who();
+  closeAuth(); ggHide(); who();
   const after = () => { applyState(store.get('sonsa:state')); resumeLast(); render(); };
   if (!BANK.length) { loadContent().then(ok => { if (ok) { fillSelects(); after(); } }); return; }
   after();
 }
 $('localLink').onclick = goLocal;
 
-/* ══ 인트로 ═══════════════════════════════════════════════
-   광고 문구 세 벌. 쓸 것을 COPY_PICK 에 적는다.
-   주소 뒤에 ?copy=B 를 붙이면 배포하지 않고도 다른 안을 볼 수 있다. */
-const COPY_PICK = 'A';
-const COPY = {
-  A: {
-    kick: '5개년 · 1차 2차 · 전자교재',
-    h: '1차 600문항, 2차 738문항.<br>해설까지 빠짐없이 붙였습니다.',
-    p: '제45회부터 제49회까지 5개년 기출을 한자리에 모았습니다. 1차는 600문항 전부에 해설과 '
-     + '보기별 오답 이유를 달았고, 공식 정답이 공개되지 않는 2차는 모범답안을 직접 작성했습니다.',
-    cta: '무료 회차부터 풀어 보기',
-  },
-  B: {
-    kick: '왜 틀렸는가',
-    h: '정답이 아니라,<br>나머지 셋이 왜 아닌지를 적었습니다.',
-    p: '문항마다 정답 해설과 함께 오답 보기 세 개의 이유를 따로 답니다. 틀린 문항은 오답 노트에 '
-     + '모이고 복습할 날이 되면 스스로 다시 올라옵니다. 답을 외우는 대신 갈림길을 익히게 됩니다.',
-    cta: '무료 회차로 확인해 보기',
-  },
-  C: {
-    kick: '기출 ↔ 교재',
-    h: '기출에서 막히면 교재로,<br>교재를 덮으면 다시 기출로.',
-    p: '600문항이 전자교재 55개 절에 하나하나 이어져 있습니다. 틀린 문항에서 곧바로 해당 절을 펴고, '
-     + '절을 읽고 나면 그 절에서 나온 기출을 이어서 풉니다. 두 방향으로 오가며 모르는 부분을 그 자리에서 채웁니다.',
-    cta: '무료 회차부터 풀어 보기',
-  },
+/* ══ 랜딩 ═══════════════════════════════════════════════════
+   smart-yourtest.com 공인중개사 랜딩과 같은 마크업·CSS 를 쓴다.
+   문구와 링크만 손해사정사 것으로 바꾸었다. */
+const GG_BRAND = '손해사정사 시험 대비 스마트 YOU';
+const CONTACT = 'smartyourtest@gmail.com';
+let ggBack = null;
+
+const LEGAL = {
+  apply: { title: '현금영수증 발급신청', html: `
+    <p>현금영수증은 <b>회원가입 시 입력한 휴대폰 번호</b>로 신청·발급됩니다. (개인 소득공제용)</p>
+    <ol>
+      <li>회원가입에서 <b>휴대폰 번호</b>를 입력합니다. (필수)</li>
+      <li>결제 화면에서 <b>'현금영수증 발급 신청'</b>이 기본 선택되어 있습니다. 번호를 바꾸려면 그 자리에서 수정하세요.</li>
+      <li>입금 확인 후 <b>5영업일 이내</b> 개인 소득공제용으로 발행됩니다.</li>
+    </ol>
+    <p class="muted">※ 사업자 지출증빙용 발급은 지원하지 않습니다. 아직 회원이 아니시면 먼저 회원가입을 진행해 주세요.</p>` },
+  refund: { title: '결제 및 환불 규정', html: `
+    <p>본 서비스는 <b>1회 결제(${PRICE.toLocaleString()}원)</b>로 즉시 이용 가능한 디지털 콘텐츠를 제공하는 웹 서비스입니다.</p>
+    <h4>환불 불가 조건</h4>
+    <p>결제 완료 후 웹사이트에 로그인하여 서비스를 <b>1회 이상 이용</b>(콘텐츠 열람, 기능 사용 등)한 경우, 서비스 제공이 개시된 것으로 간주하여 청약철회 및 환불이 불가합니다. (전자상거래법 제17조 제2항 제5호 의거)</p>
+    <h4>환불 가능 조건</h4>
+    <p>결제 후 로그인하지 않았거나 서비스 이용 이력이 전혀 없는 상태에서 <b>결제일로부터 7일 이내</b>에 요청하시는 경우에만 전액 환불이 가능합니다.</p>` },
+  receipt: { title: '현금영수증 발급안내', html: `
+    <p>본 서비스는 <b>개인 고객 전용</b> 서비스로, 무통장입금(계좌이체) 결제 시 <b>개인 소득공제용 현금영수증</b>을 발급해 드립니다. <span class="muted">(※ 사업자 지출증빙용 발급은 지원하지 않습니다.)</span></p>
+    <h4>발급 방법</h4>
+    <p>결제 단계에서 '현금영수증 발급 신청'을 선택하고 휴대폰 번호를 입력해 주시면 됩니다. (회원가입 시 입력한 번호가 기본 사용됩니다.)</p>
+    <h4>발급 시기</h4>
+    <p>입력해 주신 번호로 입금 확인 후 <b>5영업일 이내</b>에 현금영수증이 발행됩니다.</p>
+    <h4>발급 내역 확인</h4>
+    <p>발행 완료 후 국세청 <b>홈택스</b> 웹사이트 또는 <b>손택스</b>(모바일 앱)에서 직접 확인하실 수 있습니다.</p>` },
+  abuse: { title: '부정 이용 · 지식재산권 침해 법적 고지', html: `
+    <p>본 웹서비스가 제공하는 모든 데이터, 알고리즘, 콘텐츠 및 UI/UX는 <b>저작권법, 지능정보화 기본법 및 부정경쟁방지법</b>에 의해 엄격히 보호받고 있습니다. 안전한 서비스 환경 조성을 위해 아래와 같은 비정상적인 이용 행위를 엄격히 금지합니다.</p>
+    <ul>
+      <li><b>비정상적 계정 생성</b> — 매크로, 가상 이메일 등을 동원하여 부당하게 무료 혜택을 취득하는 행위</li>
+      <li><b>계정 무단 공유 및 재판매</b> — 본인 외 타인에게 계정을 공유하거나 상업적 목적으로 재판매하는 행위</li>
+      <li><b>무단 크롤링 및 데이터 탈취</b> — 자동화된 툴(Bot, 스크레이퍼 등)을 이용해 웹사이트 내 데이터를 무단 수집하거나 시스템을 리버스 엔지니어링하는 행위</li>
+    </ul>
+    <p>위와 같은 행위가 적발될 경우, 이용약관에 따라 <b>사전 통보 없이 계정이 영구 정지</b>될 수 있으며, 회사에 금전적·기술적 피해가 발생할 경우 <b>정보통신망법 위반 및 업무방해죄</b> 등으로 민·형사상 법적 조치를 취할 수 있습니다.</p>` },
 };
-const INTRO_STATS = [
-  ['1차 600문항', '5개년 기출 · 해설 600문항 전부'],
-  ['2차 738문항', '논술 모범답안 668문항'],
-  ['전자교재 55절', '기출 문항과 서로 연결'],
-];
-function paintIntro() {
-  const q = String(new URLSearchParams(location.search).get('copy') || '').toUpperCase();
-  const c = COPY[q] || COPY[COPY_PICK] || COPY.A;
-  $('introKick').textContent = c.kick;
-  $('introH').innerHTML = c.h;                 // 줄바꿈 태그만 들어 있는 내부 상수
-  $('introP').textContent = c.p;
-  $('introStart').textContent = c.cta;
-  $('introStats').innerHTML = INTRO_STATS
-    .map(([b, t]) => `<div><b>${esc(b)}</b><span>${esc(t)}</span></div>`).join('');
-  $('introFree').innerHTML =
-    `무료로 열려 있는 회차는 <b>제${round(FREE_YEAR)}회(${esc(FREE_YEAR)}년)</b>입니다. `
-    + '1차 120문항과 2차 78문항을 계정만 만들면 바로 풀 수 있습니다. '
-    + `나머지 회차와 전자교재 전체는 <b>1년 ${esc(won(PRICE))}</b> 이용권으로 열립니다.`;
+
+function ggShow(html, reopen) {
+  $('ggBody').innerHTML = html;
+  $('ggClose').hidden = !reopen;
+  $('gg-ov').hidden = false;
+  $('gg-ov').scrollTop = 0;
 }
-function openIntro(reopen) {
-  paintIntro();
-  $('introClose').hidden = !reopen;
-  $('introOv').classList.add('on');
+function ggHide() { $('gg-ov').hidden = true; }
+function bindLegal(back) {
+  ggBack = back;
+  document.querySelectorAll('#gg-ov [data-legal]').forEach(a => {
+    a.onclick = () => showLegal(a.getAttribute('data-legal'));
+  });
 }
-function closeIntro() { $('introOv').classList.remove('on'); }
-$('introClose').onclick = closeIntro;
-$('introStart').onclick = () => { closeIntro(); setAuthMode('signup'); openAuth(); };
-$('introLogin').onclick = () => { closeIntro(); setAuthMode('login'); openAuth(); };
-$('introLocal').onclick = goLocal;
-$('brandBtn').onclick = () => openIntro(true);
+function showLegal(key) {
+  const d = LEGAL[key];
+  ggShow(`
+    <div class="gg-brand"><span class="gg-tu">👍</span> <span class="gg-bt">${GG_BRAND}</span></div>
+    <h2>${d.title}</h2>
+    <div class="gg-legal">${d.html}</div>
+    <button class="gg-btn ghost" id="gg-back">← 돌아가기</button>`, false);
+  $('gg-back').onclick = () => (ggBack || showLanding)();
+}
+/* 동의 확인란 — 체크하지 않으면 가입·둘러보기로 넘어가지 않는다 */
+function ggAgreed() {
+  const c = $('gg-agree');
+  if (c && c.checked) return true;
+  const h = $('gg-agree-hint');
+  if (h) h.textContent = '위 확인란에 체크해 주세요.';
+  const lab = document.querySelector('#gg-ov .gg-agree');
+  if (lab) { lab.classList.remove('gg-shake'); void lab.offsetWidth; lab.classList.add('gg-shake'); }
+  return false;
+}
+function showLanding(reopen) {
+  ggShow(`
+    <div class="gg-brand"><span class="gg-tu">👍</span> <span class="gg-bt">${GG_BRAND}</span></div>
+    <div class="gg-hero">
+      <h2 class="gg-h">무거운 수험서 대신,<br>언제 어디서나 웹으로<br>점검하는 손해사정사 시험</h2>
+      <ul class="gg-sell">
+        <li>제45~49회 <b>1차 기출 600문항</b> · 해설과 오답 이유 전 문항</li>
+        <li>공식 정답이 없는 <b>2차 논술 738문항</b> · 모범답안 668문항</li>
+        <li>틀린 문제 <b>자동 오답노트</b> + 어느 기기서든 이어풀기</li>
+        <li>기출과 <b>전자교재 55절</b>이 서로 연결 — 막히면 그 자리에서 이동</li>
+      </ul>
+      <div class="gg-price"><span class="pn p1">1년 이용 단돈 ${PRICE.toLocaleString()}원 (1회 결제)</span><span class="pn sub2">월 환산 기준 ${Math.round(PRICE / 12).toLocaleString()}원</span></div>
+    </div>
+    <div class="gg-samp-t">무료 회차 먼저 체험해 보세요</div>
+    <div class="gg-samples">
+      <a class="gg-samp" id="gg-s1">1차 기출 ${FREE_YEAR}년 120문항</a>
+      <a class="gg-samp" id="gg-s2">2차 기출 ${FREE_YEAR}년 78문항</a>
+    </div>
+    <label class="gg-agree"><input type="checkbox" id="gg-agree"><span>매크로·계정 공유·무단 수집(크롤링) 등 부정 이용을 금지하며, 어뷰징 적발 시 이용 제한 및 관련 법령에 따른 손해배상 청구가 있을 수 있음을 확인합니다. <a data-legal="abuse">[전문]</a></span></label>
+    <div class="gg-agree-hint" id="gg-agree-hint"></div>
+    <button class="gg-btn" id="gg-signup">회원가입하고 시작</button>
+    <button class="gg-btn ghost" id="gg-login">이미 회원이에요 · 로그인</button>
+    <div class="gg-links gg-links-2row">
+      <a data-legal="apply">현금영수증 발급신청</a><span>·</span><a data-legal="receipt">현금영수증 발급안내</a><br>
+      <a data-legal="refund">결제 및 환불 규정</a><span>·</span><a data-legal="abuse">부정이용·저작권 고지</a><br>
+      <a href="mailto:${CONTACT}">📧 문의 ${CONTACT}</a>
+    </div>
+    <div class="gg-biz-hero">
+      <span class="m">쥬디 피피뷰 (Judy PDF PT View)</span><span class="s">|</span><span class="m">사업자등록번호 153-41-01489</span>
+    </div>
+    <div class="gg-foot">본 웹서비스의 모든 자료·데이터베이스는 관련 법령에 의해 보호받습니다. 매크로·봇 등 자동화 프로그램을 이용한 무단 수집(크롤링)·상업적 재가공·비정상 트래픽 유발 등 서비스의 정상적 운영을 방해하는 행위는 <b>정보통신망법 제48조 및 저작권법 제93조</b>에 의거 엄격히 금지되며, 위반 시 민·형사상의 책임을 질 수 있습니다. 또한 본 저작물은 한국산업인력공단에서 공공누리 제1유형으로 개방한 자료입니다. 2차 시험은 공식 정답이 공개되지 않아 모범답안은 <b>자체 작성</b>한 것입니다.</div>
+    <div class="gg-biz-line">상호 쥬디 피피뷰 (Judy PDF PT View) · 사업자등록번호 153-41-01489 · 업태 정보통신업 · 종목 응용 소프트웨어 개발 및 공급업</div>`, reopen);
+
+  bindLegal(showLanding);
+  $('gg-signup').onclick = () => { if (!ggAgreed()) return; ggHide(); setAuthMode('signup'); openAuth(); };
+  $('gg-login').onclick  = () => { ggHide(); setAuthMode('login'); openAuth(); };
+  $('gg-s1').onclick = () => { if (!ggAgreed()) return; goLocal(); };
+  $('gg-s2').onclick = () => {
+    if (!ggAgreed()) return;
+    store.set('sonsa:local', true);          // 2차 화면도 같은 저장소를 본다
+    location.href = './exam2.html';
+  };
+  /* 사업자 한 줄이 넘치면 글자를 줄여 한 줄에 맞춘다 (공인중개사 랜딩과 같은 처리) */
+  const b = document.querySelector('#gg-ov .gg-biz-line');
+  if (b) {
+    let fs = 10.5; b.style.fontSize = fs + 'px';
+    for (let i = 0; i < 48 && b.scrollWidth > b.clientWidth && fs > 6; i++) {
+      fs -= 0.25; b.style.fontSize = fs + 'px';
+    }
+  }
+}
+$('ggClose').onclick = ggHide;
+$('brandBtn').onclick = () => showLanding(true);
 
 /* ══ 이용권 · 무통장입금 ═════════════════════════════════════ */
 const won = n => Number(n || 0).toLocaleString('ko-KR') + '원';
@@ -1607,7 +1855,7 @@ function fillSelects() {
   else if (localOnly || offline) { S.local = true; }
   who();
 
-  if (!S.token && !S.local) { openIntro(false); }
+  if (!S.token && !S.local) { showLanding(false); }
   if (S.token) {
     try {
       const r = await fetch(API + '/me', {

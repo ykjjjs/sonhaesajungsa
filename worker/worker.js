@@ -347,7 +347,15 @@ async function handleApi(request, env, path) {
 
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
+    let url = new URL(request.url);
+    /* smart-yourtest.com/sonsa/* 로 들어온 요청은 접두사를 떼고 평소대로 처리한다.
+       workers.dev 주소로 들어오면 접두사가 없으므로 이 블록을 그냥 지나간다. */
+    if (url.pathname === '/sonsa') return Response.redirect(url.origin + '/sonsa/', 301);
+    if (url.pathname.startsWith('/sonsa/')) {
+      url = new URL(url.toString());
+      url.pathname = url.pathname.slice(6) || '/';       // '/sonsa' 6글자
+      request = new Request(url.toString(), request);
+    }
     if (url.pathname.startsWith('/api/')) {
       if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
       if (request.method !== 'POST') return err('POST 요청만 허용됩니다.', 405);
