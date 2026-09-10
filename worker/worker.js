@@ -350,8 +350,10 @@ export default {
     let url = new URL(request.url);
     /* smart-yourtest.com/sonsa/* 로 들어온 요청은 접두사를 떼고 평소대로 처리한다.
        workers.dev 주소로 들어오면 접두사가 없으므로 이 블록을 그냥 지나간다. */
+    let prefixed = false;
     if (url.pathname === '/sonsa') return Response.redirect(url.origin + '/sonsa/', 301);
     if (url.pathname.startsWith('/sonsa/')) {
+      prefixed = true;
       url = new URL(url.toString());
       url.pathname = url.pathname.slice(6) || '/';       // '/sonsa' 6글자
       request = new Request(url.toString(), request);
@@ -365,7 +367,20 @@ export default {
         return err('서버 오류: ' + (e && e.message ? e.message : String(e)), 500);
       }
     }
-    if (env.ASSETS) return env.ASSETS.fetch(request);
+    if (env.ASSETS) {
+      const res = await env.ASSETS.fetch(request);
+      /* 정적 자산 쪽은 '/exam2.html' → '/exam2' 처럼 스스로 되돌려보내는 일이 있는데,
+         그 주소에는 /sonsa 가 빠져 있어 엉뚱한 곳으로 간다. 접두사를 다시 붙여 준다. */
+      if (prefixed && res.status >= 300 && res.status < 400) {
+        const loc = res.headers.get('Location');
+        if (loc && loc.startsWith('/') && !loc.startsWith('/sonsa/')) {
+          const h = new Headers(res.headers);
+          h.set('Location', '/sonsa' + loc);
+          return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h });
+        }
+      }
+      return res;
+    }
     return new Response('Not found', { status: 404 });
   },
 };
