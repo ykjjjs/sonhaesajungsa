@@ -78,9 +78,8 @@ async function adminOk(env, token) {
 /* 승인 — 관리자 수동승인과 입금 웹훅 자동승인이 함께 쓴다.
    이미 이용권이 살아 있으면 남은 기간에 1년을 얹는다(연장). */
 /* ===== 승인·거절 알림 =====================================================
-   이메일 = Resend(secret RESEND_API_KEY), 문자 = 알리고(secret ALIGO_KEY /
-   ALIGO_USER_ID / ALIGO_SENDER). 시크릿이 없으면 그 통로만 조용히 건너뛴다.
-   ※ 문자 발신번호는 알리고에 사전등록된 번호여야 한다(발신번호 사전등록제). */
+   Resend 로 보낸다(secret RESEND_API_KEY). 키가 없으면 조용히 건너뛴다.
+   고객 알림은 승인·거절, 관리자 알림은 입금 확인 요청과 자동 입금 감지. */
 const CONTACT_EMAIL = 'smartyourtest@gmail.com';
 const SITE = 'https://smart-yourtest.com/sonsa/';
 const EXAM = '손해사정사';
@@ -103,30 +102,24 @@ async function sendEmail(env, to, subject, html) {
   });
 }
 
-async function sendSms(env, to, text) {
-  if (!env.ALIGO_KEY || !env.ALIGO_USER_ID || !env.ALIGO_SENDER) return;
-  if (!to) return;
-  const form = new URLSearchParams({
-    key: env.ALIGO_KEY,
-    user_id: env.ALIGO_USER_ID,
-    sender: env.ALIGO_SENDER,
-    receiver: to,
-    msg: text,
-    title: '스마트 YOU',      // 장문(LMS)으로 넘어갈 때 쓰이는 제목
-  });
-  await fetch('https://apis.aligo.in/send/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
-    body: form,
-  });
+/* 관리자에게 보내는 알림 메일. 받을 주소는 secret ADMIN_ALERT_TO 에 둔다
+   (콤마로 여러 개). 설정하지 않으면 문의 주소로 보낸다. */
+function adminAlertHtml(title, rows) {
+  const tr = rows.map(([k, v]) =>
+    `<tr><td style="padding:6px 14px 6px 0;color:#66788e">${k}</td><td><b>${v}</b></td></tr>`).join('');
+  return `<div style="max-width:520px;margin:0 auto;font-family:'Malgun Gothic',Apple SD Gothic Neo,sans-serif;color:#1c2430;line-height:1.7">
+      <h2 style="color:#0b57c9">${title}</h2>
+      <table style="border-collapse:collapse;margin:14px 0">${tr}</table>
+      <p><a href="https://smart-yourtest.com/admin.html">통합 관리자에서 확인 →</a></p>
+    </div>`;
 }
 
-/* 관리자에게 보내는 문자. 받을 번호는 secret ADMIN_SMS_TO 에만 둔다
-   (콤마로 여러 개). 소스·저장소·API 응답 어디에도 번호가 남지 않는다. */
-async function notifyAdmins(env, text) {
-  const to = String(env.ADMIN_SMS_TO || '').replace(/[^0-9,]/g, '');
-  if (!to) return;
-  await sendSms(env, to, text);      // 알리고 receiver 는 콤마로 여러 번호를 받는다
+async function notifyAdmins(env, subject, html) {
+  const list = String(env.ADMIN_ALERT_TO || CONTACT_EMAIL)
+    .split(',').map(x => x.trim()).filter(Boolean);
+  for (const to of list) {
+    try { await sendEmail(env, to, subject, html); } catch (e) {}
+  }
 }
 
 function notifyText(kind, email, until) {
@@ -134,7 +127,6 @@ function notifyText(kind, email, until) {
     const u = ymd(until);
     return {
       subject: '[스마트 YOU] ' + EXAM + ' 이용권이 승인되었습니다',
-      sms: '[스마트 YOU] ' + EXAM + ' 1년 이용권이 승인되었습니다. ' + u + '까지 이용하실 수 있습니다. ' + SITE,
       html: `
         <div style="max-width:520px;margin:0 auto;font-family:'Malgun Gothic',Apple SD Gothic Neo,sans-serif;color:#1c2430;line-height:1.7">
           <h2 style="color:#0b57c9">✅ 입금이 확인되어 이용권이 승인되었습니다</h2>
@@ -152,7 +144,6 @@ function notifyText(kind, email, until) {
   }
   return {
     subject: '[스마트 YOU] ' + EXAM + ' 이용권이 활성화되지 않았습니다',
-    sms: '[스마트 YOU] ' + EXAM + ' 이용권이 활성화되지 않았습니다. 입금 확인이 어렵거나 취소된 경우입니다. 문의 ' + CONTACT_EMAIL,
     html: `
       <div style="max-width:520px;margin:0 auto;font-family:'Malgun Gothic',Apple SD Gothic Neo,sans-serif;color:#1c2430;line-height:1.7">
         <h2 style="color:#c8332c">이용권이 활성화되지 않았습니다</h2>
@@ -167,18 +158,10 @@ function notifyText(kind, email, until) {
   };
 }
 
-/* 이메일과 문자를 함께 보낸다. 한쪽이 실패해도 나머지는 그대로 나간다. */
+/* 승인·거절을 고객에게 메일로 알린다. 키가 없으면 조용히 건너뛴다. */
 async function notifyUser(env, kind, email, until) {
-  let phone = '';
-  try {
-    const u = await env.DB.prepare('SELECT phone FROM users WHERE email=?').bind(email).first();
-    phone = u && u.phone ? String(u.phone).replace(/[^0-9]/g, '') : '';
-  } catch (e) {}
   const t = notifyText(kind, email, until);
-  await Promise.allSettled([
-    sendEmail(env, email, t.subject, t.html),
-    sendSms(env, phone, t.sms),
-  ]);
+  try { await sendEmail(env, email, t.subject, t.html); } catch (e) {}
 }
 
 async function approveUser(env, email) {
@@ -188,7 +171,7 @@ async function approveUser(env, email) {
   await env.DB.prepare('UPDATE users SET paid=1, paid_until=? WHERE email=?').bind(until, email).run();
   await env.DB.prepare('UPDATE payments SET status=?, approved=? WHERE email=?')
     .bind('paid', now(), email).run();
-  // 승인 안내 — 이메일 + 문자 (해당 시크릿이 없으면 그 통로만 건너뜀)
+  // 승인 안내 메일 (RESEND_API_KEY 가 없으면 조용히 건너뜀)
   try { await notifyUser(env, 'approve', email, until); } catch (e) {}
   return until;
 }
@@ -258,13 +241,16 @@ async function handleApi(request, env, path) {
     else if (dup) status = 'duplicate';
     else status = 'unmatched';
 
-    // 관리자 휴대폰으로 감지 결과 문자
+    // 관리자에게 감지 결과 메일
     try {
       const label = { matched: '자동승인 완료', amount_mismatch: '금액 불일치',
                       duplicate: '이미 승인된 코드', unmatched: '미매칭 — 수동 확인 필요' }[status];
-      await notifyAdmins(env, '[YOU] ' + EXAM + ' 입금감지 · ' + label
-        + '\n' + (amount ? amount.toLocaleString('ko-KR') + '원' : '금액 미확인')
-        + (matchedEmail ? '\n' + matchedEmail : ''));
+      await notifyAdmins(env,
+        '[스마트 YOU] ' + EXAM + ' 입금감지 · ' + label,
+        adminAlertHtml(EXAM + ' 입금감지 — ' + label, [
+          ['금액', amount ? amount.toLocaleString('ko-KR') + '원' : '미확인'],
+          ['계정', matchedEmail || '-'],
+        ]));
     } catch (e) {}
 
     await env.DB.prepare(
@@ -346,11 +332,15 @@ async function handleApi(request, env, path) {
       await env.DB.prepare('UPDATE payments SET receipt_phone=?, requested=? WHERE email=?')
         .bind(phone, now(), u.email).run();
       p.receipt_phone = phone || '';
-      // 관리자 휴대폰으로 문자
+      // 관리자에게 입금 확인 요청 메일
       try {
-        await notifyAdmins(env, '[YOU] ' + EXAM + ' 입금확인 요청'
-          + '\n' + '코드 ' + p.code + ' · ' + BANK.amount.toLocaleString('ko-KR') + '원'
-          + '\n' + u.email);
+        await notifyAdmins(env,
+          '[스마트 YOU] ' + EXAM + ' 입금확인 요청 · 코드 ' + p.code,
+          adminAlertHtml(EXAM + ' 입금확인 요청', [
+            ['코드', p.code],
+            ['금액', BANK.amount.toLocaleString('ko-KR') + '원'],
+            ['계정', u.email],
+          ]));
       } catch (e) {}
     }
     return json({
