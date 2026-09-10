@@ -6,7 +6,8 @@ account_id = "c464bbbbdc93f28f182efd222fb1b10e"
 workers_dev = true   # 커스텀 도메인을 붙이기 전까지는 workers.dev 주소로 연다
 
 routes = [
-  { pattern = "smart-yourtest.com/sonsa/*", zone_name = "smart-yourtest.com" }
+  { pattern = "smart-yourtest.com/sonsa/*", zone_name = "smart-yourtest.com" },
+  { pattern = "www.smart-yourtest.com/sonsa/*", zone_name = "smart-yourtest.com" }
 ]
 
 [assets]
