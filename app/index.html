@@ -406,13 +406,13 @@ main{padding:var(--sp-5) 0}
 .steps .step > div > b{display:block;font-size:14px;color:var(--tx);margin-bottom:3px}
 .steps .step span{display:block;font-size:12.5px;color:var(--tx4);line-height:1.6;word-break:keep-all}
 .hl{color:var(--sap2);font-weight:700}
-.who{margin:-2px 0 12px 32px;padding:9px 12px;border:1px dashed var(--edge);border-radius:11px;font-size:12.5px;color:var(--tx4)}
-.who b{color:var(--tx)}
-.who .eq{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:5px;font-size:14px}
-.who .eq em{font-style:normal;font-weight:700;color:var(--tx);padding:2px 8px;border-radius:7px;background:var(--surf2);border:1px solid var(--edge)}
-.who .eq em.num{font-family:var(--m);color:var(--sap2)}
-.who .eq i{font-style:normal;color:var(--tx5)}
-.who .eq b{font-family:var(--m);color:var(--sap2);font-size:15px}
+.depo{margin:-2px 0 12px 32px;padding:9px 12px;border:1px dashed var(--edge);border-radius:11px;font-size:12.5px;color:var(--tx4)}
+.depo b{color:var(--tx)}
+.depo .eq{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:5px;font-size:14px}
+.depo .eq em{font-style:normal;font-weight:700;color:var(--tx);padding:2px 8px;border-radius:7px;background:var(--surf2);border:1px solid var(--edge)}
+.depo .eq em.num{font-family:var(--m);color:var(--sap2)}
+.depo .eq i{font-style:normal;color:var(--tx5)}
+.depo .eq b{font-family:var(--m);color:var(--sap2);font-size:15px}
 
 .acct{background:var(--surf2);border:1px solid var(--edge);border-radius:13px;
   padding:12px 14px;margin:0 0 15px 32px}
@@ -800,7 +800,7 @@ main{padding:var(--sp-5) 0}
       <div class="step"><i>1</i><div><b>입금자명을 「내 이름 + 숫자 4자리」로 적어 입금해 주세요</b>
         <span>숫자 4자리는 회원님께 주어진 번호 <b class="hl" id="payCode">—</b> 입니다.
           이체 화면의 <b>받는 분 통장 표시</b> 칸(은행마다 이름이 조금 다릅니다)에 적어 주세요.</span></div></div>
-      <div class="who">
+      <div class="depo">
         <span>예) 이름이 <b>홍길동</b>이라면</span>
         <div class="eq"><em>홍길동</em><i>+</i><em class="num" id="payWhoCode">—</em><i>=</i><b id="payWho">—</b></div>
       </div>
