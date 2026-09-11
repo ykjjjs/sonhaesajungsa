@@ -41,6 +41,7 @@ h1{font-size:clamp(21px,3.4vw,28px);font-weight:800;letter-spacing:-.03em;color:
   padding:8px 12px;border:1px solid var(--edge);border-radius:10px;background:var(--surf);
   white-space:nowrap;transition:border-color .18s var(--ease),color .18s var(--ease)}
 .tlink:hover{border-color:var(--lift);color:var(--tx)}
+.tlink.pay{color:#fff;background:var(--grad);border-color:transparent}
 
 /* ── 고르는 줄 ── */
 .picks{display:flex;flex-direction:column;gap:9px;padding:0 0 20px}
@@ -151,6 +152,7 @@ textarea::placeholder{color:var(--tx5)}
       <div class="hsp"></div>
       <a class="tlink" href="./index.html">1차 기출</a>
       <a class="tlink" href="./book.html">전자교재</a>
+      <a class="tlink pay" id="payLink" href="./index.html?pay=1">💳 이용권 결제</a>
     </div>
     <div class="picks">
       <div class="row"><span class="lab">종별</span><span id="trackRow"></span></div>
@@ -299,7 +301,7 @@ function draw() {
     d.className = 'locked';
     d.innerHTML = '<b>이용권이 있어야 열립니다</b>결제 전에는 제' + FREE_ROUND2 +
       '회 예시 ' + FREE_N2 + '문항(신체 의학이론 1번 · 재물 회계원리 1번 · 차량 자동차(대물) 1번)만 볼 수 있습니다. ' +
-      '<a href="./index.html">기출 앱에서 이용권 열기 →</a>';
+      '<a href="./index.html?pay=1">💳 이용권 결제하러 가기 →</a>';
     m.appendChild(d);
     return;
   }
@@ -313,7 +315,7 @@ function lockCard(q) {
   el.innerHTML = '<div class="qh"><span class="qno">' + q.no + '</span>' +
     '<span class="pts">' + (q.points || 0) + '점</span><span class="qsp"></span></div>' +
     '<div class="locked"><b>🔒 이용권이 있어야 열립니다</b>문제와 모범답안은 이용권을 켜면 모두 열립니다. ' +
-    '<a href="./index.html">기출 앱에서 이용권 열기 →</a></div>';
+    '<a href="./index.html?pay=1">💳 이용권 결제하러 가기 →</a></div>';
   return el;
 }
 
@@ -406,6 +408,7 @@ async function loadFull() {
     }).then(x => x.json());
     if (r.ok && Array.isArray(r.data) && r.data.length) {
       EXAM2ALL = r.data;
+      const pl = document.getElementById('payLink'); if (pl) pl.remove();   // 이용권이 있다
       EXAM2.length = 0;
       r.data.forEach(x => EXAM2.push(x));
       draw();

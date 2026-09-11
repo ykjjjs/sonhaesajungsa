@@ -65,6 +65,8 @@ mark{background:rgba(62,155,255,.28);color:var(--tx);border-radius:3px;padding:0
   transition:color .18s var(--ease),background .18s var(--ease)}
 .lnk:hover{color:var(--tx2);background:rgba(127,135,148,.12)}
 .lnk.on{color:var(--tx)}
+.lnk.pay{color:#fff;background:var(--grad);text-decoration:none}
+.lnk.pay[hidden]{display:none}
 .gsp{flex:1}
 .gsearch{position:relative;width:min(230px,32vw)}
 .gsearch input{width:100%;height:34px;border:1px solid var(--edge);border-radius:10px;
@@ -372,6 +374,7 @@ mark{background:rgba(62,155,255,.28);color:var(--tx);border-radius:3px;padding:0
     <button class="lnk" id="navGloss">용어사전</button>
     <a class="lnk" href="./index.html">기출풀이</a>
     <a class="lnk" href="./exam2.html">2차 기출</a>
+    <a class="lnk pay" id="navPay" href="./index.html?pay=1" hidden>💳 결제</a>
     <div class="gsp"></div>
     <div class="gsearch"><span class="ic">⌕</span><input id="q" type="search" placeholder="교재 내 검색"></div>
     <div class="pill"><select id="subjSel" aria-label="과목"></select></div>
@@ -475,7 +478,7 @@ function homeHtml(){
 function freeBand(){
   return `<div class="freeband">지금은 <b>무료 범위(보험업법 제1장 총칙)</b>만 열려 있습니다.
     자물쇠가 걸린 장·절은 이용권을 켜면 모두 열립니다.
-    <a href="./index.html">기출 앱에서 이용권 열기 →</a></div>`;
+    <a href="./index.html?pay=1">💳 이용권 결제하러 가기 →</a></div>`;
 }
 
 function chapHtml(){
@@ -503,7 +506,7 @@ function sectHtml(){
       <h1>${esc(s.title)}</h1></div>
     <div class="empty lockbox"><h2>🔒 이용권이 있어야 열립니다</h2>
       <p>결제 전에는 보험업법 제1장 「총칙」만 볼 수 있습니다.<br>이용권을 켜면 교재 55절이 모두 열립니다.</p>
-      <p><a class="gbtn" href="./index.html">기출 앱에서 이용권 열기 →</a></p></div>
+      <p><a class="gbtn" href="./index.html?pay=1">💳 이용권 결제하러 가기 →</a></p></div>
     <div class="rnav">
       <button ${idx===0?'disabled':''} data-nav="${idx-1}">← 이전</button>
       <span class="mid">${idx+1} / ${f.length}</span>
@@ -787,6 +790,7 @@ document.documentElement.setAttribute('data-theme', 'dark');
    배포본에는 본문이 박혀 있지 않다(BOOK=null). 이용권이 있는 계정만
    /api/content 로 받아 온다. 로컬 미리보기본은 BOOK 이 채워져 있어 그대로 열린다. */
 function gateScreen(kind, msg){
+  document.getElementById('navPay').hidden = false;
   const body = {
     anon: ['로그인이 필요합니다',
       '회원가입(로그인)을 하면 교재 「총칙」을 무료로 볼 수 있고, 이용권을 켜면 55절이 모두 열립니다.', '기출 앱에서 가입·로그인 →'],
@@ -797,7 +801,7 @@ function gateScreen(kind, msg){
   document.getElementById('view').innerHTML =
     `<section class="hero"><div class="eyebrow">전자교재</div>
       <h1>${body[0]}</h1><p class="sub">${body[1]}</p>
-      <div class="stats"><a class="gbtn" href="./index.html">${body[2]}</a></div></section>`;
+      <div class="stats"><a class="gbtn" href="./index.html${kind === 'fail' ? '' : '?pay=1'}">${body[2]}</a></div></section>`;
 }
 
 /* 주소로 들어온 요청 — ?sec=과목|장|절 이면 그 절을 바로 열고, ?q=낱말 이면 검색한다 */
@@ -816,6 +820,7 @@ function deepLink(){
 function openFree(){
   if (!FREE || !FREE.BOOK) { gateScreen('unpaid'); return; }
   FREE_MODE = true;
+  document.getElementById('navPay').hidden = false;
   Object.assign(BOOK, FREE.BOOK);
   Object.assign(TERMS, FREE.TERMS || {});
   SEARCH.push(...(FREE.SEARCH || []));

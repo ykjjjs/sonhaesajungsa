@@ -417,6 +417,17 @@ main{padding:var(--sp-5) 0}
 .lic.on{color:var(--ok);border-color:rgba(76,195,138,.4)}
 .lic.off{color:var(--warn);border-color:rgba(201,144,58,.45);cursor:pointer}
 .lic.off:hover{background:rgba(201,144,58,.1)}
+/* 결제 입구 */
+.payBtn{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer;border:0;border-radius:99px;
+  padding:8px 14px;background:var(--grad);color:#fff;font:inherit;font-size:13px;font-weight:800;
+  box-shadow:0 0 0 1px rgba(62,155,255,.35),0 6px 18px -6px rgba(62,155,255,.6)}
+.payBtn:hover{filter:brightness(1.1)}
+.payBar{margin:14px 0 0;padding:12px 14px;border-radius:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  background:linear-gradient(160deg,rgba(62,155,255,.15),rgba(62,155,255,.04));border:1px solid rgba(62,155,255,.35)}
+.payBar p{flex:1 1 240px;margin:0;font-size:14px;line-height:1.6;color:var(--tx2);word-break:keep-all}
+.payBar p b{color:var(--tx)}
+.payBar .payBtn{padding:10px 18px;font-size:14px}
+.payBar[hidden]{display:none}
 .locked{position:relative;text-align:center;padding:var(--sp-7) var(--sp-4)}
 .locked .ic{font-size:30px;margin-bottom:14px;opacity:.85}
 .locked h2{font-size:21px;font-weight:800;letter-spacing:-.03em;color:var(--tx);margin-bottom:9px}
@@ -617,6 +628,8 @@ main{padding:var(--sp-5) 0}
       .gg-price .pn.sub2{font-size:12px;margin-top:5px;filter:drop-shadow(0 0 3px rgba(255,180,58,.42))}
       .gg-samp-t{font-size:12px;color:#9fb0bf;margin-bottom:8px;text-align:center}
       .gg-samples{display:flex;gap:7px;margin-bottom:16px}
+      .gg-steps{margin:-6px 0 16px;padding:10px 12px;border-radius:10px;background:#0f1a24;border:1px dashed #2c3d4a;color:#b9c6d6;font-size:12.5px;line-height:1.75;text-align:center;word-break:keep-all}
+      .gg-steps b{color:#ffd36b}
       .gg-samp{flex:1;text-align:center;padding:11px 6px;border-radius:9px;border:1px solid #2c3d4a;
         background:#0f1720;color:#cfe0ee;font-size:12.5px;font-weight:600;text-decoration:none;cursor:pointer}
       .gg-samp:hover{border-color:#4b9fff;background:#16232f}
@@ -693,6 +706,7 @@ main{padding:var(--sp-5) 0}
       <div class="st"><b id="stWrong">0</b><span>오답 노트</span></div>
       <div class="st"><b id="stTotal">0</b><span>이 조건 문항</span></div>
     </div>
+    <div class="payBar" id="payBar" hidden></div>
   </div>
 </header>
 
@@ -1537,7 +1551,7 @@ $('authGo').onclick = async () => {
     }).then(r => r.json());
     if (r.error) throw new Error(r.error);
     S.token = r.token; S.email = r.email || email; S.local = false;
-    S.paid = r.paid || 0; S.paidUntil = r.paidUntil || null; S.phone = r.phone || phone;
+    S.paid = r.paid || 0; S.paidUntil = r.paidUntil || null; S.phone = r.phone || phone; S.known = true;
     store.set('sonsa:auth', { token: r.token, email: S.email });
     closeAuth(); who();
     if (!(await loadContent())) return;
@@ -1545,6 +1559,9 @@ $('authGo').onclick = async () => {
     await load(); resumeLast(); render();
     const lb = lastLabel();
     if (lb) toast('이어서 풀기 · ' + lb);
+    // 방금 회원가입했거나 결제하려다 로그인한 경우 — 결제 안내를 바로 연다
+    if (!S.paid && (PAY_AFTER_AUTH || authMode === 'signup')) setTimeout(() => openPay(), 450);
+    PAY_AFTER_AUTH = false;
   } catch (e) {
     $('authErr').textContent = e.message || '요청에 실패했습니다. 잠시 후 다시 시도해 주세요.';
   } finally { $('authGo').disabled = false; }
@@ -1643,6 +1660,7 @@ function showLanding(reopen) {
         <li>기출과 <b>전자교재 55절</b>이 서로 연결 — 막히면 그 자리에서 이동</li>
       </ul>
       <div class="gg-price"><span class="pn p1">1년 이용 단돈 ${PRICE.toLocaleString()}원 (1회 결제)</span><span class="pn sub2">월 환산 기준 ${Math.round(PRICE / 12).toLocaleString()}원</span></div>
+      <div class="gg-steps"><b>이용 방법</b> ① 회원가입(무료) → ② 예시 문제 체험 → ③ 화면 위 <b>「💳 이용권 결제」</b> 버튼에서 ${PRICE.toLocaleString()}원 계좌이체 → 입금 확인 후 전체 열림</div>
     </div>
     <div class="gg-samp-t">예시 문제 먼저 체험해 보세요</div>
     <div class="gg-samples">
@@ -1688,23 +1706,39 @@ $('brandBtn').onclick = () => showLanding(true);
 /* ══ 이용권 · 무통장입금 ═════════════════════════════════════ */
 const won = n => Number(n || 0).toLocaleString('ko-KR') + '원';
 let PAY = null;
+let PAY_AFTER_AUTH = false;   // 가입·로그인이 끝나면 결제 창을 연다
 
 function licBadge() {
   const b = $('licBox'); if (!b) return;
-  if (S.local) { b.innerHTML = ''; return; }
-  if (!S.token) { b.innerHTML = ''; return; }
-  if (S.paid) {
+  if (S.token && !S.known) { b.innerHTML = ''; payBar(); return; }   // 이용권 여부를 아직 모른다
+  if (S.token && S.paid) {
     const d = S.paidUntil ? new Date(S.paidUntil * 1000) : null;
     const until = d ? `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}` : '';
     b.innerHTML = `<span class="lic on">이용권 ${esc(until)}까지</span>`;
   } else {
-    b.innerHTML = `<span class="lic off" id="licBtn">예시 문제만 열림 · 전체 열기</span>`;
+    b.innerHTML = `<button class="payBtn" id="licBtn" type="button">💳 이용권 결제 · ${won(PRICE)}</button>`;
     $('licBtn').onclick = () => openPay();
   }
+  payBar();
+}
+/* 결제 전이면 머리 아래에 결제 안내 줄을 늘 보여 준다 */
+function payBar() {
+  const el = $('payBar'); if (!el) return;
+  if (S.token && (!S.known || S.paid)) { el.hidden = true; el.innerHTML = ''; return; }
+  el.hidden = false;
+  el.innerHTML = `<p>지금은 <b>예시 문제(1차 ${FREE_N1}문항 · 2차 ${FREE_N2}문항)와 교재 총칙</b>만 열려 있습니다.
+      <b>1년 ${won(PRICE)}</b>을 계좌이체하면 1차 600문항 · 2차 738문항 · 교재 55절이 모두 열립니다.</p>
+    <button class="payBtn" id="payBarBtn" type="button">💳 결제하러 가기 →</button>`;
+  $('payBarBtn').onclick = () => openPay();
 }
 
 async function openPay() {
-  if (!S.token || S.local) { openAuth(); return; }
+  if (!S.token || S.local) {
+    PAY_AFTER_AUTH = true;
+    setAuthMode('signup'); openAuth();
+    $('authSub').textContent = '결제는 회원가입 후 진행됩니다. 이미 계정이 있으면 아래에서 로그인하세요. 끝나면 결제 안내가 바로 열립니다.';
+    return;
+  }
   $('payOv').classList.add('on');
   $('payErr').textContent = '';
   $('payOk').hidden = true;
@@ -1747,7 +1781,7 @@ async function refreshMe(quiet) {
     }).then(r => r.json());
     if (r.error) return;
     const was = S.paid;
-    S.paid = r.paid; S.paidUntil = r.paidUntil; S.phone = r.phone || '';
+    S.paid = r.paid; S.paidUntil = r.paidUntil; S.phone = r.phone || ''; S.known = true;
     licBadge();
     if (r.paid && !was) {                       // 방금 열렸다 — 전체를 받아 온다
       await loadContent(); fillSelects(); await load(); render();
@@ -1837,7 +1871,7 @@ function fillSelects() {
         body: JSON.stringify({ token: S.token }),
       }).then(r => r.json());
       if (r.error) { S.token = S.email = null; store.del('sonsa:auth'); openAuth(); }
-      else { S.email = r.email; S.paid = r.paid; S.paidUntil = r.paidUntil; S.phone = r.phone || ''; }
+      else { S.email = r.email; S.paid = r.paid; S.paidUntil = r.paidUntil; S.phone = r.phone || ''; S.known = true; }
     } catch (e) { /* 오프라인 — 내장 회차로 이어 간다 */ }
     who();
   }
@@ -1854,6 +1888,12 @@ function fillSelects() {
   }
   render();
   if (miss) toast(`제${miss.r}회는 이용권이 있어야 열립니다`);
+  // 2차·교재 화면의 '이용권 결제'에서 넘어온 경우
+  if (u0.get('pay')) {
+    if (S.token) { if (S.known && S.paid) toast('이미 이용권이 켜져 있습니다'); else openPay(); }
+    else if (S.local) openPay();
+    else PAY_AFTER_AUTH = true;          // 랜딩에서 가입·로그인하면 곧바로 결제 안내가 열린다
+  }
   // 결제 대기 중이면 창을 다시 열 때 한 번 확인해 준다
   if (S.token && !S.paid && !S.local) setTimeout(() => refreshMe(true), 1500);
 })();
