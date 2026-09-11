@@ -651,7 +651,9 @@ function deepLink(){
   try { auth = JSON.parse(localStorage.getItem('sonsa:auth') || 'null'); } catch(e){}
   if (!auth || !auth.token) { gateScreen('anon'); return; }
   try {
-    const r = await fetch('/api/content', {
+    // 현재 폴더 기준 — smart-yourtest.com/sonsa/ 아래에서는 /sonsa/api 로 간다
+    const BASE = location.pathname.replace(/\/[^/]*$/, '');
+    const r = await fetch(BASE + '/api/content', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ token: auth.token, doc: 'book' }),
     });
