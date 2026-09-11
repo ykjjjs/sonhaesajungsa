@@ -413,6 +413,22 @@ main{padding:var(--sp-5) 0}
 .depo .eq em.num{font-family:var(--m);color:var(--sap2)}
 .depo .eq i{font-style:normal;color:var(--tx5)}
 .depo .eq b{color:var(--sap2);font-size:15px;letter-spacing:.01em}
+/* 네온 반짝임 — 글자색은 그대로, 빛만 숨 쉬듯 켜지고 가끔 '클링' 깜빡인다 */
+.neon{--glow:currentColor;font-style:normal;color:inherit;animation:neonTw 2.6s ease-in-out infinite}
+.neon2{animation-delay:-1.3s}
+:root[data-theme="light"] .neon{--glow:var(--sap)}
+@keyframes neonTw{
+  0%,100%{text-shadow:0 0 1px var(--glow),0 0 6px var(--glow),0 0 14px color-mix(in srgb,var(--glow) 55%,transparent)}
+  45%{text-shadow:0 0 2px var(--glow),0 0 10px var(--glow),0 0 24px var(--glow),0 0 40px color-mix(in srgb,var(--glow) 60%,transparent)}
+  60%{text-shadow:0 0 1px var(--glow),0 0 6px var(--glow),0 0 14px color-mix(in srgb,var(--glow) 55%,transparent)}
+  64%{text-shadow:none;opacity:.72}
+  67%{text-shadow:0 0 2px var(--glow),0 0 12px var(--glow),0 0 28px var(--glow);opacity:1}
+  70%{text-shadow:none;opacity:.8}
+  74%{text-shadow:0 0 2px var(--glow),0 0 10px var(--glow),0 0 22px var(--glow);opacity:1}
+}
+@media (prefers-reduced-motion: reduce){
+  .neon{animation:none;text-shadow:0 0 2px var(--glow),0 0 10px var(--glow)}
+}
 
 .acct{background:var(--surf2);border:1px solid var(--edge);border-radius:13px;
   padding:12px 14px;margin:0 0 15px 32px}
@@ -797,12 +813,12 @@ main{padding:var(--sp-5) 0}
     </div>
 
     <div class="steps">
-      <div class="step"><i>1</i><div><b>입금자명을 「내 이름 + 숫자 4자리」로 적어 입금해 주세요</b>
+      <div class="step"><i>1</i><div><b>입금자명을 <em class="neon">「내 이름 + 숫자 4자리」</em>로 적어 입금해 주세요</b>
         <span>숫자 4자리는 회원님께 주어진 번호 <b class="hl" id="payCode">—</b> 입니다.
           이체 화면의 <b>받는 분 통장 표시</b> 칸(은행마다 이름이 조금 다릅니다)에 적어 주세요.</span></div></div>
       <div class="depo">
         <span>예) 이름이 <b>홍길동</b>이라면</span>
-        <div class="eq"><em>홍길동</em><i>+</i><em class="num" id="payWhoCode">—</em><i>=</i><b id="payWho">—</b></div>
+        <div class="eq"><em>홍길동</em><i>+</i><em class="num" id="payWhoCode">—</em><i>=</i><b id="payWho" class="neon neon2">—</b></div>
       </div>
       <div class="acct">
         <div class="ln"><span>은행</span><b id="payBank">—</b></div>
