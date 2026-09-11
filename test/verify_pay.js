@@ -69,7 +69,8 @@ function mockRoutes(pg, st) {
   out.afterNotify = { notified: st.notified,
     stillOpen: await pg.$eval('#payOv', n=>n.classList.contains('on')),
     err: (await pg.textContent('#payErr')||'').trim(),
-    toast: (await pg.textContent('#toast')||'').trim() };
+    ok: await pg.$eval('#payOk', n => n.hidden ? '' : n.textContent.trim()),
+    btn: await pg.$eval('#payDone', n => n.textContent + (n.disabled ? ' (잠김)' : '')) };
 
   // ── 2. 서버에서 승인이 났다고 가정하고 새로고침 ──
   st.paid = 1;

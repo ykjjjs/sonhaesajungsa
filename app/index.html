@@ -356,6 +356,8 @@ main{padding:var(--sp-5) 0}
   transition:border-color .18s var(--ease),box-shadow .18s var(--ease)}
 .fld input:focus{border-color:var(--sap2);box-shadow:0 0 0 3px rgba(62,155,255,.15)}
 .err{min-height:18px;font-size:12.5px;color:var(--bad);margin-bottom:10px;word-break:keep-all}
+.payOk{font-size:13px;line-height:1.6;color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,transparent);border:1px solid color-mix(in srgb,var(--ok) 35%,transparent);border-radius:10px;padding:10px 12px;margin-bottom:10px;word-break:keep-all}
+.payOk[hidden]{display:none}
 .swap{margin-top:14px;font-size:13px;color:var(--tx4);text-align:center}
 .swap a{color:var(--sap2);cursor:pointer;text-decoration:none}
 .swap a:hover{text-decoration:underline}
@@ -404,12 +406,19 @@ main{padding:var(--sp-5) 0}
 .steps .step > div > b{display:block;font-size:14px;color:var(--tx);margin-bottom:3px}
 .steps .step span{display:block;font-size:12.5px;color:var(--tx4);line-height:1.6;word-break:keep-all}
 .hl{color:var(--sap2);font-weight:700}
+.who{margin:-2px 0 12px 32px;padding:9px 12px;border:1px dashed var(--edge);border-radius:11px;font-size:12.5px;color:var(--tx4)}
+.who b{color:var(--tx)}
+.who .eq{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:5px;font-size:14px}
+.who .eq em{font-style:normal;font-weight:700;color:var(--tx);padding:2px 8px;border-radius:7px;background:var(--surf2);border:1px solid var(--edge)}
+.who .eq em.num{font-family:var(--m);color:var(--sap2)}
+.who .eq i{font-style:normal;color:var(--tx5)}
+.who .eq b{font-family:var(--m);color:var(--sap2);font-size:15px}
 
 .acct{background:var(--surf2);border:1px solid var(--edge);border-radius:13px;
   padding:12px 14px;margin:0 0 15px 32px}
 .acct .ln{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13.5px}
 .acct .ln + .ln{border-top:1px solid var(--edge)}
-.acct .ln > span{width:52px;flex:none;font-size:11.5px;color:var(--tx5);letter-spacing:.04em}
+.acct .ln > span{width:64px;flex:none;font-size:11.5px;color:var(--tx5);letter-spacing:.04em}
 .acct .ln > b{flex:1;min-width:0;font-family:var(--m);color:var(--tx);font-weight:700;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .acct .ln.code > b{color:var(--sap2);font-size:15px;letter-spacing:.02em}
@@ -443,7 +452,7 @@ main{padding:var(--sp-5) 0}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translate(-50%,10px);
   background:var(--surf);border:1px solid var(--edge);border-radius:var(--rp);padding:9px 18px;
   font-size:13px;font-weight:600;color:var(--tx2);box-shadow:0 12px 40px -12px rgba(0,0,0,.9);
-  opacity:0;pointer-events:none;transition:opacity .24s var(--ease),transform .24s var(--ease);z-index:70}
+  opacity:0;pointer-events:none;transition:opacity .24s var(--ease),transform .24s var(--ease);z-index:90}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
 @media(max-width:560px){
@@ -788,20 +797,26 @@ main{padding:var(--sp-5) 0}
     </div>
 
     <div class="steps">
-      <div class="step"><i>1</i><div><b>아래 계좌로 입금해 주세요</b>
-        <span>입금자명 뒤에 <b class="hl">코드 4자리</b>를 꼭 붙여야 자동으로 확인됩니다. 예를 들면 <b class="hl" id="payWho">홍길동1234</b> 처럼요.</span></div></div>
+      <div class="step"><i>1</i><div><b>입금자명을 「내 이름 + 숫자 4자리」로 적어 입금해 주세요</b>
+        <span>숫자 4자리는 회원님께 주어진 번호 <b class="hl" id="payCode">—</b> 입니다.
+          이체 화면의 <b>받는 분 통장 표시</b> 칸(은행마다 이름이 조금 다릅니다)에 적어 주세요.</span></div></div>
+      <div class="who">
+        <span>예) 이름이 <b>홍길동</b>이라면</span>
+        <div class="eq"><em>홍길동</em><i>+</i><em class="num" id="payWhoCode">—</em><i>=</i><b id="payWho">—</b></div>
+      </div>
       <div class="acct">
         <div class="ln"><span>은행</span><b id="payBank">—</b></div>
         <div class="ln"><span>계좌</span><b id="payAcct">—</b><button class="cp" data-cp="payAcct" type="button">복사</button></div>
         <div class="ln"><span>예금주</span><b id="payHolder">—</b></div>
         <div class="ln"><span>금액</span><b id="payAmt2">—</b><button class="cp" data-cp="payAmt2" type="button">복사</button></div>
-        <div class="ln code"><span>입금자명</span><b id="payName">—</b><button class="cp" data-cp="payName" type="button">복사</button></div>
+        <div class="ln code"><span>숫자 4자리</span><b id="payName">—</b><button class="cp" data-cp="payName" type="button">복사</button></div>
       </div>
       <div class="step"><i>2</i><div><b>입금 후 아래 버튼을 눌러 주세요</b>
-        <span>입금 알림이 잡히면 <b class="hl">보통 1~2분 안에 자동으로</b> 열립니다. 늦어지면 직접 확인해 드립니다.</span></div></div>
+        <span>입금을 확인하면 <b class="hl">보통 수 시간 이내</b>에 이용권이 열리고, 가입하신 이메일로 안내 메일을 보내 드립니다.</span></div></div>
       <label class="rcpt"><input type="checkbox" id="rcptOn" checked>
         <span>현금영수증 신청</span>
         <input id="rcptPhone" type="tel" placeholder="본인 휴대폰번호" inputmode="numeric"></label>
+      <div class="payOk" id="payOk" hidden></div>
       <div class="err" id="payErr"></div>
       <button class="btn pri" id="payDone" type="button" style="width:100%">입금 완료했습니다</button>
       <button class="btn sm" id="payRefresh" type="button" style="width:100%;margin-top:8px">이용권 상태 새로고침</button>
@@ -1719,6 +1734,9 @@ async function openPay() {
   if (!S.token || S.local) { openAuth(); return; }
   $('payOv').classList.add('on');
   $('payErr').textContent = '';
+  $('payOk').hidden = true;
+  $('payDone').disabled = false;
+  $('payDone').textContent = '입금 완료했습니다';
   $('freeYearLbl').textContent = FREE_YEAR + '년 제' + (Number(FREE_YEAR) - 1977) + '회';
   $('payAmt').textContent = won(PRICE);
   try {
@@ -1729,13 +1747,14 @@ async function openPay() {
     if (r.error) throw new Error(r.error);
     PAY = r;
     if (r.paid) { await refreshMe(); closePay(); return; }
-    const nick = (S.email || '').split('@')[0].slice(0, 6) || '입금자';
     $('payBank').textContent = r.bank;
     $('payAcct').textContent = r.account;
     $('payHolder').textContent = r.holder;
     $('payAmt2').textContent = won(r.amount);
     $('payAmt').textContent = won(r.amount);
-    $('payName').textContent = nick + r.code;
+    $('payName').textContent = r.code;
+    $('payCode').textContent = r.code;
+    $('payWhoCode').textContent = r.code;
     $('payWho').textContent = '홍길동' + r.code;
     $('rcptPhone').value = r.receipt_phone || S.phone || '';
     syncRcpt();
@@ -1781,12 +1800,16 @@ $('payDone').onclick = async () => {
       body: JSON.stringify({ token: S.token, notify: true, receipt: wantRcpt, receiptPhone: phone }),
     }).then(r => r.json());
     if (r.error) throw new Error(r.error);
-    toast('확인 중입니다 · 입금이 잡히면 자동으로 열립니다');
-    // 입금 알림이 도착할 시간을 두고 세 번 확인한다
+    $('payOk').innerHTML = '✅ 확인 요청을 보냈습니다.<br>입금이 확인되면 이용권이 열리고 <b>'
+      + esc(S.email || '가입하신 이메일') + '</b> 로 안내 메일을 보내 드립니다.';
+    $('payOk').hidden = false;
+    $('payDone').textContent = '확인 요청을 보냈습니다';
+    // 승인되면 바로 열리도록 몇 번 더 확인한다
     [4000, 12000, 30000].forEach(ms => setTimeout(() => refreshMe(true), ms));
   } catch (e) {
     $('payErr').textContent = e.message || '요청에 실패했습니다.';
-  } finally { $('payDone').disabled = false; }
+    $('payDone').disabled = false;
+  }
 };
 
 /* ── 스크롤 진행 하어라인 ── */
