@@ -222,6 +222,61 @@ mark{background:rgba(62,155,255,.28);color:var(--tx);border-radius:3px;padding:0
   padding-top:2px;letter-spacing:.02em;white-space:nowrap}
 .exq .qt{font-size:14.5px;color:var(--tx2);line-height:1.6}
 @media(max-width:560px){.exq a{flex-direction:column;gap:5px}}
+/* 쉽게 이해하기 */
+.easyBtn{display:inline-flex;align-items:center;gap:6px;margin:0 0 18px;padding:9px 16px;border-radius:99px;cursor:pointer;
+  border:1px solid rgba(62,155,255,.45);background:rgba(62,155,255,.12);color:var(--sap3);font-weight:700;font-size:14px}
+.easyBtn:hover{background:rgba(62,155,255,.22)}
+.easyCard{margin:0 0 var(--sp-6);padding:16px 18px;border-radius:14px;
+  background:linear-gradient(160deg,rgba(62,155,255,.13),rgba(62,155,255,.04));border:1px solid rgba(62,155,255,.3)}
+.easyCard .ek{font-size:12px;font-weight:800;color:var(--sap2);letter-spacing:.04em;margin-bottom:4px}
+.doc .easyCard p{margin:0 0 8px;font-size:17px;color:var(--tx);font-weight:650;line-height:1.6}
+.easyOpen{border:0;background:none;padding:0;color:var(--sap2);font-weight:700;font-size:14px;cursor:pointer}
+.sheet .easy h4{font-size:12.5px;font-weight:800;color:var(--sap2);letter-spacing:.03em;margin:18px 0 6px}
+.sheet .easy .eone{font-size:17px;font-weight:700;color:var(--tx);line-height:1.6;padding:11px 13px;border-radius:10px;background:rgba(62,155,255,.11)}
+.sheet .easy .eex{margin:0;padding:10px 13px;border-left:3px solid var(--ok);background:var(--surf2);border-radius:0 9px 9px 0}
+.sheet .easy dl{display:grid;grid-template-columns:auto 1fr;gap:7px 12px;margin:0}
+.sheet .easy dt{font-weight:700;color:var(--tx);white-space:nowrap}
+.sheet .easy dd{margin:0;color:var(--tx3)}
+/* 절 끝 기출 카드 */
+.doc .xlist{list-style:none;display:grid;gap:8px;padding:0;margin:0}
+.doc .xlist > li{margin:0;padding:0}
+.xq{border:1px solid var(--edge);border-radius:12px;background:var(--surf);overflow:hidden}
+.xq details > summary{list-style:none;cursor:pointer}
+.xq details > summary::-webkit-details-marker{display:none}
+.xq details[open] > summary{border-bottom:1px solid var(--edge)}
+.xq details[open] .xar{display:none}
+.xsum{display:flex;gap:12px;align-items:flex-start;padding:12px 14px}
+.xsum .rn{flex:0 0 auto;font-family:var(--m);font-size:11.5px;font-weight:800;color:var(--sap2);padding-top:3px;white-space:nowrap}
+.xsum .qt{flex:1;font-size:14.5px;color:var(--tx2);line-height:1.6;word-break:keep-all}
+.xsum .xar{flex:none;font-size:12px;color:var(--tx5);padding-top:3px}
+.xq.lock .qt{color:var(--tx5)}
+.xbody{padding:12px 14px 14px}
+.doc .xhint{font-size:12.5px;color:var(--tx5);margin:0 0 8px}
+.doc .xch{list-style:none;padding:0;margin:0 0 10px;display:grid;gap:6px}
+.doc .xch li{display:flex;gap:9px;margin:0;padding:9px 11px;border:1px solid var(--edge);border-radius:10px;cursor:pointer;
+  font-size:15px;line-height:1.6;transition:border-color .15s var(--ease),background .15s var(--ease)}
+.doc .xch li:hover{border-color:var(--lift)}
+.xch li b{flex:none;color:var(--tx4)}
+.doc .xch li.ok{border-color:rgba(76,195,138,.65);background:rgba(76,195,138,.11)} .xch li.ok b{color:var(--ok)}
+.doc .xch li.no{border-color:rgba(224,87,79,.65);background:rgba(224,87,79,.11)} .xch li.no b{color:var(--bad)}
+.xshow{border:1px solid var(--edge);background:var(--surf2);color:var(--tx3);border-radius:9px;padding:7px 12px;font-size:13px;cursor:pointer}
+.xshow:hover{color:var(--tx);border-color:var(--lift)}
+.xshow[hidden]{display:none}
+.xexp{margin-top:10px;padding:12px 14px;border-radius:10px;background:var(--surf2);border:1px solid var(--edge);font-size:15px;line-height:1.78}
+.xexp[hidden]{display:none}
+.xans{font-weight:800;color:var(--ok);margin-bottom:6px}
+.doc .xw{margin-top:12px}
+.doc .xw ul{margin:6px 0 0;padding-left:0;list-style:none}
+.doc .xw li{margin:5px 0;color:var(--tx3)}
+.xw li b{color:var(--tx4);margin-right:4px}
+.xgo{display:inline-block;margin-top:12px;color:var(--sap2);font-weight:700;text-decoration:none;font-size:14px}
+.x2b{white-space:pre-wrap;font-size:14.5px;line-height:1.7;color:var(--tx2);background:var(--surf2);border:1px solid var(--edge);
+  border-radius:10px;padding:12px;overflow-x:auto;margin-bottom:10px;font-family:var(--f)}
+.xplan{white-space:pre-wrap;color:var(--tx3);font-size:14px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--edge)}
+.xlaw{margin-top:10px;font-size:13px;color:var(--tx4)}
+.xkeys{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.xkeys span{font-size:12px;padding:2px 9px;border-radius:99px;background:rgba(62,155,255,.12);color:var(--sap3)}
+@media(max-width:560px){.xsum{flex-wrap:wrap;gap:4px 10px}.xsum .qt{flex-basis:100%}}
 .fcwrap{margin:var(--sp-8) 0 8px}
 .fcwrap h2{font-size:23px;margin-bottom:4px;letter-spacing:-.025em;color:var(--tx)}
 .fcwrap .hint{color:var(--tx5);font-size:13px;margin:0 0 16px}
@@ -454,14 +509,7 @@ function sectHtml(){
           <div class="fc-b"><div>${cd[1]}</div></div>
         </div></button>`).join('')}
       </div></div>` : '';
-  const exq = (s.exq && s.exq.length) ? `
-    <div class="exqwrap"><h2>이 절에서 출제된 기출</h2>
-      <p class="hint">5개년 600문항 가운데 ${s.exq.length}문항이 이 절의 내용에서 나왔습니다. 누르면 기출 앱에서 그 문항이 열립니다.</p>
-      <ol class="exq">${s.exq.map(x=>`
-        <li><a href="./index.html?r=${x[0]}&s=${encodeURIComponent(x[1])}&n=${x[2]}">
-          <span class="rn">제${x[0]}회 ${esc(x[1])} ${x[2]}번</span>
-          <span class="qt">${esc(x[3])}</span></a></li>`).join('')}
-      </ol></div>` : '';
+  const exq = xq1Html(s) + xq2Html(s);
   return `<div class="readhead">
       <div class="crumb"><a data-go='{"view":"home"}'>${esc(st.subj)}</a><span>›</span>
         <a data-go='{"view":"chap","ci":${st.ci}}'>${esc(c.title)}</a></div>
@@ -470,14 +518,105 @@ function sectHtml(){
       <p class="lead">${esc(s.lead||'')}</p>
       <div class="rmeta"><span>약 ${s.minutes||8}분</span><span>파란 용어·색 박스 = 눌러서 상세</span>
         ${s.src?`<span>근거 ${esc(s.src)}</span>`:''}</div>
+      ${s.easy ? `<button class="easyBtn" id="easyBtn" type="button">🔰 쉽게 이해하기</button>` : ''}
     </div>
-    <article class="doc">${s.html}${exq}${cards}</article>
+    <article class="doc">${easyTop(s)}${s.html}${exq}${cards}</article>
     <div class="rnav">
       <button ${idx===0?'disabled':''} data-nav="${idx-1}">← 이전</button>
       <span class="mid">${idx+1} / ${f.length}</span>
       <button class="read${isRead(s)?' ok':''}" id="readBtn">${isRead(s)?'✓ 읽음':'읽음 표시'}</button>
       <button ${idx===f.length-1?'disabled':''} data-nav="${idx+1}">다음 →</button>
     </div>`;
+}
+
+/* ── 쉽게 이해하기 ── */
+function easyTop(s){
+  if (!s.easy) return '';
+  return `<div class="easyCard"><div class="ek">처음 배우는 분께 · 한 줄 요약</div>
+    <p>${esc(s.easy.one)}</p>
+    <button class="easyOpen" type="button">쉽게 이해하기 창 열기 →</button></div>`;
+}
+function easyHtml(s){
+  const e = s.easy;
+  return `<div class="kind">쉽게 이해하기 · 처음 배우는 분께</div><h3>${esc(s.title)}</h3>
+    <div class="body easy">
+      <div class="eone">${esc(e.one)}</div>
+      <h4>쉬운 말로</h4><ul>${(e.plain||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+      <h4>예를 들면</h4><p class="eex">${esc(e.ex||'')}</p>
+      <h4>낯선 낱말</h4><dl class="ewords">${(e.words||[]).map(w=>`<dt>${esc(w[0])}</dt><dd>${esc(w[1])}</dd>`).join('')}</dl>
+      <h4>시험에서는</h4><p>${esc(e.exam||'')}</p>
+    </div>`;
+}
+
+/* ── 절 끝 기출 카드 ── */
+const CIRC = ['①','②','③','④','⑤'];
+const LOCKQ = '🔒 이용권이 있어야 열립니다';
+function short2(x){
+  return x.replace('의 이론과 실무', '').replace('자동차보험(대인배상 및 자기신체손해)', '자동차(대인)')
+          .replace('자동차보험(대물배상 및 차량손해)', '자동차(대물)').replace('책임·근로자재해보상보험', '책임·근재')
+          .replace('책임·화재·기술보험 등', '책임·화재·기술');
+}
+function xq1Html(s){
+  const L = s.xq1;
+  if (!L) return legacyExq(s);
+  if (!L.length) return '';
+  const items = L.map(x => x.locked
+    ? `<li class="xq lock"><div class="xsum"><span class="rn">제${x.r}회 ${esc(x.s)} ${x.n}번</span><span class="qt">${LOCKQ}</span></div></li>`
+    : `<li class="xq" data-a="${x.a}"><details>
+        <summary class="xsum"><span class="rn">제${x.r}회 ${esc(x.s)} ${x.n}번</span><span class="qt">${esc(x.q)}</span><span class="xar">펼치기</span></summary>
+        <div class="xbody">
+          <p class="xhint">보기를 누르면 채점되고 정답과 해설이 열립니다.</p>
+          <ol class="xch">${x.c.map((c,k)=>`<li data-k="${k}"><b>${CIRC[k]||(k+1)}</b><span>${esc(c)}</span></li>`).join('')}</ol>
+          <button class="xshow" type="button">답을 고르지 않고 정답·해설 보기</button>
+          <div class="xexp" hidden>
+            <div class="xans">정답 ${CIRC[x.a]||(x.a+1)}</div>
+            <div class="xe">${x.e||''}</div>
+            ${Object.keys(x.w||{}).length ? `<div class="xw"><b>오답 보기는 왜 틀렸나</b><ul>${
+              Object.keys(x.w).sort((a,b)=>a-b).map(k=>`<li><b>${CIRC[k-1]||k}</b> ${x.w[k]}</li>`).join('')}</ul></div>` : ''}
+            <a class="xgo" href="./index.html?r=${x.r}&s=${encodeURIComponent(x.s)}&n=${x.n}">기출 앱에서 이 문항 풀기 →</a>
+          </div>
+        </div></details></li>`).join('');
+  return `<div class="exqwrap"><h2>이 절에서 출제된 1차 기출</h2>
+    <p class="hint">5개년 600문항 가운데 ${L.length}문항이 이 절의 내용에서 나왔습니다. 문항을 펼쳐 먼저 풀어 본 뒤 해설을 확인합니다.</p>
+    <ol class="xlist">${items}</ol></div>`;
+}
+function xq2Html(s){
+  const L = s.xq2;
+  if (!L || !L.length) return '';
+  const items = L.map(x => {
+    const head = `<span class="rn">제${x.r}회 2차 ${esc(short2(x.s))} ${x.n}번 · ${x.p}점</span>`;
+    if (x.locked) return `<li class="xq lock"><div class="xsum">${head}<span class="qt">${LOCKQ}</span></div></li>`;
+    const first = (x.b||'').split('\n')[0].slice(0, 90);
+    const a = x.a || {};
+    return `<li class="xq x2"><details>
+      <summary class="xsum">${head}<span class="qt">${esc(first)}</span><span class="xar">펼치기</span></summary>
+      <div class="xbody">
+        <div class="x2b">${esc(x.b||'')}</div>
+        <button class="xshow" type="button" data-t="모범답안">모범답안 보기</button>
+        <div class="xexp" hidden>
+          <div class="xans">모범답안</div>
+          ${a.plan ? `<div class="xplan">${esc(a.plan)}</div>` : ''}
+          <div class="xe">${a.ans||''}</div>
+          ${a.law && a.law.length ? `<div class="xlaw">근거 · ${a.law.map(esc).join(' / ')}</div>` : ''}
+          ${a.keys && a.keys.length ? `<div class="xkeys">${a.keys.map(k=>`<span>${esc(k)}</span>`).join('')}</div>` : ''}
+          <a class="xgo" href="./exam2.html?t=${encodeURIComponent(x.t)}&r=${x.r}&s=${encodeURIComponent(x.s)}">2차 기출 화면에서 답안 써 보기 →</a>
+        </div>
+      </div></details></li>`;
+  }).join('');
+  return `<div class="exqwrap ex2"><h2>이 절과 관련된 2차 기출</h2>
+    <p class="hint">2차 논술 문제 가운데 이 절의 내용을 쓰는 문항입니다. 답안의 뼈대를 먼저 떠올린 뒤 모범답안과 비교합니다.</p>
+    <ol class="xlist">${items}</ol></div>`;
+}
+/* 예전 KV 데이터(xq1 없음)용 링크 목록 */
+function legacyExq(s){
+  return (s.exq && s.exq.length) ? `
+    <div class="exqwrap"><h2>이 절에서 출제된 기출</h2>
+      <p class="hint">5개년 600문항 가운데 ${s.exq.length}문항이 이 절의 내용에서 나왔습니다. 누르면 기출 앱에서 그 문항이 열립니다.</p>
+      <ol class="exq">${s.exq.map(x=>`
+        <li><a href="./index.html?r=${x[0]}&s=${encodeURIComponent(x[1])}&n=${x[2]}">
+          <span class="rn">제${x[0]}회 ${esc(x[1])} ${x[2]}번</span>
+          <span class="qt">${esc(x[3])}</span></a></li>`).join('')}
+      </ol></div>` : '';
 }
 
 function glossHtml(){
@@ -533,6 +672,36 @@ document.addEventListener('click', e => {
     const s = flat().find(x=>x.ci===st.ci && x.si===st.si).s;
     const k = rkey(s); readSet.has(k) ? readSet.delete(k) : readSet.add(k);
     saveRead(); render(); return;
+  }
+  if (e.target.closest('#easyBtn') || e.target.closest('.easyOpen')) {
+    const hit = flat().find(x=>x.ci===st.ci && x.si===st.si);
+    if (hit && hit.s.easy) openSheet(easyHtml(hit.s));
+    return;
+  }
+  const pick = e.target.closest('.xch li');
+  if (pick) {
+    const card = pick.closest('.xq'), ans = +card.dataset.a, k = +pick.dataset.k;
+    card.querySelectorAll('.xch li').forEach(li => {
+      const kk = +li.dataset.k;
+      li.classList.toggle('ok', kk === ans);
+      li.classList.toggle('no', kk === k && k !== ans);
+    });
+    card.querySelector('.xexp').hidden = false;
+    const sb = card.querySelector('.xshow'); if (sb) sb.hidden = true;
+    return;
+  }
+  const show = e.target.closest('.xshow');
+  if (show) {
+    const card = show.closest('.xq'), ex = card.querySelector('.xexp');
+    if (card.querySelector('.xch')) {
+      const ans = +card.dataset.a;
+      card.querySelectorAll('.xch li').forEach(li => li.classList.toggle('ok', +li.dataset.k === ans));
+      ex.hidden = false; show.hidden = true;
+    } else {
+      ex.hidden = !ex.hidden;
+      show.textContent = ex.hidden ? '모범답안 보기' : '모범답안 닫기';
+    }
+    return;
   }
   const fc = e.target.closest('.fc'); if (fc) { fc.classList.toggle('flip'); return; }
   const bx = e.target.closest('.bx');

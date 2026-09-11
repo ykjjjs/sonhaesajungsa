@@ -7,7 +7,20 @@
   · data/book.json              KV `content:book` 로 올릴 원본
 """
 import json, re, html as H
-from paths import APP, DATA, PUBLIC, PREVIEW, FREE_BOOK, kb
+from paths import APP, DATA, PUBLIC, PREVIEW, FREE_BOOK, FREE_Q1, FREE_Q2, kb
+
+try:
+    from easy_data import EASY          # 절마다 '쉽게 이해하기' 원고
+except ImportError:
+    EASY = {}
+try:
+    from exam2_map import MAP2          # 절 → 2차 기출 (tools/build_map2.py 산출물)
+except ImportError:
+    MAP2 = {}
+try:
+    from ans2_data import ANS           # 2차 모범답안
+except ImportError:
+    ANS = {}
 from book_data import BOOK, TERMS
 
 TAG = re.compile(r'<[^>]+>')
@@ -48,6 +61,48 @@ def retime():
                 n = len(plain(s['html'])) + len(s.get('lead', ''))
                 s['minutes'] = max(6, int(round(n / 420 + len(s.get('cards', [])) * 0.2)))
 
+def attach():
+    """절마다 xq1(1차 기출 본문·정답·해설) · xq2(2차 기출·모범답안) · easy 를 심는다."""
+    exam = json.loads((DATA / 'exam.json').read_text(encoding='utf-8'))
+    rows2 = json.loads((DATA / 'exam2.json').read_text(encoding='utf-8'))
+    idx1 = {}
+    for y, sess in exam.items():
+        for subjs in sess.values():
+            for subj, qs in subjs.items():
+                for q in qs:
+                    idx1[(int(y) - 1977, subj, q['no'])] = q
+    idx2 = {(r['round'], r['subject'], q['no']): (r, q) for r in rows2 for q in r['q']}
+    n1 = n2 = ne = 0
+    for subj, b in BOOK.items():
+        for ci, c in enumerate(b['chapters']):
+            for si, sec in enumerate(c['sections']):
+                xs = []
+                for r_, sj, no, _ in sec.get('exq', []):
+                    q = idx1.get((r_, sj, no))
+                    if q:
+                        xs.append({'r': r_, 's': sj, 'n': no, 'q': q['q'], 'c': q['choices'],
+                                   'a': q['answer'], 'e': q.get('explanation', ''),
+                                   'w': q.get('wrongWhy', {})})
+                sec['xq1'] = xs
+                x2 = []
+                for rnd, sj2, no in MAP2.get((subj, ci, si), []):
+                    hit, a = idx2.get((rnd, sj2, no)), ANS.get((rnd, sj2), {}).get(no)
+                    if hit and a:
+                        r2, q2 = hit
+                        x2.append({'r': rnd, 's': sj2, 't': r2['track'], 'n': no,
+                                   'p': q2.get('points', 0), 'b': q2.get('body', ''), 'a': a})
+                sec['xq2'] = x2
+                e = EASY.get((subj, ci, si))
+                if e:
+                    sec['easy'] = e
+                n1 += len(xs); n2 += len(x2); ne += bool(e)
+    missing = [(subj, ci, si) for subj, b in BOOK.items() for ci, c in enumerate(b['chapters'])
+               for si, _ in enumerate(c['sections']) if (subj, ci, si) not in EASY]
+    if missing:
+        print('  ! 쉽게 이해하기 원고가 없는 절', missing)
+    return n1, n2, ne
+
+
 def free_part(search):
     """결제 전 배포본 — 무료 장만 본문을 두고, 나머지 절은 제목만 남겨 자물쇠를 건다."""
     keep = set(FREE_BOOK)
@@ -56,7 +111,19 @@ def free_part(search):
         chs = []
         for c in b['chapters']:
             if (subj, c['title']) in keep:
-                chs.append(c)
+                free1 = {(49, sj, no) for sj, nos in FREE_Q1.items() for no in nos}
+                free2 = {(49, sj, no) for sj, no in FREE_Q2}
+                secs = []
+                for x in c['sections']:
+                    y = dict(x)
+                    y['xq1'] = [q if (q['r'], q['s'], q['n']) in free1
+                                else {'r': q['r'], 's': q['s'], 'n': q['n'], 'locked': True}
+                                for q in x.get('xq1', [])]
+                    y['xq2'] = [q if (q['r'], q['s'], q['n']) in free2
+                                else {'r': q['r'], 's': q['s'], 't': q['t'], 'n': q['n'], 'p': q['p'], 'locked': True}
+                                for q in x.get('xq2', [])]
+                    secs.append(y)
+                chs.append({k: v for k, v in c.items() if k != 'sections'} | {'sections': secs})
             else:
                 chs.append({k: v for k, v in c.items() if k != 'sections'} | {'sections': [
                     {'title': x['title'], 'desc': x.get('desc', ''), 'minutes': x.get('minutes', 8),
@@ -71,6 +138,7 @@ def free_part(search):
 
 def main():
     retime()
+    n1, n2, ne = attach()
     tpl = (APP / 'book.html').read_text(encoding='utf-8')
     search = build_search()
     gloss = build_gloss()
@@ -95,6 +163,7 @@ def main():
     n = sum(len(c['sections']) for b in BOOK.values() for c in b['chapters'])
     ch = sum(len(s['html']) for b in BOOK.values() for c in b['chapters'] for s in c['sections'])
     cards = sum(len(s.get('cards', [])) for b in BOOK.values() for c in b['chapters'] for s in c['sections'])
+    print(f'      절에 심은 것: 1차 기출 {n1} · 2차 기출 {n2} · 쉽게 이해하기 {ne}/{n}')
     print(f'교재  절 {n} · 본문 {ch:,}자 · 카드 {cards} · 용어 {len(TERMS)} · '
           f'미리보기 {kb(PREVIEW / "textbook.html")}KB · 배포본 {kb(PUBLIC / "book.html")}KB · '
           f'book.json {kb(DATA / "book.json")}KB')
