@@ -6,7 +6,7 @@
 미리보기본(dist/preview)에는 전체를 박아 오프라인으로 확인할 수 있게 한다.
 """
 import json
-from paths import APP, DATA, PUBLIC, PREVIEW, FREE_YEAR, PRICE, kb
+from paths import APP, DATA, PUBLIC, PREVIEW, FREE_YEAR, FREE_Q1, FREE_Q2, PRICE, kb
 from book_data import TERMS, BOOK
 
 try:
@@ -38,7 +38,12 @@ def main():
     tpl = (APP / 'index.html').read_text(encoding='utf-8')
     seclist, qbook = book_links()
     content = json.loads((DATA / 'exam.json').read_text(encoding='utf-8'))
-    sample = {FREE_YEAR: content[FREE_YEAR]} if FREE_YEAR in content else {}
+    sample = {}
+    if FREE_YEAR in content:
+        sample[FREE_YEAR] = {
+            sess: {subj: [q for q in qs if q['no'] in FREE_Q1.get(subj, [])]
+                   for subj, qs in subjs.items() if FREE_Q1.get(subj)}
+            for sess, subjs in content[FREE_YEAR].items()}
     assert sample, f'{FREE_YEAR} 회차를 찾지 못했습니다'
 
     # 긴 용어부터 — '보험자대위'가 '보험자'보다 먼저 걸려야 한다
@@ -51,6 +56,8 @@ def main():
                    .replace('__QBOOK__', json.dumps(qbook, ensure_ascii=False,
                                                     separators=(',', ':')))
                    .replace('__FREE_YEAR__', json.dumps(FREE_YEAR))
+                   .replace('__FREE_N1__', str(count(sample)))
+                   .replace('__FREE_N2__', str(len(FREE_Q2)))
                    .replace('__PRICE__', str(PRICE)))
 
     (PUBLIC / 'index.html').write_text(render(sample), encoding='utf-8')

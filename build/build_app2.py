@@ -5,7 +5,7 @@ data/exam2.json 에 모범답안(content/ans2_*.py)을 얹어 화면에 박는�
 1차와 같은 방식으로 배포본에는 무료 회차만 넣고, 미리보기본에는 전부 넣는다.
 """
 import json
-from paths import APP, DATA, PUBLIC, PREVIEW, kb
+from paths import APP, DATA, PUBLIC, PREVIEW, FREE_Q2, kb
 
 try:
     from ans2_data import ANS
@@ -38,14 +38,19 @@ def merge(rows):
 
 
 def strip(rows, keep):
+    """결제 전 배포본 — 예시 문항(FREE_Q2)만 본문·모범답안을 남기고 나머지는 번호·배점만."""
+    free = set(FREE_Q2)
     out = []
     for r in rows:
-        if r['round'] not in keep:
-            out.append({k: r[k] for k in ('round', 'subject', 'track')} |
-                       {'q': [{'no': q['no'], 'points': q['points']}
-                              for q in r['q']], 'locked': True})
-        else:
-            out.append(r)
+        qs = []
+        for q in r['q']:
+            if r['round'] in keep and (r['subject'], q['no']) in free:
+                qs.append(q)
+            else:
+                qs.append({'no': q['no'], 'points': q['points'], 'locked': True})
+        opened = any(not q.get('locked') for q in qs)
+        out.append({k: r[k] for k in ('round', 'subject', 'track')} |
+                   {'q': qs} | ({} if opened else {'locked': True}))
     return out
 
 
@@ -56,7 +61,8 @@ def main():
 
     def render(data):
         return (tpl.replace('__EXAM2__', json.dumps(data, ensure_ascii=False))
-                   .replace('__FREE_ROUND2__', str(FREE_ROUND2)))
+                   .replace('__FREE_ROUND2__', str(FREE_ROUND2))
+                   .replace('__FREE_N2__', str(len(FREE_Q2))))
 
     (PUBLIC / 'exam2.html').write_text(
         render(strip(rows, {FREE_ROUND2})), encoding='utf-8')

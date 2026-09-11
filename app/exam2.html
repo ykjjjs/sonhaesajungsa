@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -21,13 +21,6 @@
   --m:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
   --ease:cubic-bezier(.28,.11,.32,1);
 }
-:root[data-theme="light"]{
-  --bg:#F2F3F6; --surf:#FFFFFF; --surf2:#FAFAFB;
-  --edge:#E1E4EA; --lift:#C7CCD6;
-  --tx:#0A0A0C; --tx2:#2C313A; --tx3:#5B636F; --tx4:#858C99; --tx5:#AEB4BF;
-  --glass:linear-gradient(160deg,rgba(255,255,255,.9) 0%,rgba(255,255,255,.35) 42%,rgba(255,255,255,0) 100%);
-  --ok:#1D7D46; --warn:#9A6A18; --bad:#C8332C; --violet:#5B4BD6; --teal:#0E7D86;
-}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{background:var(--bg);color:var(--tx2);font-family:var(--f);font-size:16.5px;
@@ -48,12 +41,6 @@ h1{font-size:clamp(21px,3.4vw,28px);font-weight:800;letter-spacing:-.03em;color:
   padding:8px 12px;border:1px solid var(--edge);border-radius:10px;background:var(--surf);
   white-space:nowrap;transition:border-color .18s var(--ease),color .18s var(--ease)}
 .tlink:hover{border-color:var(--lift);color:var(--tx)}
-.themeBtn{width:36px;height:36px;border-radius:10px;border:1px solid var(--edge);
-  background:var(--surf);display:grid;place-items:center;cursor:pointer}
-.themeBtn svg{width:17px;height:17px;fill:none;stroke:var(--tx3);stroke-width:1.8;
-  stroke-linecap:round;stroke-linejoin:round}
-:root:not([data-theme="light"]) .themeBtn .sun{display:none}
-:root[data-theme="light"] .themeBtn .moon{display:none}
 
 /* ── 고르는 줄 ── */
 .picks{display:flex;flex-direction:column;gap:9px;padding:0 0 20px}
@@ -68,6 +55,7 @@ h1{font-size:clamp(21px,3.4vw,28px);font-weight:800;letter-spacing:-.03em;color:
   box-shadow:0 2px 12px -4px rgba(21,82,214,.7)}
 .chip.lock{opacity:.5}
 .chip .lk{font-size:10px;margin-left:4px}
+.q.qlock .locked{margin-top:10px}
 
 /* ── 과목지 ── */
 .paper{margin:22px 0 8px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
@@ -163,10 +151,6 @@ textarea::placeholder{color:var(--tx5)}
       <div class="hsp"></div>
       <a class="tlink" href="./index.html">1차 기출</a>
       <a class="tlink" href="./book.html">전자교재</a>
-      <button class="themeBtn" id="themeBtn" type="button" aria-label="밤낮 모드 전환" title="밤낮 모드 전환">
-        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
-        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      </button>
     </div>
     <div class="picks">
       <div class="row"><span class="lab">종별</span><span id="trackRow"></span></div>
@@ -187,19 +171,13 @@ textarea::placeholder{color:var(--tx5)}
 <script>
 const EXAM2 = __EXAM2__;
 const FREE_ROUND2 = __FREE_ROUND2__;
+const FREE_N2 = __FREE_N2__;   // 결제 전 예시 문항 수
 const TRACKS = ['신체', '재물', '차량'];
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-/* ── 밤낮 ── */
-(function () {
-  const k = 'sonsa2.theme';
-  const set = v => { document.documentElement.dataset.theme = v; try { localStorage.setItem(k, v); } catch (e) {} };
-  let v = null;
-  try { v = localStorage.getItem(k); } catch (e) {}
-  if (v) document.documentElement.dataset.theme = v;
-  $('#themeBtn').onclick = () => set(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
-})();
+/* ── 밤모드 고정 — 낮모드는 없앴다 ── */
+document.documentElement.dataset.theme = 'dark';
 
 /* ── 답안 보관 ── */
 const KEY = 'sonsa2.draft';
@@ -252,7 +230,8 @@ function drawPicks() {
       draw();
     }, n !== FREE_ROUND2 && (paperOf(n, state.subject) || {}).locked)));
   subjects(state.track, state.round).forEach(s => sr.appendChild(
-    chip(short(s), s === state.subject, () => { state.subject = s; draw(); })));
+    chip(short(s), s === state.subject, () => { state.subject = s; draw(); },
+         (paperOf(state.round, s) || {}).locked)));
 }
 
 function paperOf(round, subject) {
@@ -318,14 +297,24 @@ function draw() {
   if (p.locked) {
     const d = document.createElement('div');
     d.className = 'locked';
-    d.innerHTML = '<b>이용권이 있어야 열립니다</b>제' + FREE_ROUND2 +
-      '회는 결제 없이 볼 수 있습니다. 나머지 회차는 ' +
-      '<a href="./index.html#pay">이용권 안내</a>를 참고하세요.';
+    d.innerHTML = '<b>이용권이 있어야 열립니다</b>결제 전에는 제' + FREE_ROUND2 +
+      '회 예시 ' + FREE_N2 + '문항(신체 의학이론 1번 · 재물 회계원리 1번 · 차량 자동차(대물) 1번)만 볼 수 있습니다. ' +
+      '<a href="./index.html">기출 앱에서 이용권 열기 →</a>';
     m.appendChild(d);
     return;
   }
 
-  (p.q || []).forEach(q => m.appendChild(qCard(p, q)));
+  (p.q || []).forEach(q => m.appendChild(q.locked ? lockCard(q) : qCard(p, q)));
+}
+
+function lockCard(q) {
+  const el = document.createElement('article');
+  el.className = 'q qlock';
+  el.innerHTML = '<div class="qh"><span class="qno">' + q.no + '</span>' +
+    '<span class="pts">' + (q.points || 0) + '점</span><span class="qsp"></span></div>' +
+    '<div class="locked"><b>🔒 이용권이 있어야 열립니다</b>문제와 모범답안은 이용권을 켜면 모두 열립니다. ' +
+    '<a href="./index.html">기출 앱에서 이용권 열기 →</a></div>';
+  return el;
 }
 
 function qCard(p, q) {

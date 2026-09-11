@@ -7,7 +7,7 @@
   · data/book.json              KV `content:book` 로 올릴 원본
 """
 import json, re, html as H
-from paths import APP, DATA, PUBLIC, PREVIEW, kb
+from paths import APP, DATA, PUBLIC, PREVIEW, FREE_BOOK, kb
 from book_data import BOOK, TERMS
 
 TAG = re.compile(r'<[^>]+>')
@@ -48,19 +48,43 @@ def retime():
                 n = len(plain(s['html'])) + len(s.get('lead', ''))
                 s['minutes'] = max(6, int(round(n / 420 + len(s.get('cards', [])) * 0.2)))
 
+def free_part(search):
+    """결제 전 배포본 — 무료 장만 본문을 두고, 나머지 절은 제목만 남겨 자물쇠를 건다."""
+    keep = set(FREE_BOOK)
+    book = {}
+    for subj, b in BOOK.items():
+        chs = []
+        for c in b['chapters']:
+            if (subj, c['title']) in keep:
+                chs.append(c)
+            else:
+                chs.append({k: v for k, v in c.items() if k != 'sections'} | {'sections': [
+                    {'title': x['title'], 'desc': x.get('desc', ''), 'minutes': x.get('minutes', 8),
+                     'locked': True} for x in c['sections']]})
+        book[subj] = {k: v for k, v in b.items() if k != 'chapters'} | {'chapters': chs}
+    text = ' '.join(s['html'] for subj, b in book.items() for c in b['chapters']
+                    for s in c['sections'] if not s.get('locked'))
+    terms = {k: v for k, v in TERMS.items() if k in text}
+    srch = [e for e in search if (e['s'], e['chap']) in keep]
+    return {'BOOK': book, 'TERMS': terms, 'SEARCH': srch}
+
+
 def main():
     retime()
     tpl = (APP / 'book.html').read_text(encoding='utf-8')
     search = build_search()
     gloss = build_gloss()
 
-    full = (tpl.replace('__BOOK__', json.dumps(BOOK, ensure_ascii=False))
+    full = (tpl.replace('__FREE__', 'null')
+               .replace('__BOOK__', json.dumps(BOOK, ensure_ascii=False))
                .replace('__TERMS__', json.dumps(TERMS, ensure_ascii=False))
                .replace('__SEARCH__', json.dumps(search, ensure_ascii=False))
                .replace('__GLOSS_HTML__', gloss))
     (PREVIEW / 'textbook.html').write_text(full, encoding='utf-8')
 
-    gated = (tpl.replace('__BOOK__', 'null').replace('__TERMS__', 'null')
+    free = free_part(search)
+    gated = (tpl.replace('__FREE__', json.dumps(free, ensure_ascii=False))
+                .replace('__BOOK__', 'null').replace('__TERMS__', 'null')
                 .replace('__SEARCH__', 'null').replace('__GLOSS_HTML__', ''))
     (PUBLIC / 'book.html').write_text(gated, encoding='utf-8')
 
