@@ -25,7 +25,11 @@ CREATE TABLE IF NOT EXISTS payments (
   status        TEXT NOT NULL DEFAULT 'pending',  -- pending | paid | rejected
   receipt_phone TEXT,                     -- 현금영수증 요청 번호(선택)
   requested     INTEGER,
-  approved      INTEGER
+  approved      INTEGER,
+  mail_kind     TEXT,                     -- 마지막 안내 메일: approve | reject
+  mail_at       INTEGER,
+  mail_ok       INTEGER,                  -- 1 발송됨 · 0 실패
+  mail_err      TEXT                      -- 실패 사유
 );
 CREATE UNIQUE INDEX IF NOT EXISTS idx_payments_code ON payments(code);
 

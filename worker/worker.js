@@ -91,15 +91,22 @@ function ymd(sec) {
 }
 
 async function sendEmail(env, to, subject, html) {
-  if (!env.RESEND_API_KEY) return;
-  await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + env.RESEND_API_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: '스마트 YOU <noreply@smart-yourtest.com>',
-      to: [to], reply_to: CONTACT_EMAIL, subject, html,
-    }),
-  });
+  if (!env.RESEND_API_KEY) return { ok: false, error: 'RESEND_API_KEY 미설정' };
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + env.RESEND_API_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: '스마트 YOU <noreply@smart-yourtest.com>',
+        to: [to], reply_to: CONTACT_EMAIL, subject, html,
+      }),
+    });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) return { ok: false, error: (d && (d.message || d.name)) || ('HTTP ' + r.status) };
+    return { ok: true, id: (d && d.id) || '' };
+  } catch (e) {
+    return { ok: false, error: String((e && e.message) || e) };
+  }
 }
 
 /* 관리자에게 보내는 알림 메일. 받을 주소는 secret ADMIN_ALERT_TO 에 둔다
@@ -122,7 +129,7 @@ async function notifyAdmins(env, subject, html) {
   }
 }
 
-function notifyText(kind, email, until) {
+function notifyText(kind, email, until, code) {
   if (kind === 'approve') {
     const u = ymd(until);
     return {
@@ -143,25 +150,47 @@ function notifyText(kind, email, until) {
     };
   }
   return {
-    subject: '[스마트 YOU] ' + EXAM + ' 이용권이 활성화되지 않았습니다',
+    subject: '[스마트 YOU] ' + EXAM + ' 이용권 승인이 거절되었습니다 (입금 미확인)',
     html: `
       <div style="max-width:520px;margin:0 auto;font-family:'Malgun Gothic',Apple SD Gothic Neo,sans-serif;color:#1c2430;line-height:1.7">
-        <h2 style="color:#c8332c">이용권이 활성화되지 않았습니다</h2>
-        <p>${EXAM} <b>스마트 YOU</b> 이용권이 열리지 않았습니다.
-           입금 내역을 확인하지 못했거나, 결제가 취소·환불된 경우입니다.</p>
+        <h2 style="color:#c8332c">입금이 확인되지 않아 승인이 거절되었습니다</h2>
+        <p>요청하신 ${EXAM} <b>스마트 YOU</b> 1년 이용권을 승인하지 못했습니다.<br>
+           안내해 드린 계좌에서 아래 <b>입금자명</b>과 <b>금액</b>으로 들어온 입금을 찾지 못했습니다.</p>
         <table style="border-collapse:collapse;margin:14px 0">
           <tr><td style="padding:6px 14px 6px 0;color:#66788e">계정</td><td><b>${email}</b></td></tr>
+          <tr><td style="padding:6px 14px 6px 0;color:#66788e">입금자명</td><td><b>이름 + ${code || '숫자 4자리'}</b> (예: 홍길동${code || '1234'})</td></tr>
+          <tr><td style="padding:6px 14px 6px 0;color:#66788e">금액</td><td><b>${BANK.amount.toLocaleString('ko-KR')}원</b></td></tr>
         </table>
-        <p>이미 입금하셨다면 <b>입금하신 날짜</b>와 <b>입금자명</b>을 알려 주시면 바로 확인해 드리겠습니다.</p>
+        <p>이미 입금하셨다면 이 메일에 <b>입금하신 날짜 · 입금자명 · 금액</b>을 적어 회신해 주세요.
+           확인되는 대로 바로 승인해 드립니다.</p>
         <p style="color:#66788e;font-size:13px">문의: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>
       </div>`,
   };
 }
 
-/* 승인·거절을 고객에게 메일로 알린다. 키가 없으면 조용히 건너뛴다. */
+/* 승인·거절을 고객에게 메일로 알리고, 결과(성공·실패 사유)를 결제 기록에 남겨
+   관리자 화면에서 확인할 수 있게 한다. */
 async function notifyUser(env, kind, email, until) {
-  const t = notifyText(kind, email, until);
-  try { await sendEmail(env, email, t.subject, t.html); } catch (e) {}
+  let code = '';
+  try {
+    const p = await env.DB.prepare('SELECT code FROM payments WHERE email=?').bind(email).first();
+    code = (p && p.code) || '';
+  } catch (e) {}
+  const t = notifyText(kind, email, until, code);
+  const res = await sendEmail(env, email, t.subject, t.html);
+  try {
+    await env.DB.prepare('UPDATE payments SET mail_kind=?, mail_at=?, mail_ok=?, mail_err=? WHERE email=?')
+      .bind(kind, now(), res.ok ? 1 : 0, res.ok ? null : String(res.error || '').slice(0, 200), email).run();
+  } catch (e) {}
+  return res;
+}
+
+/* 관리자 API 응답에 붙이는 마지막 안내 메일 결과 */
+async function mailOf(env, email) {
+  try {
+    return await env.DB.prepare('SELECT mail_kind, mail_at, mail_ok, mail_err FROM payments WHERE email=?')
+      .bind(email).first();
+  } catch (e) { return null; }
 }
 
 async function approveUser(env, email) {
@@ -403,6 +432,7 @@ async function handleApi(request, env, path) {
     if (!(await adminOk(env, body.adminToken))) return err('관리자 인증이 필요합니다.', 401);
     const { results } = await env.DB.prepare(
       `SELECT p.email, p.code, p.amount, p.status, p.receipt_phone, p.requested, p.approved,
+              p.mail_kind, p.mail_at, p.mail_ok, p.mail_err,
               u.paid, u.paid_until, u.phone
        FROM payments p LEFT JOIN users u ON u.email = p.email
        ORDER BY (p.status='pending') DESC, p.requested DESC LIMIT 200`).all();
@@ -430,12 +460,12 @@ async function handleApi(request, env, path) {
     if (!u) return err('해당 사용자를 찾을 수 없습니다.', 404);
     if (path === '/admin/approve') {
       const until = await approveUser(env, email);
-      return json({ ok: true, paidUntil: until });
+      return json({ ok: true, paidUntil: until, mail: await mailOf(env, email) });
     }
     await env.DB.prepare('UPDATE users SET paid=0, paid_until=NULL WHERE email=?').bind(email).run();
     await env.DB.prepare('UPDATE payments SET status=? WHERE email=?').bind('rejected', email).run();
     try { await notifyUser(env, 'reject', email, 0); } catch (e) {}
-    return json({ ok: true });
+    return json({ ok: true, mail: await mailOf(env, email) });
   }
 
   /* 계정 삭제 — 시험 계정 정리용. 입금 로그(deposits)는 증빙이라 남긴다. */
