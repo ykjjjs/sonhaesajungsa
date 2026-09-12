@@ -125,6 +125,85 @@ textarea::placeholder{color:var(--tx5)}
 .none{margin-top:12px;border-top:1px dashed var(--edge);padding-top:11px;
   font-size:13.5px;color:var(--tx4)}
 
+/* ── 자동 채점 ── */
+.gsc{margin-left:8px;font-family:var(--m);font-size:12px;font-weight:800;padding:2px 9px;border-radius:var(--rp);
+  background:var(--surf2);border:1px solid var(--edge);color:var(--tx3)}
+.gsc.ok{color:var(--ok);border-color:rgba(76,195,138,.45)}
+.gsc.mid{color:var(--warn);border-color:rgba(201,144,58,.45)}
+.gsc.low{color:var(--bad);border-color:rgba(224,87,79,.45)}
+.grade{display:none}
+.grade.open{display:block;margin-top:12px;border-top:1px dashed var(--edge);padding-top:12px}
+.gtop{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.gtop b{font-family:var(--m);font-size:26px;font-weight:800;color:var(--tx);letter-spacing:-.02em}
+.gm{font-size:13px;color:var(--tx4)}
+.gr{font-size:12px;font-weight:800;padding:2px 10px;border-radius:var(--rp)}
+.gr.ok{background:rgba(76,195,138,.16);color:var(--ok)}
+.gr.mid{background:rgba(201,144,58,.16);color:var(--warn)}
+.gr.low{background:rgba(224,87,79,.16);color:var(--bad)}
+.gsp{flex:1}
+.gwhen{font-size:11.5px;color:var(--tx5);font-family:var(--m)}
+.gbars{display:grid;gap:7px;margin:12px 0 2px}
+.gb{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;font-size:12.5px;color:var(--tx4)}
+.gb .gl{color:var(--tx3);font-weight:700}
+.gb .tr{height:7px;border-radius:99px;background:var(--edge);overflow:hidden}
+.gb .tr i{display:block;height:100%;border-radius:99px;background:var(--grad)}
+.gb .gv{font-family:var(--m);font-size:11.5px;white-space:nowrap}
+.gmiss{margin-top:12px;font-size:12.5px;color:var(--tx4)}
+.gmiss b{display:block;color:var(--tx3);margin-bottom:6px;font-size:12px}
+.gmiss .keys{margin-top:0}
+.key.part{background:rgba(201,144,58,.18);border-color:rgba(201,144,58,.42);color:var(--warn)}
+.key.miss{background:rgba(224,87,79,.10);border-color:rgba(224,87,79,.38);color:var(--bad)}
+.gnote{margin-top:12px;font-size:12px;color:var(--tx5);line-height:1.75}
+@media(max-width:640px){.gb{grid-template-columns:60px 1fr}.gb .gv{grid-column:2;text-align:right}}
+
+/* ── 힌트 ── */
+.hint2{display:none}
+.hint2.open{display:block;margin-top:12px;border-top:1px dashed var(--edge);padding-top:12px}
+.htag{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--warn);margin-bottom:10px}
+.hi{margin-bottom:13px}
+.hi h5{margin:0 0 6px;font-size:12.5px;font-weight:800;color:var(--tx2)}
+.hi > div{font-size:14px;color:var(--tx3);line-height:1.72}
+.hcho{display:flex;flex-wrap:wrap;gap:6px}
+.hcho span{font-family:var(--m);font-size:13px;letter-spacing:.18em;color:var(--warn);
+  background:rgba(201,144,58,.10);border:1px solid rgba(201,144,58,.32);border-radius:var(--rp);padding:3px 11px}
+.keys.bank{margin-top:2px}
+.hnote{margin:8px 0 0;font-size:12.5px;color:var(--tx4);line-height:1.65}
+.hnote b{color:var(--ok);font-family:var(--m);font-weight:800}
+
+/* ── 단계 · 지도 · 재작성 ── */
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 2px}
+.steps .st{font-size:11.5px;font-weight:700;color:var(--tx5);background:var(--surf2);
+  border:1px solid var(--edge);border-radius:var(--rp);padding:3px 10px}
+.steps .st.on{color:#fff;background:var(--grad);border-color:transparent}
+.steps .st.done{color:var(--ok);border-color:rgba(76,195,138,.42)}
+.gdiff{font-family:var(--m);font-size:11.5px;color:var(--sap3);background:rgba(62,155,255,.12);
+  border-radius:var(--rp);padding:2px 9px}
+.pass{margin-top:14px;border:1px solid var(--edge);border-radius:12px;padding:12px 14px;background:var(--surf2)}
+.pass.ok{border-color:rgba(76,195,138,.5);background:rgba(76,195,138,.08)}
+.ptag{font-size:12px;font-weight:800;color:var(--tx3);margin-bottom:8px}
+.pass.ok .ptag{color:var(--ok)}
+.pass ul{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.pass li{font-size:13px;color:var(--tx4);display:flex;gap:8px;align-items:baseline}
+.pass li b{color:var(--tx5);font-family:var(--m);width:12px}
+.pass li.y{color:var(--tx2)}
+.pass li.y b{color:var(--ok)}
+.pass li span{margin-left:auto;font-family:var(--m);font-size:11.5px;color:var(--tx5)}
+.pmsg{margin-top:9px;font-size:12.5px;color:var(--tx4);line-height:1.65}
+.coach{display:none}
+.coach.open{display:block;margin-top:12px;border-top:1px dashed var(--edge);padding-top:12px}
+.ctag{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--sap2);margin-bottom:10px}
+.ci{margin-bottom:13px}
+.ci h5{margin:0 0 4px;font-size:13px;font-weight:800;color:var(--tx2)}
+.ci > div{font-size:14px;color:var(--tx3);line-height:1.72}
+.clist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.clist li{background:var(--surf2);border:1px solid var(--edge);border-radius:10px;padding:9px 11px}
+.clist li b{display:block;color:var(--bad);font-size:13px;margin-bottom:3px}
+.clist li span{display:block;font-size:13.5px;color:var(--tx3);line-height:1.65}
+.rwbtn{margin-top:2px}
+.rw{display:none}
+.rw.open{display:block;margin-top:14px;border-top:1px dashed var(--edge);padding-top:12px}
+.rwtag{font-size:12.5px;color:var(--tx4)}
+
 /* ── 잠김 ── */
 .locked{background:var(--surf2);border:1px dashed var(--lift);border-radius:var(--r);
   padding:28px 20px;text-align:center;color:var(--tx4);font-size:14.5px;margin:14px 0}
@@ -190,6 +269,258 @@ function saveDraft(id, text) {
   const d = drafts();
   if (text.trim()) d[id] = text; else delete d[id];
   try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+}
+
+/* ══ 자동 채점 ══════════════════════════════════════════════
+   2차는 논술형이라 시행처가 정답을 공개하지 않는다. 이 채점기는 '모범답안이 갖춘 것을
+   내 답안이 얼마나 담았는가'를 낱말 단위로 대조해 배점 대비 점수를 낸다. 축은 셋이다.
+     ① 핵심 논점(a.keys)  ② 근거 법령(a.law)  ③ 숫자·수치(모범답안 속 금액·기간·비율)
+   가중치는 있는 축끼리 나눈다 — 법령이 없는 문항은 논점과 숫자로만 잰다.
+   논점 하나는 그 안의 낱말이 모두 나오면 적중, 60% 이상이면 부분 적중으로 절반만 준다.
+   낱말이 겹치는지만 보므로 논리 전개·구성·문장력은 재지 못한다. 참고용 점수다. */
+const SKEY2 = 'sonsa2.score';
+function scores() {
+  try { return JSON.parse(localStorage.getItem(SKEY2) || '{}'); } catch (e) { return {}; }
+}
+function saveScore(id, rec) {
+  const d = scores();
+  if (rec) d[id] = rec; else delete d[id];
+  try { localStorage.setItem(SKEY2, JSON.stringify(d)); } catch (e) {}
+}
+const compact2 = s => String(s == null ? '' : s).toLowerCase().replace(/[^0-9a-z가-힣%]/g, '');
+const JOSA2 = /(으로써|으로서|에서는|이라는|이라고|으로|에서|에게|까지|부터|보다|처럼|하여|하고|하는|한다|된다|되는|이다|은|는|이|가|을|를|의|에|와|과|도|만|로)$/;
+const STOP2 = new Set(('그리고 또는 다만 경우 해당 관한 대한 따른 따라 있다 없다 한다 된다 여부 사항 내용 설명 기술 서술 '
+  + '각각 모두 이상 이하 미만 초과 기준 방법 대하여 관하여 것을 것이 때문 그러나 또한 이때 아니 하지').split(' '));
+/* 논점 한 줄에서 뜻을 지고 있는 낱말만 뽑는다 — 조사를 떼고, 흔한 말은 버린다 */
+function coreToks(s) {
+  const out = [];
+  for (const w of String(s).match(/[가-힣]{2,}|[A-Za-z]{2,}|\d[\d,.]*%?/g) || []) {
+    let t = w.replace(/,/g, '');
+    if (/^[가-힣]/.test(t) && t.length > 2) t = t.replace(JOSA2, '');
+    t = t.toLowerCase();
+    if (t.length < 2 || STOP2.has(t)) continue;
+    out.push(t);
+  }
+  return [...new Set(out)];
+}
+function keyHit(key, hay) {
+  const ts = coreToks(key);
+  if (!ts.length) { const c = compact2(key); return { r: c && hay.includes(c) ? 1 : 0, got: 0, tot: 1 }; }
+  const got = ts.filter(t => hay.includes(t)).length;
+  const cov = got / ts.length;
+  return { r: cov > .999 ? 1 : cov >= .6 ? .5 : 0, got, tot: ts.length, cov };
+}
+function modelText(a) {
+  const d = document.createElement('div');
+  d.innerHTML = (a.ans || '') + ' ' + (a.plan || '');
+  return d.textContent || '';
+}
+/* 모범답안이 든 금액·기간·비율 — 이런 수치는 답안에도 그대로 나와야 한다 */
+function bigNums(text) {
+  const out = [];
+  for (const m of text.match(/\d[\d,]*(?:\.\d+)?\s?(?:%|원|만원|억원|퍼센트|배)?/g) || []) {
+    const t = compact2(m);
+    if (t.replace(/[^0-9]/g, '').length >= 2) out.push(t);
+  }
+  return [...new Set(out)].slice(0, 8);
+}
+function gradeAnswer(q, text, track) {
+  const a = q.a || {};
+  const hay = compact2(text);
+  if (hay.length < 20) return null;
+  const keys = a.keys || [];
+  const hits = keys.map(k => Object.assign({ k }, keyHit(k, hay)));
+  const ks = keys.length ? hits.reduce((s, h) => s + h.r, 0) / keys.length : 0;
+  const laws = a.law || [];
+  const lHits = laws.map(l => Object.assign({ l }, keyHit(l, hay)));
+  const ls = laws.length ? lHits.filter(h => h.r).length / laws.length : 0;
+  const nums = bigNums(modelText(a));
+  const nHit = nums.filter(n => hay.includes(n));
+  const useNum = nums.length >= 2;
+  const w = { l: laws.length ? .2 : 0, n: useNum ? .2 : 0 };
+  w.k = 1 - w.l - w.n;
+  const ns = useNum ? nHit.length / nums.length : 0;
+  let r = w.k * ks + w.l * ls + w.n * ns;
+  const mlen = compact2(modelText(a)).length || 1;
+  const lenR = hay.length / mlen;
+  let note = '';
+  if (lenR < .3) {
+    r *= .8;
+    note = '분량이 모범답안의 ' + Math.round(lenR * 100) + '% 수준입니다. 낱말만 늘어놓지 말고 문장으로 풀어 써야 실제 시험에서 점수가 됩니다.';
+  }
+  const max = q.points || 10;
+  return { s: Math.round(max * r * 2) / 2, m: max, r: Math.round(r * 1000) / 1000, at: Date.now(), t: track,
+    ks: Math.round(ks * 1000) / 1000, ls: Math.round(ls * 1000) / 1000, ns: Math.round(ns * 1000) / 1000, w,
+    kh: hits.filter(h => h.r === 1).length, kp: hits.filter(h => h.r === .5).length, kt: keys.length,
+    lh: lHits.filter(h => h.r).length, lt: laws.length, nh: nHit.length, nt: useNum ? nums.length : 0,
+    miss: hits.filter(h => !h.r).map(h => h.k).slice(0, 8), len: hay.length, mlen };
+}
+/* ══ 지도와 통과 판정 ═══════════════════════════════════════
+   2차는 한 번 써 보고 끝내면 늘지 않는다. 채점 → 지도 → 재작성 → 통과의 고리를 만든다.
+   지도는 모범답안에서 근거를 끌어와 '무엇을 어디에 넣어야 하는지'를 짚는다.
+   통과는 세 기준을 모두 넘겨야 한다 — 득점률 70% · 빠뜨린 논점 0 · 분량 40%(채점 감점선 30%보다 한 단계 위).
+   기준을 화면에 그대로 보여 주어, 왜 통과가 아닌지 학습자가 알 수 있게 한다. */
+function passOf(rec) {
+  const len = rec.mlen ? rec.len / rec.mlen : 1;
+  const list = [
+    { t: '득점률 70% 이상', ok: rec.r >= .7, v: Math.round(rec.r * 100) + '%' },
+    { t: '빠뜨린 핵심 논점 없음', ok: !(rec.miss || []).length, v: (rec.miss || []).length + '개 남음' },
+    { t: '분량 모범답안의 40% 이상', ok: len >= .4, v: Math.round(len * 100) + '%' },
+  ];
+  return { list, ok: list.every(x => x.ok) };
+}
+/* 채점 결과를 기록에 얹는다 — 첫 점수와 채점 횟수를 남겨야 얼마나 늘었는지 보인다 */
+function applyGrade(id, q, text, track, isRw, hl) {
+  const rec = gradeAnswer(q, text, track);
+  if (!rec) return null;
+  const old = scores()[id] || {};
+  rec.n = (old.n || 0) + 1;
+  rec.h = hl || old.h || 0;
+  rec.fs = old.fs != null ? old.fs : rec.s;
+  rec.rw = !!isRw;
+  rec.p = passOf(rec).ok;
+  saveScore(id, rec);
+  return rec;
+}
+/* 모범답안에서 그 논점이 나오는 문장을 뽑아 준다 — 어떻게 쓰는지 본을 보여야 고쳐 쓴다 */
+function findSent(txt, key) {
+  let i = txt.indexOf(key);
+  if (i < 0) { const t = coreToks(key)[0]; i = t ? txt.indexOf(t) : -1; }
+  if (i < 0) return '';
+  const head = Math.max(txt.lastIndexOf('. ', i), txt.lastIndexOf('다 ', i), 0);
+  let end = txt.indexOf('. ', i);
+  if (end < 0) end = txt.length;
+  return txt.slice(head, Math.min(end + 1, head + 170)).replace(/^[.\s]+/, '').trim();
+}
+function coachHtml(q, rec, text) {
+  const a = q.a || {};
+  const txt = modelText(a).replace(/\s+/g, ' ');
+  const hay = compact2(text);
+  const items = [];
+  if (a.plan) items.push(['답안의 뼈대', esc(a.plan)]);
+  const subs = (q.sub || []).slice(1);
+  if (subs.length > 1) {
+    const marked = /\(\s*[1-9]\s*\)|[①②③④⑤]/.test(text);
+    items.push(['소문항으로 나누기', subs.map((s, i) => '(' + (i + 1) + ') ' + s + '점').join(' · ') +
+      (marked ? ' — 지금 답안도 번호로 나뉘어 있습니다.'
+              : ' — 지금 답안에는 번호 구분이 없습니다. 배점대로 나누어 쓰면 채점자가 항목을 찾기 쉽습니다.')]);
+  }
+  if ((rec.miss || []).length) {
+    items.push(['빠뜨린 논점 채우기', '<ul class="clist">' + rec.miss.map(k => {
+      const s = findSent(txt, k);
+      return '<li><b>' + esc(k) + '</b>' + (s ? '<span>모범답안: ' + esc(s) + '</span>' : '') + '</li>';
+    }).join('') + '</ul>']);
+  }
+  const lawMiss = (a.law || []).filter(l => !keyHit(l, hay).r);
+  if (lawMiss.length) items.push(['근거 조문 적기',
+    '근거를 밝혀야 점수가 붙습니다 — ' + lawMiss.map(esc).join(' / ')]);
+  const numMiss = bigNums(txt).filter(n => !hay.includes(n));
+  if (rec.nt && numMiss.length) items.push(['빠진 수치',
+    numMiss.slice(0, 6).map(esc).join(' · ') + ' — 모범답안이 든 금액·기간·비율입니다.']);
+  items.push(['분량', '지금 ' + rec.len + '자 · 모범답안 ' + rec.mlen + '자. ' +
+    (rec.len >= rec.mlen * .6 ? '분량은 충분합니다. 문장을 다듬는 데 시간을 쓰세요.'
+                              : '적어도 ' + Math.round(rec.mlen * .8) + '자 안팎으로, 낱말이 아니라 문장으로 쓰세요.')]);
+  return '<div class="ctag">지도 · 이렇게 고쳐 쓰세요</div>' +
+    items.map(x => '<div class="ci"><h5>' + x[0] + '</h5><div>' + x[1] + '</div></div>').join('');
+}
+function passHtml(rec) {
+  const p = passOf(rec);
+  return '<div class="pass' + (p.ok ? ' ok' : '') + '">' +
+    '<div class="ptag">' + (p.ok ? '✓ 통과 — 이 문항은 합격선을 넘겼습니다' : '통과 기준') + '</div>' +
+    '<ul>' + p.list.map(c => '<li class="' + (c.ok ? 'y' : 'n') + '"><b>' + (c.ok ? '✓' : '·') + '</b>' +
+      c.t + '<span>' + c.v + '</span></li>').join('') + '</ul>' +
+    '<div class="pmsg">' + (p.ok ? '다음 문항으로 넘어가세요. 기록은 전략 대시보드의 2차 구획에 남습니다.'
+      : '아래 지도를 보고 다시 쓴 뒤 「재작성 채점」을 누르면 다시 판정합니다.') + '</div></div>';
+}
+/* ══ 힌트 ═════════════════════════════════════════════════
+   답을 통째로 보여 주면 공부가 되지 않는다. 세 단계로 나누어 눌러야 열리게 한다.
+     1단계 초성 — 논점이 몇 개인지와 각 논점의 초성만
+     2단계 낱말 — 답안에 쓰이는 낱말·근거 조문·수치 목록(쓴 낱말은 초록으로 바뀐다)
+     3단계 뼈대 — 모범답안의 서술 순서(a.plan)
+   몇 단계까지 봤는지는 `sonsa2.hint` 에 남기고 채점 결과에도 적어 둔다. */
+const HKEY2 = 'sonsa2.hint';
+const CHO2 = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const choseong = s => String(s).replace(/[가-힣]/g, c => CHO2[Math.floor((c.charCodeAt(0) - 0xAC00) / 588)]);
+function hints2() {
+  try { return JSON.parse(localStorage.getItem(HKEY2) || '{}'); } catch (e) { return {}; }
+}
+function saveHint(id, lv) {
+  const h = hints2(); h[id] = lv;
+  try { localStorage.setItem(HKEY2, JSON.stringify(h)); } catch (e) {}
+}
+/* 낱말 목록 — 채점기가 찾는 바로 그 낱말이다(원래 대소문자를 살려 보여 준다) */
+function bankToks(s) {
+  const out = [];
+  for (const w of String(s).match(/[가-힣]{2,}|[A-Za-z]{2,}|\d[\d,.]*%?/g) || []) {
+    let t = w.replace(/,/g, '');
+    if (/^[가-힣]/.test(t) && t.length > 2) t = t.replace(JOSA2, '');
+    if (t.length < 2 || STOP2.has(t.toLowerCase())) continue;
+    out.push(t);
+  }
+  return out;
+}
+function wordBank(a) {
+  const words = [];
+  for (const k of a.keys || []) {
+    for (const t of bankToks(k)) if (!words.some(x => x.toLowerCase() === t.toLowerCase())) words.push(t);
+  }
+  const laws = [];
+  for (const l of a.law || []) {
+    (l.match(/제\s?\d+조(?:의\s?\d+)?|§\s?\d+(?:\(\d+\))?|Rule\s+[A-Z]+/g) || [])
+      .forEach(x => { if (!laws.includes(x)) laws.push(x); });
+  }
+  return { words, laws, nums: bigNums(modelText(a)) };
+}
+function hintHtml(q, lv) {
+  const a = q.a || {};
+  const keys = a.keys || [];
+  let h = '<div class="htag">힌트 ' + lv + '단계 / 3</div>';
+  h += '<div class="hi"><h5>1단계 · 논점의 초성</h5><div class="hcho">' +
+    keys.map(k => '<span>' + esc(choseong(k)) + '</span>').join('') +
+    '</div><p class="hnote">핵심 논점은 ' + keys.length + '개입니다. 초성만 보고 떠올려 보세요.</p></div>';
+  if (lv >= 2) {
+    const b = wordBank(a);
+    h += '<div class="hi"><h5>2단계 · 답안에 쓰이는 낱말 ' + b.words.length + '개</h5>' +
+      '<div class="keys bank">' + b.words.map(w =>
+        '<span class="key bw" data-w="' + esc(w.toLowerCase()) + '">' + esc(w) + '</span>').join('') + '</div>' +
+      (b.laws.length ? '<p class="hnote">근거로 적을 것 · ' + b.laws.map(esc).join(' / ') + '</p>' : '') +
+      (b.nums.length ? '<p class="hnote">들어가야 할 수치 · ' + b.nums.map(esc).join(' · ') + '</p>' : '') +
+      '<p class="hnote">답안에 쓴 낱말은 초록으로 바뀝니다 — 지금 <b class="bwn">0</b>개 / ' + b.words.length + '개.</p></div>';
+  }
+  if (lv >= 3 && a.plan) {
+    h += '<div class="hi"><h5>3단계 · 답안의 뼈대</h5><div>' + esc(a.plan) + '</div>' +
+      '<p class="hnote">여기까지 봤으면 이제 모범답안을 열지 말고 끝까지 써 보세요.</p></div>';
+  }
+  return h;
+}
+const GRADES2 = [[.8, 'ok', '우수'], [.6, 'mid', '보통'], [.4, 'low', '미흡'], [0, 'low', '많이 부족']];
+const gradeOf = r => { const g = GRADES2.find(x => r >= x[0]) || GRADES2[3]; return { k: g[1], t: g[2] }; };
+const fmt2 = n => String(Math.round(n * 10) / 10);
+function gbar(label, ratio, text) {
+  return '<div class="gb"><span class="gl">' + label + '</span>' +
+    '<span class="tr"><i style="width:' + Math.round(ratio * 100) + '%"></i></span>' +
+    '<span class="gv">' + text + '</span></div>';
+}
+function gradeHtml(rec) {
+  const g = gradeOf(rec.r);
+  const pc = x => Math.round(x * 100) + '%';
+  return '<div class="gtop"><b>' + fmt2(rec.s) + '</b><span class="gm">/ ' + rec.m + '점</span>' +
+      '<span class="gr ' + g.k + '">' + g.t + '</span>' +
+      (rec.n > 1 ? '<span class="gdiff">처음 ' + fmt2(rec.fs) + '점 → 지금 ' + fmt2(rec.s) + '점 · ' + rec.n + '번째 채점</span>' : '') +
+      '<span class="gsp"></span>' +
+      '<span class="gwhen">' + new Date(rec.at).toLocaleDateString('ko-KR') + ' 채점</span></div>' +
+    '<div class="gbars">' +
+      gbar('핵심 논점', rec.ks, rec.kh + '개 적중' + (rec.kp ? ' · 부분 ' + rec.kp : '') + ' / ' + rec.kt + '개 · 비중 ' + pc(rec.w.k)) +
+      (rec.lt ? gbar('근거 법령', rec.ls, rec.lh + ' / ' + rec.lt + '개 · 비중 ' + pc(rec.w.l)) : '') +
+      (rec.nt ? gbar('숫자·수치', rec.ns, rec.nh + ' / ' + rec.nt + '개 · 비중 ' + pc(rec.w.n)) : '') +
+    '</div>' +
+    (rec.miss && rec.miss.length
+      ? '<div class="gmiss"><b>빠뜨린 논점 ' + rec.miss.length + '개</b><div class="keys">' +
+        rec.miss.map(k => '<span class="key miss">' + esc(k) + '</span>').join('') + '</div></div>' : '') +
+    '<div class="gnote">' + (rec.h ? '힌트 ' + rec.h + '단계까지 보고 쓴 답안입니다.<br>' : '') +
+      (rec.note ? esc(rec.note) + '<br>' : '') +
+      '자동 채점은 모범답안의 낱말이 답안에 있는지만 봅니다. 논리 전개와 구성은 재지 못하니 점수는 참고로만 쓰고, ' +
+      '빠뜨린 논점을 채우는 데 쓰세요. 채점 결과는 이 기기에만 남습니다.</div>';
 }
 
 /* ── 현재 고른 것 ── */
@@ -328,12 +659,20 @@ function qCard(p, q) {
   h.className = 'qh';
   h.innerHTML = '<span class="qno">' + q.no + '</span>' +
     '<span class="pts">' + (q.points || 0) + '점</span><span class="qsp"></span>';
+  const badge = document.createElement('span');
+  badge.className = 'gsc';
+  badge.hidden = true;
+  h.appendChild(badge);
   el.appendChild(h);
 
   const b = document.createElement('div');
   b.className = 'body';
   b.innerHTML = bodyHTML(q.body || '');
   el.appendChild(b);
+
+  const steps = document.createElement('div');
+  steps.className = 'steps';
+  el.appendChild(steps);
 
   const ta = document.createElement('textarea');
   ta.placeholder = '여기에 답안을 적어 보세요. 적은 내용은 이 기기에만 남습니다.';
@@ -342,8 +681,16 @@ function qCard(p, q) {
 
   const tools = document.createElement('div');
   tools.className = 'tools';
+  const bh = document.createElement('button');
+  bh.className = 'btn';
+  bh.textContent = '힌트 1단계 보기';
+  bh.disabled = !q.a;
+  const bs = document.createElement('button');
+  bs.className = 'btn pri';
+  bs.textContent = '자동 채점';
+  bs.disabled = !(q.a && q.a.keys && q.a.keys.length);
   const bm = document.createElement('button');
-  bm.className = 'btn pri';
+  bm.className = 'btn';
   bm.textContent = q.a ? '모범답안 보기' : '모범답안 준비 중';
   bm.disabled = !q.a;
   const bc = document.createElement('button');
@@ -351,8 +698,12 @@ function qCard(p, q) {
   bc.textContent = '지우기';
   const cnt = document.createElement('span');
   cnt.className = 'cnt';
-  tools.append(bm, bc, cnt);
+  tools.append(bh, bs, bm, bc, cnt);
   el.appendChild(tools);
+
+  const hint = document.createElement('div');
+  hint.className = 'hint2';
+  el.appendChild(hint);
 
   const model = document.createElement('div');
   model.className = q.a ? 'model' : 'none';
@@ -371,21 +722,142 @@ function qCard(p, q) {
   }
   el.appendChild(model);
 
+  const grade = document.createElement('div');
+  grade.className = 'grade';
+  el.appendChild(grade);
+
+  const coach = document.createElement('div');
+  coach.className = 'coach';
+  el.appendChild(coach);
+
+  const rw = document.createElement('div');
+  rw.className = 'rw';
+  const rwtag = document.createElement('div');
+  rwtag.className = 'rwtag';
+  rwtag.textContent = '재작성 — 지도를 반영해 다시 씁니다. 처음 답안은 위에 그대로 둡니다.';
+  const ta2 = document.createElement('textarea');
+  ta2.placeholder = '지도를 보고 다시 써 보세요. 다 쓰면 「재작성 채점」을 누릅니다.';
+  ta2.value = drafts()[id + '#2'] || '';
+  const rwt = document.createElement('div');
+  rwt.className = 'tools';
+  const bg2 = document.createElement('button');
+  bg2.className = 'btn pri';
+  bg2.textContent = '재작성 채점';
+  const bcp = document.createElement('button');
+  bcp.className = 'btn';
+  bcp.textContent = '처음 답안 불러오기';
+  const cnt2 = document.createElement('span');
+  cnt2.className = 'cnt';
+  rwt.append(bg2, bcp, cnt2);
+  rw.append(rwtag, ta2, rwt);
+  el.appendChild(rw);
+
   function refresh() {
     const t = ta.value;
     const n = t.replace(/\s/g, '').length;
     cnt.textContent = n + '자 · 원고지 약 ' + Math.ceil(n / 200) + '장';
-    if (q.a && q.a.keys) model.querySelectorAll('.key').forEach(
-      k => k.classList.toggle('hit', t.includes(k.dataset.k)));
+    const hay = compact2(rw.classList.contains('open') && ta2.value.trim() ? ta2.value : t);
+    if (q.a && q.a.keys) {
+      model.querySelectorAll('.key').forEach(k => {
+        const r = keyHit(k.dataset.k, hay).r;
+        k.classList.toggle('hit', r === 1);
+        k.classList.toggle('part', r === 0.5);
+      });
+    }
+    const bw = hint.querySelectorAll('.bw');
+    if (bw.length) {
+      let used = 0;
+      bw.forEach(w => {
+        const on = hay.includes(w.dataset.w);
+        w.classList.toggle('hit', on);
+        if (on) used++;
+      });
+      const c = hint.querySelector('.bwn');
+      if (c) c.textContent = used;
+    }
   }
+  function refresh2() {
+    const n = ta2.value.replace(/\s/g, '').length;
+    cnt2.textContent = n + '자 · 원고지 약 ' + Math.ceil(n / 200) + '장';
+  }
+  const graded = () => (rw.classList.contains('open') && ta2.value.trim()) ? ta2.value : ta.value;
+  const STEPS = ['작성', '채점', '지도', '재작성', '통과'];
+  function paintSteps(cur) {
+    steps.innerHTML = STEPS.map((n, i) =>
+      '<span class="st' + (i < cur ? ' done' : i === cur ? ' on' : '') + '">' + (i + 1) + ' ' + n + '</span>').join('');
+  }
+  function paint(rec) {
+    grade.className = rec ? 'grade open' : 'grade';
+    grade.innerHTML = rec ? gradeHtml(rec) + passHtml(rec) : '';
+    const teach = !!rec && !rec.p;
+    coach.className = teach ? 'coach open' : 'coach';
+    coach.innerHTML = teach
+      ? coachHtml(q, rec, graded()) +
+        (rw.classList.contains('open') ? '' : '<button class="btn pri rwbtn" type="button">지도를 보고 다시 쓰기 →</button>')
+      : '';
+    badge.hidden = !rec;
+    if (rec) {
+      badge.textContent = (rec.p ? '통과 ' : '') + fmt2(rec.s) + ' / ' + rec.m;
+      badge.className = 'gsc ' + (rec.p ? 'ok' : gradeOf(rec.r).k);
+    }
+    paintSteps(!rec ? 0 : rec.p ? 4 : rw.classList.contains('open') ? 3 : 2);
+  }
+  function openRw() {
+    rw.classList.add('open');
+    if (!ta2.value.trim()) { ta2.value = ta.value; saveDraft(id + '#2', ta2.value); }
+    refresh2();
+    paint(scores()[id]);
+    ta2.focus();
+  }
+  let hl = hints2()[id] || 0;
+  function paintHint() {
+    hint.className = hl ? 'hint2 open' : 'hint2';
+    hint.innerHTML = hl ? hintHtml(q, hl) : '';
+    bh.textContent = hl >= 3 ? '힌트 3단계까지 봄' : '힌트 ' + (hl + 1) + '단계 보기';
+    bh.disabled = !q.a || hl >= 3;
+    refresh();
+  }
+  bh.onclick = () => { hl = Math.min(3, hl + 1); saveHint(id, hl); paintHint(); hint.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); };
   ta.oninput = () => { saveDraft(id, ta.value); refresh(); };
+  bs.onclick = () => {
+    const rec = applyGrade(id, q, ta.value, p.track, false, hl);
+    if (!rec) {
+      bs.textContent = '답안을 먼저 적어 주세요';
+      setTimeout(() => { bs.textContent = '자동 채점'; }, 1600);
+      return;
+    }
+    paint(rec); refresh();
+    grade.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+  coach.onclick = e => { if (e.target.closest('.rwbtn')) openRw(); };
+  ta2.oninput = () => { saveDraft(id + '#2', ta2.value); refresh2(); };
+  bcp.onclick = () => { ta2.value = ta.value; saveDraft(id + '#2', ta2.value); refresh2(); };
+  bg2.onclick = () => {
+    const rec = applyGrade(id, q, ta2.value, p.track, true, hl);
+    if (!rec) {
+      bg2.textContent = '다시 쓴 답안을 적어 주세요';
+      setTimeout(() => { bg2.textContent = '재작성 채점'; }, 1600);
+      return;
+    }
+    paint(rec); refresh();
+    grade.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
   bm.onclick = () => {
     model.classList.toggle('open');
     bm.textContent = model.classList.contains('open') ? '모범답안 닫기' : '모범답안 보기';
     refresh();
   };
-  bc.onclick = () => { ta.value = ''; saveDraft(id, ''); refresh(); };
-  refresh();
+  bc.onclick = () => {
+    ta.value = ''; ta2.value = '';
+    saveDraft(id, ''); saveDraft(id + '#2', '');
+    saveScore(id, null);
+    rw.classList.remove('open');
+    paint(null); refresh(); refresh2();
+  };
+  if (ta2.value.trim()) rw.classList.add('open');
+  paintHint();
+  paint(scores()[id]);
+  refresh(); refresh2();
   return el;
 }
 

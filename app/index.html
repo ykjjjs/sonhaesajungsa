@@ -277,6 +277,97 @@ main{padding:var(--sp-5) 0}
 .booksec .bs-a{flex:0 0 auto;color:var(--tx5);font-size:17px}
 @media(max-width:560px){.booksec{flex-wrap:wrap;gap:8px}.booksec .bs-t{flex:1 1 100%}}
 
+/* ── 매일 진도 · 코치 ── */
+.daily{margin-bottom:var(--sp-6)}
+.coach{display:flex;gap:14px;align-items:center;background:var(--surf);border:1px solid var(--edge);
+  border-radius:18px;padding:16px 18px;margin-bottom:14px;position:relative;overflow:hidden}
+.coach::before{content:"";position:absolute;inset:0;background:var(--glass);pointer-events:none}
+.cface{width:52px;height:52px;flex:none;fill:none;stroke:var(--tx3);stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.cface circle{fill:none}
+.cface.proud,.cface.happy{stroke:var(--ok)}
+.cface.worry{stroke:var(--warn)}
+.cface.sad{stroke:var(--bad)}
+.ctxt{display:flex;flex-direction:column;gap:3px;position:relative;min-width:0}
+.ctxt b{font-size:15.5px;font-weight:800;color:var(--tx);letter-spacing:-.02em;word-break:keep-all}
+.ctxt span{font-size:13px;color:var(--tx4);word-break:keep-all}
+.ncard.ok b{color:var(--ok)}
+.ncard.hot2 b{color:var(--sap2)}
+.dgrid{display:flex;gap:5px;align-items:flex-end;margin:14px 0 16px;overflow-x:auto;padding-bottom:2px}
+.dbar{flex:1;min-width:18px;display:flex;flex-direction:column;align-items:center;gap:5px}
+.dbar i{display:block;width:100%;max-width:26px;border-radius:5px 5px 2px 2px;background:var(--edge)}
+.dbar i.g{background:linear-gradient(180deg,#4CC38A,#2E7D57)}
+.dbar i.m{background:linear-gradient(180deg,#C9903A,#8A6224)}
+.dbar i.b{background:linear-gradient(180deg,#E0574F,#8C2A25)}
+.dbar i.z{background:var(--edge)}
+.dbar span{font-family:var(--m);font-size:9.5px;color:var(--tx5)}
+.dbar.t span{color:var(--sap2);font-weight:700}
+.gbcols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gbcols h3{font-size:12.5px;font-weight:800;margin:0 0 6px;letter-spacing:-.01em}
+.gb1 h3{color:var(--ok)} .gb2 h3{color:var(--warn)}
+.gbcols ul{list-style:none;display:grid;gap:5px}
+.gbcols li{font-size:13px;color:var(--tx3);line-height:1.55;padding-left:13px;position:relative;word-break:keep-all}
+.gbcols li::before{content:"·";position:absolute;left:3px;color:var(--tx5)}
+.dh{font-size:13px;font-weight:800;color:var(--tx2);margin:20px 0 10px}
+.scrow{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.scbig,.scsub{background:var(--surf);border:1px solid var(--edge);border-radius:14px;padding:12px 16px;min-width:104px}
+.scbig b{display:block;font-family:var(--m);font-size:27px;font-weight:800;color:var(--tx);line-height:1.1}
+.scsub b{display:block;font-family:var(--m);font-size:19px;font-weight:700;color:var(--tx2);line-height:1.2}
+.scsub b.n{color:var(--bad)}
+.scbig span,.scsub span{display:block;font-size:11px;color:var(--tx4);margin-top:4px}
+.tblwrap{overflow-x:auto}
+.rtbl{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}
+.rtbl th{text-align:left;font-size:11px;font-weight:700;color:var(--tx5);padding:6px 10px 6px 0;border-bottom:1px solid var(--edge)}
+.rtbl td{padding:8px 10px 8px 0;border-bottom:1px solid var(--edge);color:var(--tx3)}
+.rtbl td b{color:var(--tx)}
+.rtbl td.y{color:var(--ok);font-weight:700} .rtbl td.n{color:var(--bad);font-weight:700}
+.dnote{margin-top:12px;line-height:1.7}
+@media(max-width:560px){.gbcols{grid-template-columns:1fr}.dgrid{gap:3px}.dbar{min-width:14px}}
+
+/* ── 전략 대시보드 ── */
+.pfree{font-size:12.5px;color:var(--tx3);margin:0 0 12px}
+.pfocus{position:relative;overflow:hidden;background:var(--surf);border:1px solid var(--edge);border-radius:18px;
+  padding:20px 22px;margin-bottom:var(--sp-6)}
+.pfocus::before{content:"";position:absolute;inset:0;background:var(--glass);pointer-events:none}
+.pfocus .pk{font-family:var(--m);font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--sap2)}
+.pfocus h2{font-size:clamp(19px,3.4vw,24px);font-weight:800;letter-spacing:-.03em;color:var(--tx);
+  margin:6px 0;line-height:1.38;word-break:keep-all}
+.pfocus p{font-size:14px;color:var(--tx3);margin:0 0 14px;word-break:keep-all}
+.pact{position:relative;display:flex;gap:8px;flex-wrap:wrap}
+.pact a.btn{text-decoration:none;display:inline-flex;align-items:center}
+.pnext{position:relative;margin-top:16px;padding-top:12px;border-top:1px solid var(--edge);display:grid;gap:2px}
+.pnext > b{font-size:11px;font-weight:800;color:var(--tx4);letter-spacing:.06em;margin-bottom:4px}
+.pnext a{display:grid;grid-template-columns:22px auto 1fr auto;gap:10px;align-items:center;padding:8px 6px;
+  border-radius:9px;text-decoration:none;color:inherit}
+.pnext a:hover{background:rgba(127,135,148,.08)}
+.pnext .pn{font-family:var(--m);font-size:12px;font-weight:700;color:var(--tx4);text-align:center}
+.pnext .pl{font-size:11.5px;font-weight:700;color:var(--tx3);white-space:nowrap}
+.pnext .pl i{font-style:normal;margin-right:4px}
+.pnext .ptt{font-size:13.5px;color:var(--tx2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pnext .pm{font-family:var(--m);font-size:11px;color:var(--tx4);white-space:nowrap}
+@media(max-width:560px){.pnext a{grid-template-columns:22px 1fr auto}.pnext .pl{display:none}}
+.plegend{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--tx4);margin:2px 0 6px}
+.plegend i{font-style:normal;display:inline-block;width:16px}
+.psubj{font-size:15px;font-weight:800;color:var(--tx);margin:22px 0 0;letter-spacing:-.02em}
+.pch{font-size:12.5px;font-weight:700;color:var(--tx4);margin:12px 0 7px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:8px}
+.pt{position:relative;display:flex;flex-direction:column;gap:3px;min-height:96px;padding:11px 12px 11px 15px;
+  border-radius:12px;background:var(--surf);border:1px solid var(--edge);text-decoration:none;color:inherit;
+  transition:border-color .18s var(--ease),transform .18s var(--ease)}
+.pt::before{content:"";position:absolute;left:0;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:var(--tx5)}
+.pt:hover{border-color:var(--lift);transform:translateY(-1px)}
+.pt .lv{font-size:11.5px;font-weight:800;color:var(--tx2)}
+.pt .lv i{font-style:normal;margin-right:5px;color:var(--tx4)}
+.pt .no{font-family:var(--m);font-size:10.5px;color:var(--tx5)}
+.pt .tt{font-size:13.5px;font-weight:650;color:var(--tx2);line-height:1.45;word-break:keep-all}
+.pt .mt{margin-top:auto;padding-top:3px;font-family:var(--m);font-size:10.5px;color:var(--tx4)}
+.pt.bad{border-color:rgba(224,87,79,.42)} .pt.bad::before{background:var(--bad)}
+.pt.warn::before{background:var(--warn)} .pt.ok::before{background:var(--ok)}
+.pt.bad .lv i,.pl.bad i,.plegend i.bad{color:var(--bad)}
+.pt.warn .lv i,.pl.warn i,.plegend i.warn{color:var(--warn)}
+.pt.ok .lv i,.plegend i.ok{color:var(--ok)}
+.pt.none .lv,.pt.lock .lv,.pt.nx .lv{color:var(--tx4)}
+.pt.lock,.pt.nx{opacity:.55}
 .empty-state{text-align:center;padding:var(--sp-7) var(--sp-4);color:var(--tx4)}
 .empty-state h2{font-size:19px;font-weight:800;letter-spacing:-.025em;color:var(--tx2);margin-bottom:8px}
 .empty-state p{font-size:14px;max-width:44ch;margin:0 auto}
@@ -629,6 +720,15 @@ main{padding:var(--sp-5) 0}
       .gg-samp-t{font-size:12px;color:#9fb0bf;margin-bottom:8px;text-align:center}
       .gg-samples{display:flex;gap:7px;margin-bottom:16px}
       .gg-steps{margin:-6px 0 16px;padding:10px 12px;border-radius:10px;background:#0f1a24;border:1px dashed #2c3d4a;color:#b9c6d6;font-size:12.5px;line-height:1.75;text-align:center;word-break:keep-all}
+      .gg-new{margin:0 0 14px;padding:12px 13px;border-radius:12px;background:#0f1a24;border:1px solid #2c3d4a;text-align:left}
+      .gg-new-h{display:flex;align-items:center;gap:8px;margin-bottom:9px;font-size:12.5px;font-weight:800;color:#ffd36b}
+      .gg-new ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+      .gg-new li{position:relative;padding-left:14px;font-size:12.5px;line-height:1.6;color:#b9c6d6;word-break:keep-all}
+      .gg-new li:before{content:"·";position:absolute;left:4px;color:#7fb0ff}
+      .gg-new li b{color:#e7edf3}
+      #gg-ov.gg-landing .gg-new{background:linear-gradient(145deg,rgba(44,52,66,.55),rgba(18,22,30,.55));border-color:rgba(150,180,225,.20)}
+      #gg-ov.gg-landing .gg-new li{color:#cdd8ea}
+      #gg-ov.gg-landing .gg-new li b{color:#fff}
       .gg-steps b{color:#ffd36b}
       .gg-samp{flex:1;text-align:center;padding:11px 6px;border-radius:9px;border:1px solid #2c3d4a;
         background:#0f1720;color:#cfe0ee;font-size:12.5px;font-weight:600;text-decoration:none;cursor:pointer}
@@ -715,6 +815,8 @@ main{padding:var(--sp-5) 0}
     <button class="tab on" id="tabQuiz" type="button" role="tab">문제풀이</button>
     <button class="tab" id="tabNote" type="button" role="tab">오답 노트
       <span class="bdg" id="tabNoteN">0</span></button>
+    <button class="tab" id="tabPlan" type="button" role="tab">전략 대시보드
+      <span class="bdg due" id="tabPlanN" hidden>0</span></button>
   </div>
   <div class="bar" id="quizBar">
     <div class="sel"><select id="selYear" aria-label="연도"></select></div>
@@ -889,9 +991,10 @@ const S = {
   token: null, email: null, local: false,
   paid: 0, paidUntil: null, phone: '',
   full: false,    // 전체 콘텐츠를 받아 왔는가 (false 면 무료 회차만)
-  view: 'quiz',   // 'quiz' | 'note'
+  view: 'quiz',   // 'quiz' | 'note' | 'plan'
   year: 'all', subject: 'all', mode: 'all', pos: 0,
   nfilter: 'all', // 오답 노트 목록 필터
+  pfilter: 'all', // 전략 대시보드 상황판 필터
   pin: null,      // 채점 직후 목록에서 빠지는 문항을 잠시 붙잡아 두는 자리
   sel: {},        // id → 고른 보기 index
   seen: {},       // id → {ok, no, last:'ok'|'no', pick:마지막 오답 보기, noAt:마지막 오답 시각}
@@ -899,6 +1002,7 @@ const S = {
   star: {},       // id → true
   last: null,     // {year, subject, mode, id} — 마지막으로 보던 자리
   revealed: {},   // id → true (이번 세션에서 채점 완료)
+  day: {},        // 'YYYY-MM-DD' → {n: 푼 문항, ok: 맞힌 문항} — 매일 진도의 바탕
   dirty: false,
 };
 const DAY = 864e5;
@@ -1022,17 +1126,24 @@ function stats() {
   $('stDone').textContent = done;
   $('stAcc').textContent = tot ? Math.round(ok / tot * 100) + '%' : '—';
   $('stWrong').textContent = wrongCount();
-  $('stTotal').textContent = S.view === 'note' ? dueCount() : list().length;
-  $('stTotal').nextElementSibling.textContent = S.view === 'note' ? '오늘 복습' : '이 조건 문항';
+  const side = S.view === 'note' ? [dueCount(), '오늘 복습']
+    : S.view === 'plan' ? [planRows().filter(r => r.lv === 'bad').length, '위험 절']
+    : [list().length, '이 조건 문항'];
+  $('stTotal').textContent = side[0];
+  $('stTotal').nextElementSibling.textContent = side[1];
 }
 function syncTabs() {
   const note = S.view === 'note';
-  $('tabQuiz').classList.toggle('on', !note);
+  $('tabQuiz').classList.toggle('on', S.view === 'quiz');
   $('tabNote').classList.toggle('on', note);
+  $('tabPlan').classList.toggle('on', S.view === 'plan');
   const d = dueCount(), w = wrongCount();
   const b = $('tabNoteN');
   b.textContent = d ? `${w} · 복습 ${d}` : w;
   b.classList.toggle('due', d > 0 && !note);
+  const bad = planRows().filter(r => r.lv === 'bad').length;
+  $('tabPlanN').hidden = !bad;
+  $('tabPlanN').textContent = `위험 ${bad}`;
 }
 
 /* ══ 오답 노트 화면 ══════════════════════════════════════════ */
@@ -1147,6 +1258,412 @@ function noteHtml() {
     ${chipbar}${listHtml}</section>`;
 }
 
+/* ══ 전략 대시보드 ══════════════════════════════════════════
+   오답 기록을 교재 절 단위로 모은다. QBOOK 이 기출 문항을 절에 대응시켜 두었으므로
+   절마다 걸린 기출 수(비중), 푼 문항 수, 틀린 횟수, 아직 못 잡은 오답을 셀 수 있다.
+   등급 — 위험: 못 잡은 오답 2문항 이상이거나, 못 잡은 오답이 있고 두 번 이상 풀어 절반 넘게 틀림
+          주의: 못 잡은 오답 1문항이거나 오답률 30% 이상
+          양호: 풀었고 위 조건에 걸리지 않음
+          안 풀어 봄: 기출이 걸려 있는데 한 문항도 풀지 않음 */
+const PLAN_LV = {
+  bad:  { label: '위험', icon: '▲' },
+  warn: { label: '주의', icon: '◆' },
+  ok:   { label: '양호', icon: '✓' },
+  none: { label: '안 풀어 봄', icon: '○' },
+  lock: { label: '잠김', icon: '🔒' },
+  nx:   { label: '연결된 기출 없음', icon: '·' },
+};
+const PLAN_ORDER = { bad: 0, warn: 1, ok: 2, none: 3, lock: 4, nx: 5 };
+const pct = x => Math.round(x * 100);
+const qkey = q => `${round(q.year)}|${q.subject}|${q.no}`;
+
+function planRows() {
+  const rows = SECLIST.map((s, i) => ({ i, subj: s[0], ci: s[1], si: s[2], chap: s[3], title: s[4],
+    freq: 0, have: 0, tried: 0, att: 0, miss: 0, open: [] }));
+  for (const k in QBOOK) if (rows[QBOOK[k]]) rows[QBOOK[k]].freq++;
+  for (const q of BANK) {
+    const r = rows[QBOOK[qkey(q)]]; if (!r) continue;
+    r.have++;
+    const h = S.seen[q.id]; if (!h) continue;
+    r.tried++; r.att += (h.ok || 0) + (h.no || 0); r.miss += h.no || 0;
+    if (h.last === 'no') r.open.push(q);
+  }
+  for (const r of rows) {
+    r.rate = r.att ? r.miss / r.att : 0;
+    r.open.sort((a, b) => (S.seen[b.id].no || 0) - (S.seen[a.id].no || 0));
+    r.lv = !r.freq ? 'nx' : !r.have ? 'lock' : !r.tried ? 'none'
+      : (r.open.length >= 2 || (r.open.length && r.att >= 2 && r.rate >= .5)) ? 'bad'
+      : (r.open.length || r.rate >= .3) ? 'warn' : 'ok';
+  }
+  return rows;
+}
+const byNeed = (a, b) => PLAN_ORDER[a.lv] - PLAN_ORDER[b.lv] || b.open.length - a.open.length
+  || b.rate - a.rate || b.freq - a.freq;
+
+/* 상황판 칸 → 교재 절. 틀린 문항 번호와 풀이 기록을 함께 넘기면 교재가 채울 것을 세워 준다 */
+function planHref(r) {
+  return './book.html?' + new URLSearchParams({ sec: `${r.subj}|${r.ci}|${r.si}`, from: 'plan',
+    miss: r.open.map(qkey).join(','), t: r.tried, a: r.att, w: r.miss });
+}
+function tileHtml(r) {
+  const L = PLAN_LV[r.lv];
+  const meta = r.lv === 'nx' ? '교재로 읽기' : r.lv === 'lock' ? '이용권이 있어야 풀 수 있음'
+    : r.tried ? `오답률 ${pct(r.rate)}% · 미해결 ${r.open.length}` : `기출 ${r.have}문항 · 아직 안 풂`;
+  return `<a class="pt ${r.lv}" href="${planHref(r)}" target="_blank" rel="noopener">
+    <span class="lv"><i aria-hidden="true">${L.icon}</i>${L.label}</span>
+    <span class="no">${r.ci + 1}장 ${r.si + 1}절 · 기출 ${r.freq}</span>
+    <span class="tt">${esc(r.title)}</span>
+    <span class="mt">${meta}</span></a>`;
+}
+
+/* ── 2차 서술형 — exam2 화면의 자동 채점 결과를 함께 본다(그 기기에만 저장된다) ── */
+const short2 = x => String(x).replace('의 이론과 실무', '')
+  .replace('자동차보험(대인배상 및 자기신체손해)', '자동차(대인)')
+  .replace('자동차보험(대물배상 및 차량손해)', '자동차(대물)')
+  .replace('책임·근로자재해보상보험', '책임·근재')
+  .replace('책임·화재·기술보험 등', '책임·화재·기술');
+const fmt2 = n => String(Math.round(n * 10) / 10);
+function plan2Rows() {
+  const d = store.get('sonsa2.score') || {};
+  return Object.keys(d).map(id => {
+    const p = id.split('|');
+    return Object.assign({ id, round: +p[0], subject: p[1], no: +p[2] }, d[id]);
+  }).filter(x => x && x.m);
+}
+function plan2Html() {
+  const rows = plan2Rows();
+  if (!rows.length) return `<section class="nsec">
+    <h2>2차 서술형</h2>
+    <p class="hint">2차 화면에서 답안을 쓰고 <b>자동 채점</b>을 누르면 과목별 득점률과 점수가 낮은 문항이 여기에 모입니다.</p>
+    <a class="fchip" href="./exam2.html" style="text-decoration:none">2차 기출로 가기 →</a></section>`;
+  const by = {};
+  for (const r of rows) {
+    const a = by[r.subject] || (by[r.subject] = { n: 0, s: 0, m: 0 });
+    a.n++; a.s += r.s; a.m += r.m;
+  }
+  const subj = Object.keys(by).sort((a, b) => by[a].s / by[a].m - by[b].s / by[b].m);
+  const pass = rows.filter(r => r.p).length;
+  const weak = rows.filter(r => !r.p).sort((a, b) => a.r - b.r).slice(0, 5);
+  const got = rows.reduce((s, r) => s + r.s, 0), max = rows.reduce((s, r) => s + r.m, 0);
+  return `<section class="nsec">
+    <h2>2차 서술형 <em>채점 ${rows.length}문항 · 통과 ${pass} · 평균 ${pct(got / max)}%</em></h2>
+    <p class="hint">2차는 <b>작성 → 채점 → 지도 → 재작성 → 통과</b>로 돕니다. 통과 기준은 득점률 70% 이상, 빠뜨린 논점 없음, 분량 모범답안의 40% 이상입니다.
+       모범답안의 낱말·근거·수치를 담았는지 보는 참고 점수이고, 이 기기에만 저장됩니다.</p>
+    ${subj.map(k => `<div class="wk"><span class="nm">${esc(short2(k))}</span>
+      <span class="tr"><i style="width:${pct(by[k].s / by[k].m)}%"></i></span>
+      <span class="vl"><b>${pct(by[k].s / by[k].m)}%</b> · ${by[k].n}문항 · ${fmt2(by[k].s)}/${by[k].m}점</span></div>`).join('')}
+    <h2 style="margin-top:20px">${weak.length ? '아직 통과하지 못한 문항' : '모두 통과했습니다'}</h2>
+    <p class="hint">${weak.length ? '누르면 그 과목지가 열립니다. 지도를 보고 다시 쓴 뒤 「재작성 채점」을 누르세요.'
+      : '채점한 문항을 모두 통과했습니다. 다른 회차 문항을 풀어 보세요.'}</p>
+    ${weak.map(r => `<a class="mini" style="text-decoration:none"
+        href="./exam2.html?t=${encodeURIComponent(r.t || '신체')}&r=${r.round}&s=${encodeURIComponent(r.subject)}">
+      <span class="mno">제${r.round}회 ${esc(short2(r.subject))} ${r.no}번</span>
+      <span class="mtt">${(r.miss || []).length ? '빠뜨린 논점 ' + esc((r.miss || []).slice(0, 2).join(' · ')) : '논점은 대체로 담았습니다'}</span>
+      <span class="mct">${fmt2(r.s)}/${r.m}</span></a>`).join('')}
+  </section>`;
+}
+
+/* ══ 매일 진도 ══════════════════════════════════════════════
+   S.day 에 날짜별로 '푼 문항·맞힌 문항'을 쌓는다(계정에 함께 저장된다).
+   여기서 오늘 진도, 연속 학습 일수, 최근 2주 흐름, 정답률 추세를 뽑는다. */
+const DAYMS = 864e5;
+const dayKey = (t) => {
+  const x = new Date(t == null ? Date.now() : t);
+  return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
+};
+const GOAL = 20;                       // 하루 목표 문항 — 한 시간 남짓 분량
+function dayRows(n) {
+  const out = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const k = dayKey(Date.now() - i * DAYMS);
+    const v = S.day[k] || { n: 0, ok: 0 };
+    out.push({ k, n: v.n || 0, ok: v.ok || 0, today: i === 0 });
+  }
+  return out;
+}
+function streakOf() {
+  let s = 0;
+  for (let i = 0; i < 400; i++) {
+    const v = S.day[dayKey(Date.now() - i * DAYMS)];
+    if (v && v.n) s++;
+    else if (i > 0) break;             // 오늘은 아직 안 풀었어도 어제까지의 줄은 살아 있다
+  }
+  return s;
+}
+function idleDays() {
+  for (let i = 0; i < 400; i++) {
+    const v = S.day[dayKey(Date.now() - i * DAYMS)];
+    if (v && v.n) return i;
+  }
+  return 999;
+}
+
+/* ══ 예상 성적과 등수 ═══════════════════════════════════════
+   시험은 절대평가(과목 40점 · 평균 60점)라 공식 등수가 없다. 그래서 추정이다.
+   응시자 점수가 정규분포를 이룬다고 보고, 그해 합격률이 곧 '60점 위의 비율'이라는 점에서
+   평균을 역산한다 — μ = 60 − z(1−합격률)·σ, σ 는 12점으로 잡았다(가정).
+   내 예상 점수를 이 분포에 얹어 상위 몇 %인지, 1만 명 중 몇 등인지 낸다.
+   합격 통계는 공개 자료에서 옮긴 것이고, 표준편차와 점수 흔들림은 가정이다 — 화면에 그대로 적는다. */
+const SIGMA = 12, SELF = 8, FIELD = 10000;
+const PASS_MEAN = 60, PASS_MIN = 40;
+/* 기준선 — 1차 합격률을 몇 %로 보느냐에 따라 내 자리가 달라진다.
+   2023년 값은 공개 자료에서 확인한 실측치(6,311명 응시 · 2,063명 합격), 나머지 둘은 넉넉히·빡빡히 잡은 경우다.
+   연도별 공식 통계는 시행처(보험개발원·금융감독원) 공고로 확인해야 한다. */
+const RATE1 = [['2023년 실측', .327], ['최근 평균으로 볼 때', .30], ['빡빡하게 볼 때', .25]];
+function erf(x) {
+  const s = x < 0 ? -1 : 1; x = Math.abs(x);
+  const t = 1 / (1 + .3275911 * x);
+  const y = 1 - ((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t - .284496736) * t + .254829592) * t * Math.exp(-x * x);
+  return s * y;
+}
+const Phi = z => .5 * (1 + erf(z / Math.SQRT2));
+function zOf(p) {                       // 정규분포 역함수 — Beasley-Springer-Moro 간이판
+  if (p <= 0) return -6; if (p >= 1) return 6;
+  const a = [-39.6968302866538, 220.946098424521, -275.928510446969, 138.357751867269, -30.6647980661472, 2.50662827745924];
+  const b = [-54.4760987982241, 161.585836858041, -155.698979859887, 66.8013118877197, -13.2806815528857];
+  const c = [-.00778489400243029, -.322396458041136, -2.40075827716184, -2.54973253934373, 4.37466414146497, 2.93816398269878];
+  const dd = [.00778469570904146, .32246712907004, 2.445134137143, 3.75440866190742];
+  const pl = .02425;
+  if (p < pl) { const q = Math.sqrt(-2 * Math.log(p));
+    return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((dd[0]*q+dd[1])*q+dd[2])*q+dd[3])*q+1); }
+  if (p > 1 - pl) { const q = Math.sqrt(-2 * Math.log(1 - p));
+    return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((dd[0]*q+dd[1])*q+dd[2])*q+dd[3])*q+1); }
+  const q = p - .5, r = q * q;
+  return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5]) * q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+}
+/* 과목별 정답률을 100점 환산 점수로 본다 — 푼 문항이 적으면 그만큼 흔들린다고 알려 준다 */
+function scoreNow() {
+  const by = SUBJECTS.map(sj => {
+    let ok = 0, att = 0, tried = 0, have = 0;
+    for (const q of BANK) {
+      if (q.subject !== sj) continue;
+      have++;
+      const h = S.seen[q.id]; if (!h) continue;
+      tried++; ok += h.ok || 0; att += (h.ok || 0) + (h.no || 0);
+    }
+    return { k: sj, have, tried, score: att ? Math.round(ok / att * 100) : null };
+  }).filter(x => x.have);
+  const done = by.filter(x => x.score != null);
+  const avg = done.length ? Math.round(done.reduce((s, x) => s + x.score, 0) / done.length) : null;
+  return { by, avg, tried: done.reduce((s, x) => s + x.tried, 0), thin: done.some(x => x.tried < 20) };
+}
+function rankOf(score, rate) {
+  const mu = PASS_MEAN - zOf(1 - rate) * SIGMA;
+  const top = Math.max(.02, Math.min(99.98, (1 - Phi((score - mu) / SIGMA)) * 100));
+  return { top, rank: Math.max(1, Math.round(top / 100 * FIELD)), mu };
+}
+const passChance = score => Math.round(Phi((score - PASS_MEAN) / SELF) * 100);
+
+/* ══ 코치 — 선으로 그린 얼굴 하나와 한마디 ══════════════════ */
+function face(kind) {
+  const eye = { happy: '<path d="M15 20 q4 -5 8 0"/><path d="M29 20 q4 -5 8 0"/>',
+    proud: '<path d="M15 19 l4 -4 4 4"/><path d="M29 19 l4 -4 4 4"/>',
+    worry: '<circle cx="19" cy="21" r="2"/><circle cx="33" cy="21" r="2"/><path d="M13 15 l7 3"/><path d="M39 15 l-7 3"/>',
+    sad: '<path d="M15 22 q4 -4 8 0"/><path d="M29 22 q4 -4 8 0"/><path d="M13 16 l7 2"/><path d="M39 16 l-7 2"/>',
+    calm: '<circle cx="19" cy="20" r="2"/><circle cx="33" cy="20" r="2"/>' }[kind];
+  const mouth = { happy: '<path d="M18 31 q8 8 16 0"/>', proud: '<path d="M17 30 q9 11 18 0 q-9 4 -18 0"/>',
+    worry: '<path d="M19 33 q4 -4 7 0 q3 4 6 0"/>', sad: '<path d="M19 34 q7 -7 14 0"/>',
+    calm: '<path d="M19 31 q7 5 14 0"/>' }[kind];
+  return `<svg class="cface ${kind}" viewBox="0 0 52 52" aria-hidden="true">
+    <circle cx="26" cy="26" r="23"/>${eye}${mouth}</svg>`;
+}
+/* 상태를 보고 표정과 말을 고른다. 잔소리만 하지 않도록 칭찬·위로도 섞는다. */
+function coachOf(d) {
+  const { today, streak, idle, avg, chance, due, open } = d;
+  if (idle >= 3) return { f: 'sad', t: `${idle}일째 손을 놓았어. 너 이제 포기하는 거야? 나도 포기해?`,
+    s: '처음에 공부하겠다던 마음, 오늘 10문항으로 다시 켜자.' };
+  if (idle >= 1 && streak === 0) return { f: 'worry', t: '어제는 쉬었네. 초심 까먹기 전에 정신 차리자.',
+    s: '지금 20분이면 오늘 목표는 채운다.' };
+  if (!today) return { f: 'calm', t: '오늘은 아직 한 문항도 안 풀었어.',
+    s: streak ? `${streak}일 이어 왔잖아. 여기서 끊기면 아깝다.` : '가볍게 열 문항부터 시작하자.' };
+  if (due > 20 || (open > 30 && avg != null && avg < 55))
+    return { f: 'worry', t: '이렇게 하다가는 큰일나. 안 잡은 오답이 쌓이고 있어.',
+      s: '새 문항보다 오답 노트가 먼저다. 오늘은 복습부터.' };
+  if (today >= GOAL && avg != null && avg >= 70)
+    return { f: 'proud', t: '와~ 너 진짜 대단하구나!! 오늘 목표도 넘겼어.',
+      s: `이렇게만 하면 붙을 가능성 ${chance}%야.` };
+  if (today >= GOAL) return { f: 'happy', t: '오늘 목표 달성! 이렇게만 가자.',
+    s: avg != null ? `이 속도면 붙을 가능성 ${chance}%야.` : '조금만 더 풀면 예상 점수도 나온다.' };
+  if (avg != null && avg < 50) return { f: 'calm', t: '괜찮아, 다 잘될 거야. 지금은 점수보다 횟수야.',
+    s: '틀린 문항을 교재에서 한 번씩만 짚고 오자.' };
+  return { f: 'happy', t: `좋아, 오늘 ${today}문항. ${GOAL - today}문항만 더 하면 목표야.`,
+    s: streak > 1 ? `${streak}일째 이어 가는 중이야.` : '한 번에 몰아치지 말고 매일 조금씩.' };
+}
+
+function dailyHtml() {
+  const rows = dayRows(14);
+  const today = rows[rows.length - 1].n;
+  const todayOk = rows[rows.length - 1].ok;
+  const streak = streakOf(), idle = idleDays();
+  const week = rows.slice(7).reduce((s, r) => s + r.n, 0);
+  const prev = rows.slice(0, 7).reduce((s, r) => s + r.n, 0);
+  const sc = scoreNow();
+  const chance = sc.avg == null ? null : passChance(sc.avg);
+  const c = coachOf({ today, streak, idle, avg: sc.avg, chance, due: dueCount(), open: wrongCount() });
+  const maxN = Math.max(GOAL, ...rows.map(r => r.n));
+
+  /* 잘하고 있는 것 · 문제인 것 */
+  const good = [], bad = [];
+  if (streak >= 3) good.push(`${streak}일 연속으로 풀고 있습니다`);
+  if (today >= GOAL) good.push(`오늘 ${today}문항 — 목표 ${GOAL}문항을 넘겼습니다`);
+  if (week > prev && prev) good.push(`이번 주 ${week}문항 — 지난주보다 ${week - prev}문항 많습니다`);
+  const best = sc.by.filter(x => x.score != null).sort((a, b) => b.score - a.score)[0];
+  if (best && best.score >= 70) good.push(`${esc(best.k)} 예상 ${best.score}점 — 가장 안정된 과목입니다`);
+  if (!good.length) good.push('아직 쌓인 기록이 적습니다. 오늘 열 문항이면 첫 줄이 생깁니다');
+  const worst = sc.by.filter(x => x.score != null).sort((a, b) => a.score - b.score)[0];
+  if (worst && worst.score < PASS_MIN) bad.push(`${esc(worst.k)} 예상 ${worst.score}점 — 과목 과락(40점) 아래입니다`);
+  else if (worst && worst.score < 60) bad.push(`${esc(worst.k)} 예상 ${worst.score}점 — 평균 60점에 못 미칩니다`);
+  if (dueCount() > 10) bad.push(`복습할 때가 된 오답이 ${dueCount()}문항 밀려 있습니다`);
+  const untouched = sc.by.filter(x => !x.tried).map(x => x.k);
+  if (untouched.length) bad.push(`${untouched.map(esc).join(' · ')} — 아직 한 문항도 풀지 않았습니다`);
+  if (idle >= 2) bad.push(`${idle}일 동안 쉬었습니다`);
+  if (sc.thin) bad.push('푼 문항이 적어 예상 점수가 크게 흔들립니다(과목당 20문항 이상 권장)');
+  if (!bad.length) bad.push('지금은 눈에 띄는 문제가 없습니다');
+
+  const bars = rows.map(r => {
+    const h = Math.max(3, Math.round(r.n / maxN * 46));
+    const rate = r.n ? Math.round(r.ok / r.n * 100) : 0;
+    const cls = !r.n ? 'z' : rate >= 70 ? 'g' : rate >= 50 ? 'm' : 'b';
+    return `<div class="dbar${r.today ? ' t' : ''}" title="${r.k} · ${r.n}문항${r.n ? ' · 정답률 ' + rate + '%' : ''}">
+      <i class="${cls}" style="height:${h}px"></i><span>${r.k.slice(8)}</span></div>`;
+  }).join('');
+
+  /* 연도별 합격 기준 — 그해 합격률로 분포를 잡아 내 자리를 매긴다 */
+  const rank = sc.avg == null ? '' : RATE1.map(([y, p]) => {
+    const r = rankOf(sc.avg, p);
+    const pass = sc.avg >= PASS_MEAN && !sc.by.some(x => x.score != null && x.score < PASS_MIN);
+    return `<tr><td>${esc(y)}</td><td>${pct(p)}%</td><td><b>상위 ${r.top.toFixed(1)}%</b></td>
+      <td>1만 명 중 <b>${r.rank.toLocaleString()}등</b></td>
+      <td class="${pass ? 'y' : 'n'}">${pass ? '합격권' : '불합격권'}</td></tr>`;
+  }).join('');
+
+  return `<section class="nsec daily">
+    <div class="coach">${face(c.f)}<div class="ctxt"><b>${esc(c.t)}</b><span>${esc(c.s)}</span></div></div>
+    <div class="ncards">
+      <div class="ncard${today >= GOAL ? ' ok' : ''}"><b>${today}</b><span>오늘 푼 문항 · 목표 ${GOAL}</span></div>
+      <div class="ncard"><b>${todayOk}</b><span>오늘 맞힌 문항</span></div>
+      <div class="ncard${streak >= 3 ? ' hot2' : ''}"><b>${streak}</b><span>연속 학습일</span></div>
+      <div class="ncard"><b>${week}</b><span>최근 7일 · 지난주 ${prev}</span></div>
+    </div>
+    <div class="dgrid">${bars}</div>
+    <div class="gbcols">
+      <div class="gb1"><h3>잘하고 있는 것</h3><ul>${good.map(x => `<li>${x}</li>`).join('')}</ul></div>
+      <div class="gb2"><h3>지금 문제인 것</h3><ul>${bad.map(x => `<li>${x}</li>`).join('')}</ul></div>
+    </div>
+    ${sc.avg == null ? '' : `
+    <h3 class="dh">예상 성적과 등수</h3>
+    <div class="scrow">
+      <div class="scbig"><b>${sc.avg}</b><span>예상 평균점수</span></div>
+      <div class="scbig"><b>${chance}%</b><span>합격 가능성</span></div>
+      ${sc.by.filter(x => x.score != null).map(x =>
+        `<div class="scsub"><b class="${x.score < PASS_MIN ? 'n' : ''}">${x.score}</b><span>${esc(x.k)} · ${x.tried}문항</span></div>`).join('')}
+    </div>
+    <div class="tblwrap"><table class="rtbl">
+      <thead><tr><th>기준</th><th>1차 합격률</th><th>내 자리</th><th>지원자 1만 명 기준</th><th>판정</th></tr></thead>
+      <tbody>${rank}</tbody></table></div>`}
+    <p class="hint dnote">예상 점수는 <b>푼 문항의 정답률</b>을 100점으로 환산한 것이고, 합격 판정은 <b>과목 40점 이상 · 평균 60점 이상</b> 기준을 따랐습니다.
+      1차는 절대평가라 공식 등수가 없습니다. 위 등수와 상위 %는 <b>추정</b>입니다 — 응시자 점수가 정규분포(표준편차 12점 가정)를 이루고,
+      표에 적은 합격률이 60점 위의 비율이라고 보아 계산했습니다. 합격 가능성은 내 점수가 ±8점 흔들린다고 볼 때 60점을 넘을 확률입니다.
+      1차 합격률은 공개 자료 기준 30% 안팎(2023년 6,311명 응시 · 2,063명 합격 = 32.7%)이고, 2차는 15% 안팎, 최종은 4.5% 안팎으로 알려져 있습니다.
+      <b>연도별 공식 통계는 확인하지 못했으니</b> 시행처(보험개발원·금융감독원) 공고로 다시 확인하세요.</p>
+  </section>`;
+}
+
+function planHtml() {
+  const rows = planRows();
+  const focus = rows.filter(r => r.lv === 'bad' || r.lv === 'warn').sort(byNeed);
+  const gaps = rows.filter(r => r.lv === 'none').sort((a, b) => b.have - a.have);
+  const tried = rows.some(r => r.tried);
+
+  /* 1 — 오늘의 전략 */
+  let top;
+  if (focus.length) {
+    const r = focus[0], next = focus.slice(1, 5);
+    top = `<div class="pfocus">
+      <div class="pk">오늘의 전략 · 1순위</div>
+      <h2>${esc(r.subj)} ${r.ci + 1}장 ${r.si + 1}절 「${esc(r.title)}」부터 채우세요</h2>
+      <p>기출 ${r.freq}문항이 걸린 절입니다. ${r.tried}문항을 풀어 ${r.miss}번 틀렸고(오답률 ${pct(r.rate)}%),
+         아직 못 잡은 오답이 ${r.open.length}문항입니다. 교재에서 개념을 다시 세우고 틀린 문항을 다시 풀어 맞히면 등급이 내려갑니다.</p>
+      <div class="pact"><a class="btn pri" href="${planHref(r)}" target="_blank" rel="noopener">교재에서 보강하기 →</a>
+        ${r.open.length ? `<button class="btn" type="button" data-go="${esc(r.open[0].id)}">틀린 문항 다시 풀기</button>` : ''}</div>
+      ${next.length ? `<div class="pnext"><b>다음 순서</b>${next.map((x, k) =>
+        `<a href="${planHref(x)}" target="_blank" rel="noopener"><span class="pn">${k + 2}</span>
+          <span class="pl ${x.lv}"><i aria-hidden="true">${PLAN_LV[x.lv].icon}</i>${PLAN_LV[x.lv].label}</span>
+          <span class="ptt">${esc(x.subj)} · ${esc(x.title)}</span>
+          <span class="pm">미해결 ${x.open.length} · ${pct(x.rate)}%</span></a>`).join('')}</div>` : ''}
+    </div>`;
+  } else if (!tried) {
+    top = `<div class="pfocus"><div class="pk">오늘의 전략</div>
+      <h2>먼저 문제를 풀어야 약점이 보입니다</h2>
+      <p>기출을 풀면 틀린 문항이 교재의 어느 절에 몰려 있는지 여기서 한눈에 보입니다.
+         아래 상황판에서 기출이 많이 걸린 절부터 풀어 보세요.</p></div>`;
+  } else {
+    top = `<div class="pfocus"><div class="pk">오늘의 전략</div>
+      <h2>위험·주의 등급의 절이 없습니다</h2>
+      <p>푼 절은 모두 양호합니다. 이제 모자란 곳은 아직 풀지 않은 절입니다${gaps.length ? ` — ${gaps.length}절이 남았습니다` : ''}.</p></div>`;
+  }
+
+  /* 2 — 과목별 정답률 */
+  const subj = SUBJECTS.map(sj => {
+    const a = { k: sj, have: 0, tried: 0, ok: 0, att: 0, open: 0 };
+    for (const q of BANK) {
+      if (q.subject !== sj) continue;
+      a.have++;
+      const h = S.seen[q.id]; if (!h) continue;
+      a.tried++; a.ok += h.ok || 0; a.att += (h.ok || 0) + (h.no || 0);
+      if (h.last === 'no') a.open++;
+    }
+    return a;
+  }).filter(a => a.have);
+  const subjHtml = `<section class="nsec">
+    <h2>과목별 정답률</h2>
+    <p class="hint">막대는 정답률입니다. 옆에 푼 문항 수와 아직 못 잡은 오답 수를 함께 적었습니다.</p>
+    ${subj.map(a => `<div class="wk"><span class="nm">${esc(a.k)}</span>
+      <span class="tr"><i style="width:${a.att ? pct(a.ok / a.att) : 0}%"></i></span>
+      <span class="vl"><b>${a.att ? pct(a.ok / a.att) + '%' : '—'}</b> · ${a.tried}/${a.have}문항 · 미해결 ${a.open}</span></div>`).join('')}
+  </section>`;
+
+  /* 3 — 아직 비어 있는 곳 */
+  const gapHtml = gaps.length && tried ? `<section class="nsec">
+    <h2>아직 비어 있는 곳 <em>${gaps.length}절</em></h2>
+    <p class="hint">기출이 걸려 있는데 한 문항도 풀지 않은 절입니다. 틀린 곳만 모자란 곳이 아닙니다. 기출이 많이 걸린 순서입니다.</p>
+    <div class="pgrid">${gaps.slice(0, 6).map(tileHtml).join('')}</div>
+  </section>` : '';
+
+  /* 4 — 약점 상황판 */
+  const F = S.pfilter;
+  const count = k => rows.filter(r => r.lv === k).length;
+  const chip = (k, label, n) =>
+    `<button class="fchip${F === k ? ' on' : ''}" data-pf="${k}" type="button">${esc(label)} ${n}</button>`;
+  const groups = [];
+  for (const r of rows.filter(r => F === 'all' || r.lv === F)) {
+    let g = groups.find(x => x.subj === r.subj && x.ci === r.ci);
+    if (!g) groups.push(g = { subj: r.subj, ci: r.ci, chap: r.chap, rows: [] });
+    g.rows.push(r);
+  }
+  let lastSubj = '';
+  const boardHtml = groups.map(g => {
+    const head = g.subj !== lastSubj ? `<div class="psubj">${esc(g.subj)}</div>` : '';
+    lastSubj = g.subj;
+    return `${head}<div class="pch">제${g.ci + 1}장 ${esc(g.chap)}</div>
+      <div class="pgrid">${g.rows.map(tileHtml).join('')}</div>`;
+  }).join('');
+  const board = `<section class="nsec" id="pboard">
+    <h2>약점 상황판 <em>교재 ${rows.length}절</em></h2>
+    <p class="hint">칸을 누르면 교재의 그 절이 열리고, 맨 위에 이 절에서 채울 것이 순서대로 나옵니다.</p>
+    <div class="fchips">${chip('all', '전체', rows.length)}${chip('bad', '위험', count('bad'))}${chip('warn', '주의', count('warn'))}${chip('ok', '양호', count('ok'))}${chip('none', '안 풀어 봄', count('none'))}</div>
+    <div class="plegend">
+      <span><i class="bad" aria-hidden="true">▲</i>위험 — 못 잡은 오답 2문항 이상, 또는 못 잡은 오답이 있고 두 번 이상 풀어 절반 넘게 틀림</span>
+      <span><i class="warn" aria-hidden="true">◆</i>주의 — 못 잡은 오답 1문항, 또는 오답률 30% 이상</span>
+      <span><i class="ok" aria-hidden="true">✓</i>양호 — 풀었고 위 조건에 걸리지 않음</span>
+    </div>
+    ${boardHtml || '<div class="empty-state"><h2>이 등급의 절이 없습니다</h2><p>위 칩을 눌러 다른 등급을 보세요.</p></div>'}
+  </section>`;
+
+  const freeNote = S.full || BANK.length >= 600 ? '' : `<p class="pfree">🔒 지금은 무료 예시 ${BANK.length}문항만 반영됩니다. 이용권을 켜면 5개년 600문항으로 상황판이 채워집니다.</p>`;
+  return freeNote + dailyHtml() + top + subjHtml + plan2Html() + gapHtml + board;
+}
+
 function rowHtml(q, compact) {
   const h = S.seen[q.id] || {};
   const d = elapsed(q.id);
@@ -1176,11 +1693,11 @@ function rowHtml(q, compact) {
 /* ── 렌더 ── */
 function render() {
   syncTabs();
-  if (S.view === 'note') {
+  if (S.view === 'note' || S.view === 'plan') {
     $('quizBar').style.display = 'none';
     document.querySelector('.prog').style.display = 'none';
     document.querySelector('.nav').style.display = 'none';
-    $('stage').innerHTML = noteHtml();
+    $('stage').innerHTML = S.view === 'plan' ? planHtml() : noteHtml();
     stats(); hydrate();
     return;
   }
@@ -1336,6 +1853,13 @@ document.addEventListener('click', e => {
     if (secs.length) secs[secs.length - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
     return;
   }
+  /* 전략 대시보드 상황판 필터 */
+  const pf = e.target.closest('[data-pf]');
+  if (pf) {
+    S.pfilter = pf.dataset.pf; render();
+    const bd = $('pboard'); if (bd) bd.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
   /* 오답 목록에서 문항으로 점프 */
   const row = e.target.closest('[data-go]');
   if (row) { jumpTo(row.dataset.go); return; }
@@ -1381,6 +1905,7 @@ function jumpTo(id) {
 
 $('tabQuiz').onclick = () => { S.view = 'quiz'; render(); };
 $('tabNote').onclick = () => { S.view = 'note'; S.nfilter = 'all'; render(); window.scrollTo({ top: 0 }); };
+$('tabPlan').onclick = () => { S.view = 'plan'; render(); window.scrollTo({ top: 0 }); };
 
 $('nextBtn').onclick = () => {
   const L = list(); if (!L.length) return;
@@ -1394,6 +1919,9 @@ $('nextBtn').onclick = () => {
     if (good) { delete h.pick; delete h.noAt; }     // 맞히면 그 자리에서 노트 졸업
     else { h.pick = sel; h.noAt = h.at; }           // 내가 고른 오답을 남긴다
     S.seen[q.id] = h; S.revealed[q.id] = true; S.pin = q.id; S.dirty = true;
+    const dk = dayKey();                      // 오늘 칸에 한 눈금 — 매일 진도의 바탕이다
+    const dd = S.day[dk] || (S.day[dk] = { n: 0, ok: 0 });
+    dd.n++; if (good) dd.ok++;
     render(); save(true);
     return;
   }
@@ -1415,7 +1943,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'n' || e.key === 'ㅜ') {           // n — 노트 열고 닫기
     S.view = S.view === 'note' ? 'quiz' : 'note'; render(); e.preventDefault(); return;
   }
-  if (S.view === 'note') return;
+  if (S.view !== 'quiz') return;
   const L = list(); if (!L.length) return;
   const q = L[S.pos];
   if (e.key >= '1' && e.key <= '4') {
@@ -1465,7 +1993,7 @@ function toast(msg) {
   clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 1600);
 }
 function snapshot() {
-  return { sel: S.sel, seen: S.seen, note: S.note, star: S.star, last: S.last, v: 3 };
+  return { sel: S.sel, seen: S.seen, note: S.note, star: S.star, last: S.last, day: S.day, v: 4 };
 }
 async function save(quiet) {
   const data = snapshot();
@@ -1491,7 +2019,7 @@ function applyState(d) {
   if (!d) return;
   S.sel = d.sel || {}; S.seen = d.seen || {};
   S.note = d.note || {}; S.star = d.star || {};
-  S.last = d.last || null;
+  S.last = d.last || null; S.day = d.day || {};
 }
 async function load() {
   if (S.local || !S.token) { applyState(store.get('sonsa:state')); return; }
@@ -1659,6 +2187,16 @@ function showLanding(reopen) {
         <li>틀린 문제 <b>자동 오답노트</b> + 어느 기기서든 이어풀기</li>
         <li>기출과 <b>전자교재 55절</b>이 서로 연결 — 막히면 그 자리에서 이동</li>
       </ul>
+      <div class="gg-new">
+        <div class="gg-new-h"><svg viewBox="0 0 52 52" width="28" height="28" fill="none" stroke="#5fe0a0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 20 q4 -5 8 0"/><path d="M29 20 q4 -5 8 0"/><path d="M18 31 q8 8 16 0"/></svg><span>혼자 해도 끌어 주는 학습 코치</span></div>
+        <ul>
+          <li><b>매일 진도 대시보드</b> — 오늘 푼 문항, 연속 학습일, 최근 2주 흐름을 한 화면에</li>
+          <li><b>예상 성적과 등수</b> — 과목별 예상 점수와 합격 가능성, 지원자 1만 명 기준 상위 %(추정)</li>
+          <li><b>약점 상황판</b> — 교재 55절을 위험·주의·양호로 나누고, 누르면 그 절에서 채울 것을 순서대로</li>
+          <li><b>2차 논술 자동 채점</b> — 채점 → 지도 → 재작성 → 통과, 힌트와 답안에 쓰이는 낱말까지</li>
+          <li><b>잔소리하는 코치</b> — 며칠 쉬면 "포기하는 거야?", 잘하면 "와~ 진짜 대단하구나!!"</li>
+        </ul>
+      </div>
       <div class="gg-price"><span class="pn p1">1년 이용 단돈 ${PRICE.toLocaleString()}원 (1회 결제)</span><span class="pn sub2">월 환산 기준 ${Math.round(PRICE / 12).toLocaleString()}원</span></div>
       <div class="gg-steps"><b>이용 방법</b> ① 회원가입(무료) → ② 예시 문제 체험 → ③ 화면 위 <b>「💳 이용권 결제」</b> 버튼에서 ${PRICE.toLocaleString()}원 계좌이체 → 입금 확인 후 전체 열림</div>
     </div>
@@ -1829,7 +2367,7 @@ addEventListener('scroll', () => {
 /* ── 리빌 — 화면에 들어올 때 한 번만 올라온다 ── */
 let io = null;
 function hydrate() {
-  document.querySelectorAll('.expl, .why div, .term, .ncard, .grp').forEach(el => el.classList.add('reveal'));
+  document.querySelectorAll('.expl, .why div, .term, .ncard, .grp, .pfocus').forEach(el => el.classList.add('reveal'));
   if (io) io.disconnect();
   io = new IntersectionObserver(es => es.forEach(en => {
     if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
@@ -1886,6 +2424,7 @@ function fillSelects() {
     const lb = lastLabel();
     if (lb) setTimeout(() => toast('이어서 풀기 · ' + lb), 500);
   }
+  if (u0.get('view') === 'plan') S.view = 'plan';
   render();
   if (miss) toast(`제${miss.r}회는 이용권이 있어야 열립니다`);
   // 2차·교재 화면의 '이용권 결제'에서 넘어온 경우
